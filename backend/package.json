@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "cross-env ENV_FILE=.env-development nodemon ./app.ts",
-    "start": "cross-env ENV_FILE=.env-production nodemon ./dist/app.js",
+    "start": "cross-env ENV_FILE=.env nodemon ./dist/app.js",
     "build": "npx tsc",
     "seed": "ts-node prisma/seed.ts",
     "resolve": "npx prisma migrate resolve --rolled-back",
