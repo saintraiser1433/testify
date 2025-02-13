@@ -6,7 +6,7 @@ export const useExamSession = (
 ) => {
     const { $api, $toast } = useNuxtApp();
     const sessionExamRepo = repository<ApiResponse<null>>($api);
-
+    const target = document.documentElement;
     //get session
     const sessionDetails = computed(() => {
         if (Array.isArray(sessionAnswer.value) && sessionAnswer.value.length > 0) {

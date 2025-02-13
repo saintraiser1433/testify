@@ -7,7 +7,7 @@ WORKDIR /usr/src/db
 
 # Copy package.json and install dependencies as root
 COPY package*.json . 
-RUN npm install 
+RUN npm install
 
 
 # Copy the rest of the project files
@@ -22,4 +22,4 @@ USER db
 
 
 EXPOSE 4000
-CMD ["npm","run", "start"]
+

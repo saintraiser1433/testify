@@ -18,7 +18,7 @@ RUN chown -R apps:apps /usr/src/apps
 USER apps
 
 EXPOSE 3000
-CMD ["npm", "run", "start"]
+
 
 
 
