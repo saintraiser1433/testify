@@ -10,9 +10,13 @@ services:
       - ./frontend/.env
     deploy:
       replicas: 6 # Creates 6 frontend containers automatically
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: "2G"
     networks:
       - app_network
-    command: ["npm", "run", "start"]
+    command: [ "npm", "run", "start" ]
 
   backend:
     build:
@@ -23,9 +27,14 @@ services:
       - ./backend/.env
     deploy:
       replicas: 6 # Creates 6 backend containers automatically
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: "2G"
     networks:
       - app_network
-    entrypoint: ["/bin/sh", "-c", "npx prisma migrate deploy && npm run start"]
+
+    entrypoint: [ "/bin/sh", "-c", "npx prisma migrate deploy && npm run start" ]
 
   reverse-proxy:
     container_name: 'nginx'

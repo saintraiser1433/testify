@@ -6,7 +6,7 @@ const prisma = new PrismaClient()
 
 async function main() {
   // Create 50 random examinees
-  const numberOfUsers = 50
+  const numberOfUsers = 10000
   const saltRounds = 10
 
   for (let i = 0; i < numberOfUsers; i++) {
@@ -39,7 +39,6 @@ async function main() {
     })
   }
 
-  console.log(`Seeded ${numberOfUsers} examinee users`)
 }
 
 main()
