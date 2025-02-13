@@ -1,6 +1,6 @@
 <template>
     <UITables :data="props.questionData" :columns="columns" :has-border="true" :has-column-filter="false"
-        :hasActionHeader="false" :has-pagination="false" :has-page-count="false" :td="{
+        :hasActionHeader="false" :has-pagination="false" :has-page-count="false" class="w-full" :td="{
             base: 'border dark:border-gray-700 align-top',
             padding: 'p-0'
         }">
@@ -13,15 +13,16 @@
         <template #question-data="{ row, index }">
 
             <div class="w-full h-full p-5 text-wrap" :id="`question-${row.question_id.value}`">
-                <p class="font-bold text-gray-800 dark:text-gray-100" v-html="row.question.value"></p>
-                <div class="grid grid-cols-2 gap-5 mt-2">
+                <h4 class="font-bold text-gray-800 dark:text-gray-100" v-html="row.question.value"></h4>
+                <div class="grid grid-cols-2 gap-5 mt-5">
                     <URadio v-for="(method, index) in row.choices"
+                        :disabled="isRadioDisabled"
                         :ui="{ base: 'cursor-pointer dark:bg-white ', background: 'dark:bg-white' }"
                         :name="`question-${row.question_id.value}`"
                         @change="handleAnswerChange(row.question_id.value, method.value)" :key="method.value"
                         v-model="sessionData[row.question_id.value]" v-bind="method">
                         <template #label="{ label }">
-                            <div class="text-gray-900 dark:text-gray-100" v-html="label"></div>
+                            <h4 class="text-gray-900 dark:text-gray-100" v-html="label"></h4>
                         </template>
                     </URadio>
                 </div>
@@ -34,13 +35,13 @@
 
 <script lang="ts" setup>
 import type { PropType } from 'vue';
-
+const isRadioDisabled = useState('disabled', () => false);
 const columns = [
     {
         key: 'question_id',
         label: '#',
         sortable: true,
-        rowClass: 'w-10'
+        rowClass: 'w-0'
     },
     {
         key: 'question',

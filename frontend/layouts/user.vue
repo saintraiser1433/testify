@@ -4,10 +4,7 @@
     <AppUserNavbar />
     <!-- main -->
 
-    <main class="col-span-3 px-5 pt-2 my-12 pb-8 transition-all ease-in-out">
-      <div class="flex items-center flex-wrap justify-end pb-4">
-
-      </div>
+    <main class="col-span-3 px-5 py-5 my-12 transition-all ease-in-out">
       <slot />
     </main>
 

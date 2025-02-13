@@ -107,7 +107,7 @@ const resetForm = () => {
       </UICard>
     </div>
     <div class="col-span-12 lg:col-span-8">
-      <UICard :body="{ padding: 'sm:p-0' }" :header="{ padding: 'sm:p-3' }">
+      <UICard :body="{ padding: 'sm:p-0 p-0' }" :header="{ padding: 'sm:p-3' }">
         <template #header>
           <h1 class="text-2xl lg:text-lg font-semibold">Question List</h1>
         </template>

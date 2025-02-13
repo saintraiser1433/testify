@@ -13,34 +13,19 @@
   </div>
   <div class="grid grid-cols-12 gap-2">
     <div class="col-span-12 lg:col-span-9">
-      <UITables
-        :data="data"
-        :columns="columns"
-        :is-loading="isLoading"
-        :has-border="true"
-        :has-action-header="true"
-        :has-column-filter="true"
-        :td="{
+      <UITables :data="data" :columns="columns" :is-loading="isLoading" :has-border="true" :has-action-header="true"
+        :has-column-filter="true" :td="{
           base: 'border dark:border-gray-700 align-top',
-        }"
-      >
+        }">
         <template #exam_title-data="{ row, index }">
           <span class="uppercase font-bold">{{ row.exam_title }}</span>
         </template>
 
         <template #success_rate-data="{ row, index }">
-          <UProgress
-            :value="row.success_rate"
-            size="xl"
-            :color="row.color"
-            indicator
-            class="relative"
-          >
+          <UProgress :value="row.success_rate" size="xl" :color="row.color" indicator class="relative">
             <template #indicator="{ percent }">
-              <div
-                class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-semibold"
-                :class="percent < 50 ? 'text-secondaryColor-950' : 'text-white'"
-              >
+              <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-bold text-xs lg:text-sm"
+                :class="percent < 20 ? 'text-secondaryColor-950' : 'text-white'">
                 {{ parseFloat(percent).toFixed(2) }}%
               </div>
             </template>
@@ -54,18 +39,9 @@
       </UITables>
     </div>
     <div class="flex items-center flex-col col-span-12 lg:col-span-3 gap-2 py-3">
-      <h1>YOUR RATINGS</h1>
-      <CircleProgressBar
-        stroke-width="16"
-        size="200"
-        color-filled="#062d19"
-        :color-unfilled="hexColor"
-        animation-duration="1s"
-        :value="percentage"
-        :max="100"
-        percentage
-        rounded
-      >
+      <h1 class="font-semibold">YOUR RATINGS</h1>
+      <CircleProgressBar stroke-width="16" size="200" color-filled="#062d19" :color-unfilled="hexColor"
+        animation-duration="1s" :value="percentage" :max="100" percentage rounded>
         <span class="font-bold"> {{ label }}</span>
       </CircleProgressBar>
     </div>

@@ -2,12 +2,11 @@ export const useExam = (
     question: Ref<ExamDetails | null>,
     sessionAnswer: Ref<SessionExamineeHeader[] | null>,
     examineeId: string,
-    remainingTime: Ref<number>,
-
+    remainingTime: Ref<number>
 ) => {
 
     const { $api, $toast } = useNuxtApp();
-
+    const isRadioDisabled = useState('disabled', () => false);
     const shouldRefetch = ref(0);
     const isLoading = ref(false);
     const showUnanswered = ref(false);
@@ -43,9 +42,6 @@ export const useExam = (
     });
 
 
-
-
-
     //submition exam
     const examRepo = repository<ApiResponse<null>>($api);
     const sessionExamRepo = repository<ApiResponse<null>>($api);
@@ -68,7 +64,7 @@ export const useExam = (
                     block: 'center'
                 });
             }
-        } catch (error: any) {
+        } catch (error) {
             return handleApiError(error);
 
         } finally {
@@ -97,8 +93,9 @@ export const useExam = (
                     async (result) => {
                         if (result.isConfirmed) {
                             try {
+                                isRadioDisabled.value = true;
                                 await performSubmit(submitData);
-                            } catch (error: any) {
+                            } catch (error) {
                                 return handleApiError(error);
 
                             }
@@ -108,7 +105,9 @@ export const useExam = (
             }
 
         } else {
+            
             $toast.warning('Times up');
+            isRadioDisabled.value = true;
             await performSubmit(submitData);
         }
 
@@ -135,6 +134,7 @@ export const useExam = (
             $toast.success('You have answered all the questions. You may now proceed to submit your exam.');
         }
     };
+
 
 
 

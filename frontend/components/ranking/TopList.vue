@@ -16,11 +16,11 @@ const concatName = (fname: string, lname: string, mname: string) => {
 
 
 <template>
-    <UICard :body="{ padding: 'sm:p-0' }" :defaults="{ base: ' border-b-2 border-emerald-400 overflow-hidden' }">
+    <UICard :body="{ padding: 'sm:p-0 p-0' }" :defaults="{ base: ' border-b-2 border-emerald-400 overflow-hidden' }">
         <template #header>
             <div class="flex justify-between items-center">
                 <h1 class="text-2xl font-semibold">Top 10 Highest Scores</h1>
-                <svg-icon name="seticons/target" title="targeticon" width="64" height="64" />
+                <svg-icon name="seticons/target" title="targeticon" width="48" height="48" />
             </div>
         </template>
         <template #default>

@@ -43,10 +43,10 @@ const dateNow = computed(() =>
 
 <template>
  
-    <UICard :body="{ padding: 'sm:p-0' }" :defaults="{ base: 'border-b-2 border-emerald-400 overflow-hidden' }" :has-action-header="false">
+    <UICard :body="{ padding: 'sm:p-0 p-0' }" :defaults="{ base: 'border-b-2 border-emerald-400 overflow-hidden' }" :has-action-header="false">
         <template #header>
             <div class="flex justify-between items-center p-0">
-                <h1 class="text-2xl font-semibold">Course Recommended</h1>
+                <h1 class="text-1xl lg:text-2xl font-semibold">Course Recommended</h1>
             </div>
         </template>
         <template #default>

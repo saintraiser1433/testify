@@ -56,10 +56,11 @@ const summaryScores = computed(() => {
       }"
     >
       <template #header>
-        <UserDashboardHeader :title="examTitle">
-          <h1 class="text-white font-bold">
+        <UserDashboardHeader>
+          <h2 class="text-gray-100  font-bold uppercase">{{ examTitle }}</h2> 
+          <h2 class="text-white font-bold">
             SCORE: {{ summaryScores.totalCorrect }}/{{ summaryScores.totalQuestions }}
-          </h1>
+          </h2>
         </UserDashboardHeader>
       </template>
       <template #default>

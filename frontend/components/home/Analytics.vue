@@ -36,7 +36,7 @@ const percentagePassPerExam = optionForBarChart(successRateExam.value ?? [])
         <template #header>
           <div class="flex justify-between items-center p-0">
             <div class="flex flex-col">
-              <h1 class="text-2xl lg:text-lg font-semibold">DAILY REGISTERED EXAMINEES' VS COMPLETED EXAMINEES'</h1>
+              <h1 class="text-lg lg:text-lg font-semibold">EXAMINEE'S ANALYTICS</h1>
             </div>
 
             <svg-icon name="dashboard-icons/exam" title="examineeicon" width="32" height="32"></svg-icon>
@@ -54,7 +54,7 @@ const percentagePassPerExam = optionForBarChart(successRateExam.value ?? [])
         <template #header>
           <div class="flex justify-between items-center p-0">
             <div class="flex flex-col">
-              <h1 class="text-2xl lg:text-lg font-semibold">PASSING EXAMINEE BY COURSE</h1>
+              <h1 class="text-lg lg:text-lg font-semibold">PASSING EXAMINEE BY COURSE</h1>
             </div>
             <svg-icon name="dashboard-icons/percentage" title="examineeicon" width="32" height="32"></svg-icon>
           </div>
@@ -68,11 +68,12 @@ const percentagePassPerExam = optionForBarChart(successRateExam.value ?? [])
   </div>
   <div class="grid grid-cols-12 my-5 gap-3">
     <div class="col-span-12">
-      <UICard :body="{ padding: 'sm:p-0' }" :defaults="{ base: 'border-b-2 border-emerald-400 overflow-hidden' }">
+      <UICard :body="{ padding: 'sm:p-0' }" 
+        :defaults="{ base: 'border-b-2 border-emerald-400 overflow-hidden' }">
         <template #header>
           <div class="flex justify-between items-center p-0">
             <div class="flex flex-col">
-              <h1 class="text-2xl lg:text-lg font-semibold">PERCENTAGE PASSED BY EXAM</h1>
+              <h1 class="text-lg lg:text-lg font-semibold">PERCENTAGE PASSED BY EXAM</h1>
             </div>
             <svg-icon name="dashboard-icons/check" title="examineeicon" width="32" height="32"></svg-icon>
           </div>

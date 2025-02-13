@@ -2,7 +2,7 @@
 definePageMeta({
   requiredRole: "examinee",
   layout: "user",
-  middleware: "next-question",
+  middleware: ["next-question"],
 });
 
 useSeoMeta({
@@ -14,12 +14,13 @@ useSeoMeta({
 const { info } = useAuthentication();
 const { $toast } = useNuxtApp();
 const inf = JSON.parse(info.value);
-
 const initialQuestion = ref<ExamDetails | null>(null);
 const initialSessionAnswer = ref<SessionExamineeHeader[] | null>(null);
 const initialRemainingTime = ref(0);
 const examQuestion = computed(() => question.value);
 const examSessionAnswer = computed(() => sessionAnswer.value);
+const isRadioDisabled = useState('disabled', () => false);
+
 
 //base exam
 const {
@@ -79,6 +80,7 @@ watch(
     initialQuestion.value = newQuestion;
     initialSessionAnswer.value = newSessionAnswer;
     initialRemainingTime.value = newRemainingTime;
+    isRadioDisabled.value = false;
   },
   { immediate: true }
 );
@@ -117,23 +119,26 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="absolute end-5 bottom-20">
-    <UButton type="button" @click="findMissing" variant="solid" color="gray" size="lg" :ui="BTN_FINDMISSING">
+  <!-- find my missing button -->
+  <div class="mb-2 flex justify-center items-center lg:absolute lg:end-10 lg:bottom-28 z-50">
+    <UButton type="button" @click="findMissing" variant="solid" color="gray" size="md" :ui="BTN_FINDMISSING">
       <i-fluent-emoji-flat-magnifying-glass-tilted-left />
       Find my missing
     </UButton>
   </div>
-  <UICard :has-footer="true" :body="{
+
+  <UICard :has-footer="true" :defaults="{ base: 'h-full overflow-hidden' }" :body="{
     padding: 'sm:p-0 p-0',
-    base: 'h-[73vh] lg:h-[76vh] w-full overflow-y-auto',
+    base: 'lg:h-[76vh] w-full overflow-auto',
   }" :header="{ padding: 'sm:p-0 p-0' }" :footer="{
     base: 'flex justify-center items-center py-2 dark:bg-darken',
   }">
     <template #header>
-      <UserDashboardHeader :title="examTitle">
-        <h1 class="text-white font-bold">
-          ITEMS ANSWERED: {{ answerCount }}/{{ totalQuestions }}
-        </h1>
+      <UserDashboardHeader>
+        <h2 class="text-white  font-bold uppercase">{{ examTitle }}</h2>
+        <h2 class="text-white font-bold">
+          ITEMS: {{ answerCount }}/{{ totalQuestions }}
+        </h2>
       </UserDashboardHeader>
     </template>
     <template #default>

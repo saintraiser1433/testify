@@ -38,7 +38,7 @@ defineProps({
     base: defaults?.base || 'overflow-hidden',
     shadow: 'shadow-sm dark:shadow-sm',
     divide: 'divide-0 divide-gray-200 dark:divide-gray-700',
-    header: { padding: header?.padding || 'px-2 py-2', base: header?.base || 'dark:bg-darken' },
+    header: { padding: header?.padding || 'sm:px-3 px-2 py-2', base: header?.base || 'dark:bg-darken' },
     body: { padding: body?.padding || 'sm:px-3 sm:py-3', base: body?.base || 'dark:bg-darken' },
     footer: { padding: footer?.padding || '', base: footer?.base || 'dark:bg-darken' }
   }">

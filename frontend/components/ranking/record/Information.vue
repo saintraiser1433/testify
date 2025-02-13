@@ -19,10 +19,10 @@ defineProps({
 </script>
 
 <template>
-    <UICard :body="{ padding: 'sm:p-2' }" :defaults="{ base: ' border-l-2 border-emerald-400 overflow-hidden' }">
+    <UICard :body="{ padding: 'sm:p-0 p-0' }" :defaults="{ base: ' border-l-2 border-emerald-400 overflow-hidden' }">
         <template #header>
             <div class="flex justify-between items-center">
-                <h1 class="text-3xl font-semibold">Examinee Information</h1>
+                <h1 class="text-1xl lg:text-2xl font-semibold">Examinee Information</h1>
                 <svg-icon name="seticons/target" title="targeticon" width="64" height="64" />
             </div>
         </template>
@@ -50,9 +50,9 @@ defineProps({
 
                 <div class="flex flex-col p-3 gap-2">
                     <h3 class="font-semibold">SCORE PER CATEGORY</h3>
-                    <div class="grid grid-cols-12 text-sm items-center" v-for="item in data.examDetails"
+                    <div class="grid grid-cols-12 text-sm items-center " v-for="item in data.examDetails"
                         :key="item.exam_id">
-                        <div class="col-span-0 font-semibold">
+                        <div class="col-span-2 font-semibold">
                             <UButton
                                 :to="{ name: 'admin-rankings-consolidate-examineeId-examId', params: { examineeId: data.examinee_id, examId: item.exam_id } }"
                                 variant="solid" color="emerald" square size="xs">
@@ -60,7 +60,7 @@ defineProps({
                             </UButton>
                         </div>
                         <div class="col-span-8 font-semibold capitalize">{{ item.exam_title }}</div>
-                        <div class="col-span-2"><span class="text-red-500">{{ item.correctAnswers }}</span>/{{
+                        <div class="col-span-1"><span class="text-red-500">{{ item.correctAnswers }}</span>/{{
                             item.totalQuestions }}</div>
                     </div>
 

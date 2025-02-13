@@ -139,7 +139,7 @@ const toggleModal = () => {
   </UModal>
 
   <!-- body -->
-  <UICard :has-header="false" :body="{ padding: 'sm:p-0' }" :defaults="{
+  <UICard :has-header="false" :body="{ padding: 'sm:p-0 p-0' }" :defaults="{
     base: 'border-b-2 border-emerald-500 overflow-hidden'
   }">
     <ExamineeList :is-loading="statuses" :examinee-data="transformData" @toggle-modal="toggleModal"

@@ -49,7 +49,7 @@ const { summaryData, examineeName, courseData, summaryScores } = useExamineeSumm
     <div class="col-span-12 lg:col-span-4">
       <RankingRecordInformation
         :data="summaryData"
-        :correct-answer="summaryScores.totalCorrect"
+        :correct-answer="summaryScores.correctAnswers"
         :total-question="summaryScores.totalQuestions"
       />
     </div>

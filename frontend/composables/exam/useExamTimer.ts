@@ -44,7 +44,7 @@ export const useExamTimer = (examineeId?: string, examId?: number) => {
         timerIntervalForSession = setInterval(async () => {
             try {
                 await sessionTimer.updateExamSessionTimer(remainingTime.value, examineeId, examId);
-            } catch (err: any) {
+            } catch (err:any) {
                 $toast.error(err.data.message || 'An error occurred while updating session timer')
             }
         }, 5000);

@@ -15,7 +15,7 @@ useSeoMeta({
 
 
 
-const { $api, $datefns,$toast } = useNuxtApp();
+const { $api, $datefns, $toast } = useNuxtApp();
 const { info } = useAuthentication();
 const { handleApiError } = useErrorHandler()
 const inf = JSON.parse(info.value);
@@ -52,10 +52,13 @@ const onSubmit = async (onResponse: Followup) => {
 
 </script>
 <template>
-    <div class="w-8/12 mx-auto translate-y-0 lg:translate-y-1/4">
+    <div class="lg:w-8/12 mx-auto translate-y-0 lg:translate-y-1/4">
         <UICard :body="{ padding: 'sm:px-4' }" :header="{ padding: 'sm:p-0 p-0', }">
             <template #header>
-                <UserDashboardHeader title="FOLLOW UP INFORMATION" icon="/images/data.png" />
+                <UserDashboardHeader>
+                    <h2 class="text-gray-100 font-bold uppercase">FOLLOW UP INFORMATION</h2>
+                    <NuxtImg src="/images/data.png" quality="100" width="48" height="48" />
+                </UserDashboardHeader>
 
             </template>
             <h2 class="text-sm border-b border-gray-300 dark:border-gray-700 pb-2 mb-4 font-semibold">Date Examination:

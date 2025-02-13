@@ -34,7 +34,7 @@ const { generateOption } = useDashboard();
 <template>
     <div class="grid grid-cols-12 gap-3">
         <div class="col-span-12 lg:col-span-3 ">
-            <UICard :body="{ padding: 'sm:p-0' }" :has-header="false">
+            <UICard :body="{ padding: 'sm:p-0 p-0' }" :has-header="false">
                 <div class="flex justify-between items-center p-5 font-semibold">
                     <div class="flex flex-col">
                         <h6>Registered Examinees</h6>
@@ -51,7 +51,7 @@ const { generateOption } = useDashboard();
             </UICard>
         </div>
         <div class="col-span-12 lg:col-span-3">
-            <UICard :body="{ padding: 'sm:p-0' }" :has-header="false">
+            <UICard :body="{ padding: 'sm:p-0 p-0' }" :has-header="false">
                 <div class="flex justify-between items-center p-5 font-semibold">
                     <div class="flex flex-col">
                         <h6>Completed Examinees</h6>
@@ -68,7 +68,7 @@ const { generateOption } = useDashboard();
             </UICard>
         </div>
         <div class="col-span-12 lg:col-span-3">
-            <UICard :body="{ padding: 'sm:p-0' }" :has-header="false">
+            <UICard :body="{ padding: 'sm:p-0 p-0' }" :has-header="false">
                 <div class="flex justify-between items-center p-5 font-semibold">
                     <div class="flex flex-col">
                         <h6>Total Courses</h6>
@@ -85,7 +85,7 @@ const { generateOption } = useDashboard();
             </UICard>
         </div>
         <div class="col-span-12 lg:col-span-3">
-            <UICard :body="{ padding: 'sm:p-0' }" :has-header="false">
+            <UICard :body="{ padding: 'sm:p-0 p-0' }" :has-header="false">
                 <div class="flex justify-between items-center p-5 font-semibold">
                     <div class="flex flex-col">
                         <h6>Total Exams</h6>

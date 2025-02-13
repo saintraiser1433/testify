@@ -229,7 +229,7 @@ const toggleModal = () => {
           </UICard>
         </div>
         <div class="col-span-12 lg:col-span-9">
-          <UICard>
+          <UICard :body="{ padding: 'sm:p-0 p-0' }">
             <template #header>
               <h1 class="text-2xl lg:text-lg font-semibold">List of Courses Assign</h1>
             </template>
@@ -260,7 +260,7 @@ const toggleModal = () => {
 
   <div class="grid grid-cols-5 gap-5">
     <div class="col-span-5">
-      <UICard :has-header="false" :body="{ padding: 'sm:p-0' }" :defaults="{
+      <UICard :has-header="false" :body="{ padding: 'sm:p-0 p-0' }" :defaults="{
         base: 'border-b-2 border-emerald-500 overflow-hidden',
       }">
         <DeansList :is-loading="statusDean" :deans-data="transformDeans" @toggle-modal="toggleModal"

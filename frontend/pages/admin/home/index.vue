@@ -81,11 +81,11 @@ const summaryQuestions = computed(() =>
     :register-vs-completed="registerVsExaminee"
   >
   </HomeAnalytics>
-  <UICard :body="{ padding: 'sm:p-0' }" :defaults="{ base: 'border-b-2 border-emerald-400 overflow-hidden' }">
+  <UICard :body="{ padding: 'sm:p-0 p-0' }"  :defaults="{ base: 'border-b-2 border-emerald-400 overflow-hidden' }">
     <template #header>
       <div class="flex justify-between items-center p-0">
         <div class="flex flex-col">
-          <h1 class="text-2xl lg:text-lg font-semibold">QUESTION PERCENTAGE</h1>
+          <h1 class="text-lg lg:text-lg font-semibold">QUESTION PERCENTAGE</h1>
         </div>
         <svg-icon
           name="dashboard-icons/exam"
@@ -96,8 +96,6 @@ const summaryQuestions = computed(() =>
       </div>
     </template>
 
-    <HomeQuestionPercentage
-      :questions-analytics="summaryQuestions"
-    ></HomeQuestionPercentage>
+    <HomeQuestionPercentage :questions-analytics="summaryQuestions" />
   </UICard>
 </template>

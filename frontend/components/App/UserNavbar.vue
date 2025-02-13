@@ -3,7 +3,7 @@ const colorMode = useColorMode();
 const route = useRoute();
 const store = useExamStore();
 
-const setColorTheme = (theme:any) => {
+const setColorTheme = (theme: any) => {
   colorMode.preference = theme;
 };
 
@@ -25,16 +25,17 @@ const handleSignOut = async () => {
 
 <template>
   <div
-    class="fixed top-0 bg-white dark:border-colorBorder dark:bg-darken py-2 border-b border-opacity-10 w-full col-span-2 transition-all ease-in-out">
-    <div class="mx-auto flex justify-between px-5">
+    class="fixed top-0 bg-white dark:border-colorBorder dark:bg-darken py-2 border-b border-opacity-10 w-full col-span-2 transition-all ease-in-out z-50">
+    <div v-if="checkRoute" class="flex justify-center items-center gap-3 font-bold">
+      <h3>Time Remaining:</h3>
+      <h1 class="text-danger">{{ timelimit }}</h1>
+    </div>
+    <div v-if="!checkRoute" class="mx-auto flex justify-between px-5">
       <div class="flex items-center gap-2">
         <span class="sprite sprite-small-lg ml-2"></span>
         <h2 class="font-semibold">Testify</h2>
       </div>
-      <div v-if="checkRoute" class="flex justify-center items-center gap-3 font-bold">
-        <h3>Time Remaining:</h3>
-        <h1 class="text-danger">{{ timelimit }}</h1>
-      </div>
+
       <ul class="flex justify-between items-center gap-3">
         <li>
           <a href="google.com">
@@ -53,7 +54,6 @@ const handleSignOut = async () => {
         <li><i-pixelarticons-add-grid /></li>
         <li><i-mdi-bell-outline /></li>
         <li>
-
           <UPopover>
             <div class="w-9 h-9 cursor-pointer relative">
               <img src="@/assets/images/avatar.png" class="w-full h-full rounded-full" alt="Avatar Logo" />
@@ -83,4 +83,3 @@ const handleSignOut = async () => {
     </div>
   </div>
 </template>
-

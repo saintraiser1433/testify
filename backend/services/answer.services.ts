@@ -5,11 +5,18 @@ import prisma from "../prisma/prisma";
 export const insertAnswerFunc = async (body: any) => {
   return await prisma.$transaction(async (tx) => {
     // Insert exam attempt
-    await tx.examAttempt.create({
-      data: {
+    await tx.examAttempt.upsert({
+      where: {
+        examinee_id_exam_id: {
+          examinee_id: body.examinee_id,
+          exam_id: body.exam_id,
+        },
+      },
+      create: {
         examinee_id: body.examinee_id,
         exam_id: body.exam_id,
       },
+      update: {}, 
     });
 
     // Insert answers
