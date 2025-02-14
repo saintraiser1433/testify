@@ -23,14 +23,16 @@ const state = ref<User>({
 
 const schema = $joi.object({
   username: $joi.string().min(5).required().messages({
-    "string.min": "Minimumn of 5 letters to be input",
-    "any.required": `Username is Required`,
+    "string.empty": "Username is Required",
+    "string.min": "Minimum of 5 letters is required",
+    "any.required": "Username is Required",
   }),
   password: $joi.string().required().messages({
-    "string.min": "Minimumn of 5 letters to be input",
-    "any.required": `Password is Required`,
+    "string.empty": "Password is Required",
+    "any.required": "Password is Required",
   }),
 });
+
 
 const onSubmit = async (event: FormSubmitEvent<User>) => {
   try {
@@ -54,6 +56,10 @@ const onSubmit = async (event: FormSubmitEvent<User>) => {
     return handleApiError(err)
   }
 };
+
+const showPassword = () => {
+  alert('me')
+}
 </script>
 
 <style scoped></style>
@@ -76,6 +82,7 @@ const onSubmit = async (event: FormSubmitEvent<User>) => {
           <UForm :schema="schema" :state="state" class="space-y-5" @submit="onSubmit">
             <UFormGroup label="Username" name="username">
               <UInput
+                placeholder="juan_delacruz222"
                 v-model="state.username"
                 color="gray"
                 :ui="{
@@ -84,14 +91,13 @@ const onSubmit = async (event: FormSubmitEvent<User>) => {
               />
             </UFormGroup>
             <UFormGroup label="Password" name="password">
-              <UInput
-                type="password"
+              <UButtonGroup size="sm" class="w-full" orientation="horizontal" >
+              <UInput placeholder="•••••••••"  class="w-full" type="password"
                 v-model="state.password"
-                color="gray"
-                :ui="{
-                  rounded: 'rounded-md',
-                }"
-              />
+                color="gray"/>
+              <UButton size="xs" variant="soft" color="primary" icon="i-mdi-eye" />
+            </UButtonGroup>
+
             </UFormGroup>
             <UButton
               type="submit"

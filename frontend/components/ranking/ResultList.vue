@@ -21,6 +21,11 @@ const columns = [
     sortable: false,
   },
   {
+    key: "examDateTrans",
+    label: "Exam Date",
+    sortable: false,
+  },
+  {
     key: "actions",
     label: "Actions",
     sortable: false,
@@ -57,8 +62,15 @@ const concatName = (fname: string, lname: string, mname: string) => {
         <h1 class="text-2xl font-semibold">Examinee Record</h1>
       </div>
     </template>
+
+
     <template #default>
       <UITables :is-loading="isLoading" :data="data" :columns="columns">
+        <template #action>
+          <UButton  icon="i-flat-color-icons-print" color="gray" size="md" :ui="BTN_PRINT_DATA">
+            PRINT
+        </UButton>
+        </template>
         <template #increment-data="{ row, index }">
           {{ index + 1 }}
         </template>

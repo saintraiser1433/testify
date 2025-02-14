@@ -9,7 +9,7 @@ useSeoMeta({
   ogDescription: "Rankings",
 });
 
-const { $toast } = useNuxtApp();
+const { $toast,$datefns } = useNuxtApp();
 const store = useStore();
 store.setModuleTitle("RANKINGS");
 store.setLink(RANKINGS_BREADCRUMBS);
@@ -33,6 +33,7 @@ const dataResults = computed(() => {
           : 0;
       return {
         ...item,
+        examDateTrans:$datefns.format(item.examDate, "MMM d, yyyy"),
         successRate,
         color: setProgressBarColor(successRate),
       };

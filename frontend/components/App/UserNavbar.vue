@@ -27,8 +27,8 @@ const handleSignOut = async () => {
   <div
     class="fixed top-0 bg-white dark:border-colorBorder dark:bg-darken py-2 border-b border-opacity-10 w-full col-span-2 transition-all ease-in-out z-50">
     <div v-if="checkRoute" class="flex justify-center items-center gap-3 font-bold">
-      <h3>Time Remaining:</h3>
-      <h1 class="text-danger">{{ timelimit }}</h1>
+      <h2>TIME REMAINING:</h2>
+      <h2 class="text-danger">{{ timelimit }}</h2>
     </div>
     <div v-if="!checkRoute" class="mx-auto flex justify-between px-5">
       <div class="flex items-center gap-2">

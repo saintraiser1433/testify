@@ -5,6 +5,6 @@ const route = Router();
 
 
 route.get('/:examineeId', authenticateToken, getSummaryByExaminee);
-route.get('/', authenticateToken, getAllResult);
+route.get('/', getAllResult);
 
 export default route;

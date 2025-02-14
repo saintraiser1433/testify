@@ -218,9 +218,9 @@ export const groupSummaryByExam = async (data: Question[]) => {
 
 
 
+// 
 
-
-export const allResult = async (): Promise<UserInformation[]> => {
+export const allResult = async () : Promise<UserInformation[]> => {
     try {
         const [result, countQuestions] = await Promise.all([
             prisma.question.findMany({
@@ -242,6 +242,7 @@ export const allResult = async (): Promise<UserInformation[]> => {
                                 select: {
                                     examinee_id: true,
                                     choices_id: true,
+                                    createdAt: true,
                                     examineeList: {
                                         select: {
                                             first_name: true,
@@ -264,6 +265,7 @@ export const allResult = async (): Promise<UserInformation[]> => {
             }),
         ]);
 
+ 
         const map = result.reduce((group: any, item: any) => {
             item.choicesList.forEach((choice: any) => {
                 choice.answersList.forEach((answer: any) => {
@@ -283,6 +285,7 @@ export const allResult = async (): Promise<UserInformation[]> => {
                             contact_number: answer.examineeList.followupData[0]?.contact_number || '',
                             gender: answer.examineeList.followupData[0]?.gender || '',
                             totalCorrect: 0,
+                            examDate:answer.createdAt,
                             totalQuestions: countQuestions._count,
                         };
                     }
@@ -297,7 +300,7 @@ export const allResult = async (): Promise<UserInformation[]> => {
 
             return group;
         }, {});
-
+        // return result;
         return Object.values(map);
     } catch (err) {
         throw err; // Throw the error to be handled by the caller

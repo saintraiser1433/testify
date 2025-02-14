@@ -127,7 +127,7 @@ onUnmounted(() => {
     </UButton>
   </div>
 
-  <UICard :has-footer="true" :defaults="{ base: 'h-full overflow-hidden' }" :body="{
+  <UICard :has-footer="true" :defaults="{ base: 'h-full overflow-hidden border-b-2 border-emerald-500' }" :body="{
     padding: 'sm:p-0 p-0',
     base: 'lg:h-[76vh] w-full overflow-auto',
   }" :header="{ padding: 'sm:p-0 p-0' }" :footer="{

@@ -280,6 +280,7 @@ export interface ExamineeInformation extends AttemptsExam {
     email: string,
     address: string,
     contact_number: string,
+    examDate:string
 }
 
 
