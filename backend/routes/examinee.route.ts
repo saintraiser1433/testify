@@ -13,7 +13,7 @@ const route = Router();
 
 
 route.get('/', authenticateToken, getExaminee);
-route.post('/', authenticateToken, insertExaminee);
+route.post('/', insertExaminee);
 route.put('/:id', authenticateToken, updateExaminee);
 route.delete('/:id', authenticateToken, deleteExaminee)
 

@@ -1,11 +1,7 @@
 // // https://nuxt.com/docs/api/configuration/nuxt-config
 import ViteComponents from "unplugin-vue-components/vite";
-import { config } from 'dotenv'
-import path from 'path' 
+import 'dotenv/config';
 import IconsResolver from "unplugin-icons/resolver";
-
-const envFile = process.env.NODE_ENV === 'production' ? '.env' : '.env-development';
-config({ path: path.resolve(process.cwd(), envFile) });
 
 
 export default defineNuxtConfig({

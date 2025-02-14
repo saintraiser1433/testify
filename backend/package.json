@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "cross-env ENV_FILE=.env.development nodemon ./app.ts",
-    "start": "cross-env ENV_FILE=.env nodemon ./dist/app.js",
+    "dev": "nodemon ./app.ts",
+    "start": "node ./dist/app.js",
     "build": "npx tsc",
     "seed": "ts-node prisma/seed.ts",
     "resolve": "npx prisma migrate resolve --rolled-back",

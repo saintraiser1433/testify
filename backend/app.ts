@@ -1,4 +1,4 @@
-import { config } from 'dotenv';
+import 'dotenv/config';
 import { Express, NextFunction, Request, Response } from 'express';
 import express from 'express';
 import cors from 'cors';
@@ -7,7 +7,6 @@ import { expressLogger, errorLogger, appLogger } from './util/logger';
 import { errorHandler } from './middlewares/errorHandler.middleware';
 const app = express();
 
-config({ path: process.env.ENV_FILE });
 
 const PORT = process.env.APP_PORT || 3000;
 

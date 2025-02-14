@@ -122,6 +122,7 @@ onBeforeUnmount(() => {
             </button>
             <button type="button" @click="editor.chain().focus().toggleItalic().run()"
                 :disabled="!editor.can().chain().focus().toggleItalic().run()"
+                
                 :class="{ 'text-primary': editor.isActive('italic') }" class="">
                 <i-tabler-italic />
             </button>
