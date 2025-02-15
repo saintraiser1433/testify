@@ -6,6 +6,8 @@ import { CircleProgressBar } from 'circle-progress.vue';
 import { toast, type ToastOptions } from 'vue3-toastify';
 import { format, parse, parseISO, getDay } from 'date-fns'
 import * as echarts from 'echarts';
+import * as XLSX from 'xlsx-js-style';
+
 export default defineNuxtPlugin((nuxtApp) => {
     const nanoid = customAlphabet("1234567890abcdef", 5);
     const password = () => {
@@ -30,6 +32,7 @@ export default defineNuxtPlugin((nuxtApp) => {
         getDay,
     });
     nuxtApp.provide('echarts', echarts);
+    nuxtApp.provide('xlsx', XLSX as typeof XLSX );
 
     //component
     nuxtApp.vueApp.component('CircleProgressBar', CircleProgressBar)

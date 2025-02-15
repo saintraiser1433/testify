@@ -12,7 +12,7 @@ useSeoMeta({
   ogDescription: "Authentication Page",
 });
 
-const { $joi,$toast } = useNuxtApp();
+const { $joi, $toast } = useNuxtApp();
 
 const { signIn, info } = useAuthentication();
 const { handleApiError } = useErrorHandler();
@@ -32,6 +32,8 @@ const schema = $joi.object({
     "any.required": "Password is Required",
   }),
 });
+
+const isShown = ref(false);
 
 
 const onSubmit = async (event: FormSubmitEvent<User>) => {
@@ -58,16 +60,14 @@ const onSubmit = async (event: FormSubmitEvent<User>) => {
 };
 
 const showPassword = () => {
-  alert('me')
+  isShown.value = !isShown.value;
 }
 </script>
 
 <style scoped></style>
 
 <template>
-  <div
-    class="flex justify-center items-center max-w-sm lg:max-w-3xl mx-auto min-h-screen"
-  >
+  <div class="flex justify-center items-center max-w-sm lg:max-w-3xl mx-auto min-h-screen">
     <div class="w-full rounded-lg shadow-lg bg-white dark:bg-cardColor">
       <!-- <form @submit.prevent="handleSignIn"> -->
       <div class="grid grid-cols-2">
@@ -81,44 +81,30 @@ const showPassword = () => {
 
           <UForm :schema="schema" :state="state" class="space-y-5" @submit="onSubmit">
             <UFormGroup label="Username" name="username">
-              <UInput
-                placeholder="juan_delacruz222"
-                v-model="state.username"
-                color="gray"
-                :ui="{
-                  rounded: 'rounded-md',
-                }"
-              />
+              <UInput placeholder="juan_delacruz222" v-model="state.username" color="gray" :ui="{
+                rounded: 'rounded-md',
+              }" />
             </UFormGroup>
             <UFormGroup label="Password" name="password">
-              <UButtonGroup size="sm" class="w-full" orientation="horizontal" >
-              <UInput placeholder="•••••••••"  class="w-full" type="password"
-                v-model="state.password"
-                color="gray"/>
-              <UButton size="xs" variant="soft" color="primary" icon="i-mdi-eye" />
-            </UButtonGroup>
+              <UButtonGroup size="sm" class="w-full" orientation="horizontal">
+                <UInput placeholder="•••••••••" class="w-full" :type="isShown ? 'text' : 'password'" v-model="state.password" color="gray" />
+                <UButton size="xs" @click="showPassword" variant="soft" color="primary" icon="i-mdi-eye" />
+              </UButtonGroup>
 
             </UFormGroup>
-            <UButton
-              type="submit"
-              block
-              color="gray"
-              size="md"
-              :ui="{
-                color: {
-                  gray: {
-                    solid:
-                      'bg-primary-500 hover:bg-primary-600 dark:bg-primary-500 text-white hover:dark:bg-primary-600',
-                  },
+            <UButton type="submit" block color="gray" size="md" :ui="{
+              color: {
+                gray: {
+                  solid:
+                    'bg-primary-500 hover:bg-primary-600 dark:bg-primary-500 text-white hover:dark:bg-primary-600',
                 },
-              }"
-              >Submit</UButton
-            >
+              },
+            }">Submit</UButton>
           </UForm>
         </div>
         <div
-          class="lg:col-span-1 bg-[url('~/assets/images/background.jpg')] w-full h-auto bg-repeat bg-[center_bottom_-6rem]"
-        ></div>
+          class="lg:col-span-1 bg-[url('~/assets/images/background.jpg')] w-full h-auto bg-repeat bg-[center_bottom_-6rem]">
+        </div>
       </div>
       <!-- </form> -->
       <!-- <button type="button" @click="handleGitHub">Sign In as github</button> -->

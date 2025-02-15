@@ -1,9 +1,10 @@
 
 import { format, parse, parseISO, getDay } from 'date-fns';
 import { toast } from 'vue3-toastify'
+import * as XLSX from "xlsx";
 
 
-declare module 'circle-progress.vue'
+
 
 declare module '#app' {
     interface NuxtApp {
@@ -18,6 +19,7 @@ declare module '#app' {
             getDay: typeof getDay;
         };
         $echarts: typeof echarts;
+        $xlsx: typeof XLSX;
     }
 }
 

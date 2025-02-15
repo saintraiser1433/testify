@@ -95,9 +95,7 @@ export default defineNuxtConfig({
       theme: 'github-dark',
     },
   },
-  svgSprite: {
-    debug: true
-  },
+  svgSprite: {},
   echarts: {
     renderer: ['svg', 'canvas'],
     charts: ['BarChart', 'LineChart', 'PieChart'],
