@@ -118,6 +118,7 @@ const toggleModal = () => {
           />
         </div>
       </template>
+
       <CourseForm v-model="courseForm" @data-course="submitCourse" />
     </UICard>
   </UModal>

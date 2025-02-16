@@ -8,28 +8,25 @@
       <slot />
     </main>
 
-
     <!-- footer -->
     <AppUserFooter footerName="Janzkiee Tech Solution" />
-
   </div>
 </template>
 
 <script setup lang="ts">
-
 const { refreshToken, signOut, info } = useAuthentication();
-// const { idle } = useIdle(50 * 10 * 100);
-// const user = JSON.parse(info.value)
-// watch(idle, async (newValue: boolean) => {
-//   if (newValue) {
-//     await signOut(user.id);
-//     return navigateTo({ name: 'auth' })
-//   }
-// });
+const { idle } = useIdle(50 * 10 * 100);
+const user = JSON.parse(info.value);
+watch(idle, async (newValue: boolean) => {
+  if (newValue) {
+    await signOut(user.id);
+    return navigateTo({ name: "auth" });
+  }
+});
 
 useIntervalFn(() => {
   refreshToken();
-}, 3000000);
+}, 50000);
 </script>
 
 <style scoped></style>

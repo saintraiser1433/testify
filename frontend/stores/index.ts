@@ -1,6 +1,6 @@
 export const useStore = defineStore("counter", {
   state: () => ({
-    isOpen: true,
+    isOpen: false,
     moduleTitle: '',
     link: [] as BreadCrumbsModel[],
   }),

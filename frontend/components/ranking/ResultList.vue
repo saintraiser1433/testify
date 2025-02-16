@@ -43,8 +43,7 @@ const props = defineProps({
     default: false,
   },
 });
-const { data } = toRefs(props)
-
+const { data } = toRefs(props);
 
 const concatName = (fname: string, lname: string, mname: string) => {
   const mnames = mname ? mname[0] : "";
@@ -52,8 +51,6 @@ const concatName = (fname: string, lname: string, mname: string) => {
 };
 
 const exportToExcel = () => {
-
-
   const columnsExcel = [
     { key: "first_name", header: "FIRST NAME" },
     { key: "last_name", header: "LAST NAME" },
@@ -67,35 +64,35 @@ const exportToExcel = () => {
   ];
 
   // Define column widths (in characters)
-  const columnWidths = [20, 20, 20, 20, 30, 20, 20, 20,20];
+  const columnWidths = [20, 20, 20, 20, 30, 20, 20, 20, 20];
 
   useExcelExport(data.value, "exam_results.xlsx", columnsExcel, columnWidths);
 };
-
-
-
-
-
-
-
-
-
 </script>
 
 <template>
-  <UICard :defaults="{ base: 'border-b-2 border-emerald-400 overflow-hidden' }" :header="{ padding: 'p-3' }"
-    :body="{ padding: 'sm:p-0 p-0' }" :has-action-header="false">
+  <UICard
+    :defaults="{ base: 'border-b-2 border-emerald-400 overflow-hidden' }"
+    :header="{ padding: 'p-3' }"
+    :body="{ padding: 'sm:p-0 p-0' }"
+    :has-action-header="false"
+  >
     <template #header>
       <div class="flex justify-between items-center p-0">
         <h1 class="text-2xl font-semibold">Examinee Record</h1>
       </div>
     </template>
 
-
     <template #default>
       <UITables :is-loading="isLoading" :data="data" :columns="columns">
         <template #action>
-          <UButton icon="i-flat-color-icons-print" @click="exportToExcel" color="gray" size="md" :ui="BTN_PRINT_DATA">
+          <UButton
+            icon="i-flat-color-icons-print"
+            @click="exportToExcel"
+            color="gray"
+            size="md"
+            :ui="BTN_PRINT_DATA"
+          >
             PRINT
           </UButton>
         </template>
@@ -111,10 +108,18 @@ const exportToExcel = () => {
           {{ row.totalCorrect }}/{{ row.totalQuestions }}
         </template>
         <template #ratings-data="{ row, index }">
-          <UProgress :value="row.successRate" size="xl" :color="row.color" indicator class="relative">
+          <UProgress
+            :value="row.successRate"
+            size="xl"
+            :color="row.color"
+            indicator
+            class="relative"
+          >
             <template #indicator="{ percent }">
-              <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-bold text-xs lg:text-sm"
-                :class="percent < 20 ? 'text-secondaryColor-950' : 'text-white'">
+              <div
+                class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-bold text-xs lg:text-sm"
+                :class="percent < 20 ? 'text-secondaryColor-950' : 'text-white'"
+              >
                 {{ parseFloat(percent).toFixed(2) }}%
               </div>
             </template>
@@ -122,10 +127,16 @@ const exportToExcel = () => {
         </template>
         <template #actions-data="{ row, index }">
           <div class="flex gap-1">
-            <UButton :to="{
-              name: 'admin-rankings-record-examineeId',
-              params: { examineeId: row.examinee_id },
-            }" color="primary" class="dark:text-white" variant="solid" size="xs">
+            <UButton
+              :to="{
+                name: 'admin-rankings-record-examineeId',
+                params: { examineeId: row.examinee_id },
+              }"
+              color="primary"
+              class="dark:text-white"
+              variant="solid"
+              size="xs"
+            >
               <i-bx-show />
             </UButton>
           </div>

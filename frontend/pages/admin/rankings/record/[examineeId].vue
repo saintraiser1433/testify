@@ -47,11 +47,18 @@ const { summaryData, examineeName, courseData, summaryScores } = useExamineeSumm
 <template>
   <div class="grid grid-cols-12 gap-3">
     <div class="col-span-12 lg:col-span-4">
-      <RankingRecordInformation
-        :data="summaryData"
-        :correct-answer="summaryScores.correctAnswers"
-        :total-question="summaryScores.totalQuestions"
-      />
+      <Suspense>
+        <template #default>
+          <RankingRecordInformation
+            :data="summaryData"
+            :correct-answer="summaryScores.correctAnswers"
+            :total-question="summaryScores.totalQuestions"
+          />
+        </template>
+        <template #fallback>
+          <SkeletonExamineeResult />
+        </template>
+      </Suspense>
     </div>
     <div class="col-span-12 lg:col-span-8">
       <RankingRecordCourse

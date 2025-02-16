@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { Fragment } from "vue/jsx-runtime";
+
 definePageMeta({
   requiredRole: "admin",
 });
@@ -9,12 +11,21 @@ useSeoMeta({
   ogTitle: "Testify Home Page",
   ogDescription: "Testify Analytics",
 });
-const { $toast } = useNuxtApp();
+const { $toast, payload, static: stat } = useNuxtApp();
 const store = useStore();
 store.setModuleTitle("ANALYTICAL DASHBOARD");
 store.setLink(BASE_BREADCRUMB);
 
-const { data, status, error } = await useAPI<DashboardModel>("/dashboard/summary");
+const { data, status, error } = await useAPI<DashboardModel>("/dashboard/summary", {
+  server: false,
+  getCachedData(key) {
+    const data = payload.data[key] || stat.data[key];
+    if (!data) {
+      return;
+    }
+    return data;
+  },
+});
 if (error.value) {
   $toast.error(error.value?.data.message || "An error occurred while fetching");
 }
@@ -22,7 +33,7 @@ const regExaminee = computed(() => data.value?.summary.registeredExaminee || 0);
 const comExaminee = computed(() => data.value?.summary.completedExaminee || 0);
 const totalCourses = computed(() => data.value?.summary.totalCourse || 0);
 const totalExams = computed(() => data.value?.summary.totalExams || 0);
-
+const isLoading = computed(() => status.value === "pending");
 const successRatePerCourses = computed(
   () =>
     data.value?.coursesPassed.map((item) => ({
@@ -68,34 +79,29 @@ const summaryQuestions = computed(() =>
 </script>
 
 <template>
-  <HomeSummaryAnalytics
-    :total-register="regExaminee"
-    :total-completed="comExaminee"
-    :total-courses="totalCourses"
-    :total-exams="totalExams"
-  />
-
-  <HomeAnalytics
-    :success-rate-course="successRatePerCourses"
-    :success-rate-exam="successRatePerExam"
-    :register-vs-completed="registerVsExaminee"
-  >
-  </HomeAnalytics>
-  <UICard :body="{ padding: 'sm:p-0 p-0' }"  :defaults="{ base: 'border-b-2 border-emerald-400 overflow-hidden' }">
-    <template #header>
-      <div class="flex justify-between items-center p-0">
-        <div class="flex flex-col">
-          <h1 class="text-lg lg:text-lg font-semibold">QUESTION PERCENTAGE</h1>
-        </div>
-        <svg-icon
-          name="dashboard-icons/exam"
-          title="examineeicon"
-          width="32"
-          height="32"
-        ></svg-icon>
+  <Suspense>
+    <template #default>
+      <div>
+        <HomeSummaryAnalytics
+          :total-register="regExaminee"
+          :total-completed="comExaminee"
+          :total-courses="totalCourses"
+          :total-exams="totalExams"
+        />
+        <HomeAnalytics
+          :success-rate-course="successRatePerCourses"
+          :success-rate-exam="successRatePerExam"
+          :register-vs-completed="registerVsExaminee"
+        />
+        <HomeQuestionPercentage :questions-analytics="summaryQuestions" />
       </div>
     </template>
-
-    <HomeQuestionPercentage :questions-analytics="summaryQuestions" />
-  </UICard>
+    <template #fallback>
+      <div>
+        <SkeletonSummaryAnalytics />
+        <SkeletonAnalytics />
+        <SkeletonQuestionPercentage />
+      </div>
+    </template>
+  </Suspense>
 </template>

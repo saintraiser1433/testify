@@ -53,30 +53,47 @@ const { percentage, hexColor, detail } = usePercentage(summaryScores);
             <UserDashboardHeader />
           </template>
           <div class="flex justify-center relative">
-            <div class="rounded-full h-32 w-32 inline-block p-1 absolute -top-14 bg-white shadow-md">
-              <NuxtImg src="/images/studentf.png" quality="80" width="128" height="128" />
+            <div
+              class="rounded-full h-32 w-32 inline-block p-1 absolute -top-14 bg-white shadow-md"
+            >
+              <svg-icon name="seticons/studentgirl" width="128" height="128"></svg-icon>
             </div>
           </div>
-          <div class="text-center mt-20 text-2xl text-gray-700 border-b border-gray-200 dark:border-gray-700 pb-5">
+          <div
+            class="text-center mt-20 text-2xl text-gray-700 border-b border-gray-200 dark:border-gray-700 pb-5"
+          >
             <h2 class="dark:text-gray-200 text-gray-600 font-bold">Hello!</h2>
             <h2 class="dark:text-gray-200 text-gray-600 uppercase">{{ examineeName }}</h2>
           </div>
-          <div class="text-center text-gray-600 dark:text-gray-300 py-5 font-semibold text-2xl gap-1">
+          <div
+            class="text-center text-gray-600 dark:text-gray-300 py-5 font-semibold text-2xl gap-1"
+          >
             <span class="pr-1">Score: </span>
             <span class="text-danger">{{ summaryScores.correctAnswers }}</span>
             <span>/{{ summaryScores.totalQuestions }}</span>
           </div>
-          <h2 v-if="!isFinished" class="text-center text-1xl font-semibold pb-2 text-gray-600 dark:text-gray-300">
+          <h2
+            v-if="!isFinished"
+            class="text-center text-1xl font-semibold pb-2 text-gray-600 dark:text-gray-300"
+          >
             {{ examAttempts }}
           </h2>
           <template #footer>
-            <div v-if="isFinished"
-              class="text-center py-3 text-1xl font-semibold pb-2 uppercase text-gray-800 dark:text-gray-300">
+            <div
+              v-if="isFinished"
+              class="text-center py-3 text-1xl font-semibold pb-2 uppercase text-gray-800 dark:text-gray-300"
+            >
               You already taken the exam!
             </div>
             <div v-else>
-              <UButton type="button" :to="{ name: 'user-information' }" color="gray" size="lg" block
-                :ui="BTN_TAKE_EXAM">
+              <UButton
+                type="button"
+                :to="{ name: 'user-information' }"
+                color="gray"
+                size="lg"
+                block
+                :ui="BTN_TAKE_EXAM"
+              >
                 TAKE THE EXAM
               </UButton>
             </div>
@@ -87,25 +104,31 @@ const { percentage, hexColor, detail } = usePercentage(summaryScores);
         <UICard :body="{ padding: 'sm:p-0' }" :header="{ padding: 'sm:p-0 p-0' }">
           <template #header>
             <UserDashboardHeader>
-              <h2 class="text-gray-100  font-bold uppercase">STATISTICAL DASHBOARD</h2> 
-              <NuxtImg src="/images/data.png" quality="100" width="48" height="48" />
+              <h2 class="text-gray-100 font-bold uppercase">STATISTICAL DASHBOARD</h2>
+              <svg-icon name="seticons/dashboard" width="48" height="48"></svg-icon>
             </UserDashboardHeader>
-
-
           </template>
-          <UserDashboardStatiscal :summary-data="summaryData?.examDetails" :is-loading="statuses === 'pending'"
-            :percentage="percentage" :hex-color="hexColor" :label="detail" />
+          <UserDashboardStatiscal
+            :summary-data="summaryData?.examDetails"
+            :is-loading="statuses === 'pending'"
+            :percentage="percentage"
+            :hex-color="hexColor"
+            :label="detail"
+          />
         </UICard>
       </div>
       <div class="col-span-12">
-        <UICard :header="{ padding: 'sm:p-0 p-0' }" :body="{padding:'sm:p-0 p-0'}">
+        <UICard :header="{ padding: 'sm:p-0 p-0' }" :body="{ padding: 'sm:p-0 p-0' }">
           <template #header>
             <UserDashboardHeader>
-              <h2 class="text-gray-100  font-bold uppercase">MY RECOMMENDED COURSES</h2> 
-              <NuxtImg src="/images/enroll.png" quality="100" width="48" height="48" />
+              <h2 class="text-gray-100 font-bold uppercase">MY RECOMMENDED COURSES</h2>
+              <svg-icon name="seticons/course" width="48" height="48"></svg-icon>
             </UserDashboardHeader>
           </template>
-          <UserDashboardCourseList :is-loading="statuses === 'pending'" :course-data="courseData" />
+          <UserDashboardCourseList
+            :is-loading="statuses === 'pending'"
+            :course-data="courseData"
+          />
         </UICard>
       </div>
     </div>

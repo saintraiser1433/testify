@@ -69,7 +69,7 @@ export default defineNuxtConfig({
 
   colorMode: {
     classSuffix: "",
-    preference: "system",
+    preference: "light",
     fallback: "light",
   },
   css: ["sweetalert2/dist/sweetalert2.min.css"],

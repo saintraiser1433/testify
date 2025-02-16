@@ -9,7 +9,7 @@ useSeoMeta({
   ogDescription: "Rankings",
 });
 
-const { $toast,$datefns } = useNuxtApp();
+const { $toast, $datefns } = useNuxtApp();
 const store = useStore();
 store.setModuleTitle("RANKINGS");
 store.setLink(RANKINGS_BREADCRUMBS);
@@ -33,7 +33,7 @@ const dataResults = computed(() => {
           : 0;
       return {
         ...item,
-        examDateTrans:$datefns.format(item.examDate, "MMM d, yyyy"),
+        examDateTrans: $datefns.format(item.examDate, "MMM d, yyyy"),
         successRate,
         color: setProgressBarColor(successRate),
       };
@@ -54,7 +54,14 @@ const topRankings = computed(() => {
 <template>
   <div class="grid grid-cols-12 gap-3">
     <div class="col-span-12 lg:col-span-4">
-      <RankingTopList :data="topRankings" />
+      <Suspense>
+        <template #default>
+          <RankingTopList :data="topRankings" />
+        </template>
+        <template #fallback>
+          <SkeletonTopList />
+        </template>
+      </Suspense>
     </div>
     <div class="col-span-12 lg:col-span-8">
       <RankingResultList :is-loading="statuses" :data="dataResults" />
