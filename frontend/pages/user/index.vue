@@ -56,7 +56,7 @@ const { percentage, hexColor, detail } = usePercentage(summaryScores);
             <div
               class="rounded-full h-32 w-32 inline-block p-1 absolute -top-14 bg-white shadow-md"
             >
-              <svg-icon name="seticons/studentgirl" width="128" height="128"></svg-icon>
+              <svg-icon name="seticons/studentgirl" width="120" height="120"></svg-icon>
             </div>
           </div>
           <div

@@ -23,7 +23,7 @@
     </main>
 
     <!-- footer -->
-    <AppFooter footerName="Janzkiee Tech Solution" />
+    <AppFooter footerName="John Rey Nalla Decosta" />
 
     <teleport to="body">
       <div

@@ -114,7 +114,7 @@ export const useDashboard = () => {
             },
             series: [
                 {
-                    name:'Passed',
+                    name: 'Passed',
                     type: 'bar',
                     data: data.map((item, index) => ({
                         name: item.name, // Use `data.name` for each data point
@@ -362,7 +362,7 @@ export const useDashboard = () => {
                 right: '2%',
                 bottom: '10%',
             },
-
+            
 
         });
     };

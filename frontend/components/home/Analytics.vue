@@ -25,7 +25,7 @@ const percentagePassPerExam = optionForBarChart(successRateExam.value ?? [])
 
 </script>
 
-<style></style>
+
 
 
 <template>

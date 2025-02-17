@@ -9,7 +9,7 @@
     </main>
 
     <!-- footer -->
-    <AppUserFooter footerName="Janzkiee Tech Solution" />
+    <AppFooter footerName="John Rey Nalla Decosta" />
   </div>
 </template>
 

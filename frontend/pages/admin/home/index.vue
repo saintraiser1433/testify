@@ -33,7 +33,6 @@ const regExaminee = computed(() => data.value?.summary.registeredExaminee || 0);
 const comExaminee = computed(() => data.value?.summary.completedExaminee || 0);
 const totalCourses = computed(() => data.value?.summary.totalCourse || 0);
 const totalExams = computed(() => data.value?.summary.totalExams || 0);
-const isLoading = computed(() => status.value === "pending");
 const successRatePerCourses = computed(
   () =>
     data.value?.coursesPassed.map((item) => ({

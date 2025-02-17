@@ -14,37 +14,37 @@ export const getExamCount = async () => {
 export const getRegisteredVsCompletedExaminees = async (): Promise<RegisteredVsCompletedModel[]> => {
   return await prisma.$queryRaw`
     SELECT 
-      TO_CHAR(dates.createdDate, 'Mon DD, YYYY') AS formatted_date,
-      COALESCE(reg.registered, 0) "Registered",
-      COALESCE(com.completed, 0) "Completed"
+      TO_CHAR(dates.createdDate, 'Mon YYYY') AS formatted_date, 
+      COALESCE(SUM(reg.registered), 0)::integer AS "Registered", 
+      COALESCE(SUM(com.completed), 0)::integer AS "Completed" 
     FROM (
-      -- Get unique dates from both tables
-      SELECT DISTINCT DATE("createdAt") AS createdDate 
+      -- Get unique months from both tables
+      SELECT DISTINCT DATE_TRUNC('month', "createdAt") AS createdDate 
       FROM "User"
       WHERE role = 'examinee'
       UNION
-      SELECT DISTINCT DATE("createdAt") 
+      SELECT DISTINCT DATE_TRUNC('month', "createdAt") 
       FROM "ExamAttempt"
     ) AS dates
     LEFT JOIN (
-      -- Count registered examinees per day
+      -- Count registered examinees per month
       SELECT 
-        DATE("createdAt") AS createdDate,
+        DATE_TRUNC('month', "createdAt") AS createdDate,
         COUNT(*)::integer AS registered
       FROM "User"
       WHERE role = 'examinee'
       GROUP BY createdDate
     ) AS reg ON dates.createdDate = reg.createdDate
     LEFT JOIN (
-      -- Count completed examinees per day
+      -- Count completed examinees per month
       SELECT 
-        DATE("createdAt") AS createdDate,
+        DATE_TRUNC('month', "createdAt") AS createdDate,
         COUNT(DISTINCT examinee_id)::integer AS completed
       FROM "ExamAttempt"
       GROUP BY createdDate
     ) AS com ON dates.createdDate = com.createdDate
-    ORDER BY dates.createdDate
-  `;
+    GROUP BY dates.createdDate 
+    ORDER BY dates.createdDate`;
 };
 
 export const getExamPassed = async (): Promise<ExamPassed[]> => {
@@ -72,7 +72,7 @@ export const getExamPassed = async (): Promise<ExamPassed[]> => {
 };
 
 
-export const getQuestionPercentage = async () : Promise<QuestionPercentage[]> => {
+export const getQuestionPercentage = async (): Promise<QuestionPercentage[]> => {
   return await prisma.$queryRaw`
   SELECT
       exam.exam_title,

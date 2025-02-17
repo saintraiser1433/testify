@@ -30,7 +30,7 @@ const handleSignOut = async () => {
       <ul class="flex justify-between items-center gap-3">
         <li>
           <UPopover>
-            <div class="w-9 h-9 cursor-pointer relative">
+            <div class="w-10 h-10 cursor-pointer rounded-full flex justify-center items-center bg-gray-300 ">
               <svg-icon name="seticons/man" width="36" height="36" />
             </div>
             <template #panel>

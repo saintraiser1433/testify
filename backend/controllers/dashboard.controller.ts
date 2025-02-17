@@ -1,7 +1,7 @@
 // controllers/summaryController.ts
 import { Request, Response, NextFunction } from 'express';
-import { getCoursePassedFunc, getExamCount, getExamPassed, getQuestionPercentage, getRegisteredVsCompletedExaminees } 
-from '../services/dashboard.services';
+import { getCoursePassedFunc, getExamCount, getExamPassed, getQuestionPercentage, getRegisteredVsCompletedExaminees }
+  from '../services/dashboard.services';
 import { allResult } from '../services/results.services';
 import { getCourse } from '../services/course.services';
 
