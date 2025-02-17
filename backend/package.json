@@ -24,13 +24,13 @@
     "@types/node": "^22.8.6",
     "cross-env": "^7.0.3",
     "nodemon": "^3.1.7",
-    "prisma": "^6.2.1",
+    "prisma": "^6.3.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.7.3"
   },
   "dependencies": {
     "@faker-js/faker": "^9.4.0",
-    "@prisma/client": "^6.2.1",
+    "@prisma/client": "^6.3.1",
     "@types/bcrypt": "^5.0.2",
     "@types/cookie-parser": "^1.4.7",
     "@types/cors": "^2.8.17",

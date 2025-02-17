@@ -81,10 +81,15 @@ export const upsertSessionAnswerFunc = async (
 
     await tx.sessionDetails.upsert({
       where: {
-        question_id_sessionHeader_id: {
-          question_id: Number(question_id),
-          sessionHeader_id: existingSession.session_id,
-        },
+        AND: [
+          {
+            question_id: Number(question_id),
+          },
+          {
+            sessionHeader_id: existingSession.session_id,
+          },
+        ]
+         
       },
       update: {
         choices_id: Number(choices_id),
