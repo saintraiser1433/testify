@@ -17,6 +17,18 @@ App:
 5. docker logs <container id> -f
 
 
+postgresql guide:
+#Increase it in postgresql.conf
+
+max_connections = 300
+shared_buffers = 512MB  # Adjust based on available RAM
+work_mem = 16MB
+
+
+
+
+
+
 
 
 
