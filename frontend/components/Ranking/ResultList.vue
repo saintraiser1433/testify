@@ -118,7 +118,7 @@ const exportToExcel = () => {
             <template #indicator="{ percent }">
               <div
                 class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-bold text-xs lg:text-sm"
-                :class="percent < 20 ? 'text-secondaryColor-950' : 'text-white'"
+                :class="percent < 20 ? 'text-secondaryColor-950 dark:text-gray-300' : 'text-white'"
               >
                 {{ parseFloat(percent).toFixed(2) }}%
               </div>

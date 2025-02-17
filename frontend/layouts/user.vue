@@ -15,7 +15,7 @@
 
 <script setup lang="ts">
 const { refreshToken, signOut, info } = useAuthentication();
-const { idle } = useIdle(50 * 10 * 100);
+const { idle } = useIdle(300000);
 const user = JSON.parse(info.value);
 watch(idle, async (newValue: boolean) => {
   if (newValue) {
