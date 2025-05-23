@@ -9,10 +9,10 @@ export const CustomTableCell = TableCell.extend({
         return {
             ...this.parent?.(),
             borderStyle: {
-                default: '2px solid #ced4da',
+                default: '2px solid #ced4da;  width: 100%; table-layout: fixed',
                 parseHTML: (element) => element.style.borderStyle || '2px solid #ced4da',
                 renderHTML: (attributes) => ({
-                    style: `border: ${attributes.borderStyle}`,
+                    style: `border: ${attributes.borderStyle}; width: 100%; table-layout: fixed`,
                 }),
             },
             backgroundColor: {

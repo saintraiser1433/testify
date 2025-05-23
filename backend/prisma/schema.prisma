@@ -49,7 +49,7 @@ model Exam {
   exam_title      String        @unique @db.VarChar(150)
   description     String        @db.VarChar(255)
   time_limit      Int
-  status          Boolean       @default(true)
+  status          Boolean?      @default(true)
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @updatedAt
   questionList    Question[]
@@ -162,7 +162,7 @@ model SessionDetails {
   sessionHeaderList SessionHeader @relation(fields: [sessionHeader_id], references: [session_id], onDelete: Cascade)
   sessionHeader_id  String
 
-  @@id([question_id,sessionHeader_id])
+  @@id([question_id, sessionHeader_id])
   @@index([choices_id])
 }
 
@@ -172,5 +172,6 @@ model SessionHeader {
   exam_id        Int
   timelimit      Int              @db.Integer
   sessionDetails SessionDetails[]
-  @@index([examinee_id,exam_id])
+
+  @@index([examinee_id, exam_id])
 }

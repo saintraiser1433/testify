@@ -61,12 +61,12 @@ export const updateDepartment = async (
       return res.status(404).json({ message: "Department not found" });
     }
 
-    if (value.department_name !== existingDepartment.department_name) {
-      const checkDepartment = await checkDepartmentIfExist(value.department_name);
-      if (checkDepartment) {
-        return res.status(409).json({ message: "Department already exists" });
-      }
-    }
+    // if (value.department_name !== existingDepartment.department_name) {
+    //   const checkDepartment = await checkDepartmentIfExist(value.department_name);
+    //   if (checkDepartment) {
+    //     return res.status(409).json({ message: "Department already exists" });
+    //   }
+    // }
 
     const response = await updateDepartmentFunc(
       Number(req.params.id),

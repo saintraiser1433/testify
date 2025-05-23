@@ -12,9 +12,9 @@ import { authenticateToken } from '../middlewares/auth.middleware';
 const route = Router();
 
 
-route.get('/', authenticateToken, getExaminee);
-route.post('/',authenticateToken, insertExaminee);
-route.put('/:id', authenticateToken, updateExaminee);
-route.delete('/:id', authenticateToken, deleteExaminee)
+route.get('/', getExaminee);
+route.post('/', insertExaminee);
+route.put('/:id', updateExaminee);
+route.delete('/:id', deleteExaminee)
 
 export default route;

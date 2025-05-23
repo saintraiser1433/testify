@@ -67,12 +67,12 @@ export const update = async (req: Request, res: Response, next: NextFunction): P
       return res.status(404).json({ message: "Exam not found" });
     }
 
-    if (value.exam_title !== existingExam.exam_title) {
-      const exam = await checkExamIfExist(value.exam_title);
-      if (exam) {
-        return res.status(409).json({ message: "Exam Title already exists" });
-      }
-    }
+    // if (value.exam_title !== existingExam.exam_title) {
+    //   const exam = await checkExamIfExist(value.exam_title);
+    //   if (exam) {
+    //     return res.status(409).json({ message: "Exam Title already exists" });
+    //   }
+    // }
 
 
     const response = await updateExamService(id, value);

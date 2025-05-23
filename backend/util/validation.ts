@@ -113,6 +113,7 @@ export const examValidation = {
                 "string.empty": `Time Limit cannot be empty`,
                 "any.required": `Time Limit cannot be null or empty`,
             }),
+            status: Joi.boolean().optional()
         });
         return schema.validate(data, { abortEarly: false });
     },
