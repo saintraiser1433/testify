@@ -28,6 +28,10 @@ defineProps({
     type: Object as PropType<CardDefaultProps>,
     default: () => ({})
   },
+  background: {
+    type: Object as PropType<CardProps>,
+    default: () => ({})
+  }
 
 })
 </script>
@@ -36,6 +40,7 @@ defineProps({
 <template>
   <UCard class="w-full" :ui="{
     base: defaults?.base || 'overflow-hidden',
+    background: background?.base,
     shadow: 'shadow-sm dark:shadow-sm',
     divide: 'divide-0 divide-gray-200 dark:divide-gray-700',
     header: { padding: header?.padding || 'sm:px-3 px-2 py-2', base: header?.base || 'dark:bg-darken' },
@@ -52,4 +57,3 @@ defineProps({
   </UCard>
 
 </template>
-

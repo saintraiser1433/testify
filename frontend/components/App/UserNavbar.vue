@@ -27,9 +27,19 @@ const colorPreferenceText = computed(() => {
 <template>
   <div
     class="fixed top-0 bg-white dark:border-colorBorder dark:bg-darken py-2 border-b border-opacity-10 w-full col-span-2 transition-all ease-in-out z-50">
-    <div v-if="checkRoute" class="flex justify-center items-center gap-3 font-bold">
-      <h2>TIME REMAINING:</h2>
-      <h2 class="text-danger">{{ timelimit }}</h2>
+    <div v-if="checkRoute" class="flex justify-between items-center">
+      <div class="flex flex-1 justify-center items-center gap-3 font-bold">
+        <h2>TIME REMAINING:</h2>
+        <h2 class="text-danger">{{ timelimit }}</h2>
+      </div>
+      <div>
+        <UButton @click="setColorTheme($colorMode.preference === 'dark' ? 'light' : 'dark')"
+          :icon="colorMode.value === 'dark' ? 'i-lucide-sun' : 'i-line-md-moon'" variant="soft" color="primary"
+          class="flex items-center justify-center gap-2 w-full">{{ colorPreferenceText }}</UButton>
+      </div>
+
+
+
     </div>
     <div v-if="!checkRoute" class="mx-auto flex justify-between px-5">
       <div class="flex items-center gap-2">
