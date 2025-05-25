@@ -55,14 +55,14 @@ export const useExam = (
                     await sessionExamRepo.deleteExamSession(submitData);
                 }
 
-                showUnanswered.value = false;
+                // showUnanswered.value = false;
                 shouldRefetch.value++;
 
-                const element = document.getElementById('init');
-                element?.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'center'
-                });
+                // const element = document.getElementById('init');
+                // element?.scrollIntoView({
+                //     behavior: 'smooth',
+                //     block: 'center'
+                // });
             }
         } catch (error) {
             return handleApiError(error);
@@ -70,7 +70,7 @@ export const useExam = (
         } finally {
             isLoading.value = false;
         }
-    }, 1000, { maxWait: 5000 });
+    }, 1000, { maxWait: 3000 });
 
 
     const submitExam = async () => {

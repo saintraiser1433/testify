@@ -38,11 +38,6 @@ const handleSignOut = async () => {
                 class="grid grid-cols-1 divide-y dark:divide-gray-700 dark:bg-darken content-center text-sm"
               >
                 <li class="p-2 hover:bg-gray-100 hover:dark:bg-gray-700">
-                  <NuxtLink class="flex gap-2 items-center px-1" to="/">
-                    <i-iconamoon-profile-circle />Profile
-                  </NuxtLink>
-                </li>
-                <li class="p-2 hover:bg-gray-100 hover:dark:bg-gray-700">
                   <button class="flex gap-2 items-center px-1" @click="handleSignOut()">
                     <i-majesticons-logout-half-circle-line />Logout
                   </button>

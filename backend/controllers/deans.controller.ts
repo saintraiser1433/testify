@@ -61,16 +61,6 @@ export const updatedDeans = async (
       return res.status(404).json({ message: "Deans not found" });
     }
 
-    if (
-      value.first_name !== existingDeans.first_name &&
-      value.last_name !== existingDeans.last_name &&
-      value.middle_name !== existingDeans.middle_name
-    ) {
-      const existingDeans = await findDeansByName(value.first_name, value.last_name, value.middle_name);
-      if (existingDeans) {
-        return res.status(409).json({ message: "Deans already exists" });
-      }
-    }
 
     const response = await updateDeansFunc(id, value);
     return res.status(200).json({
