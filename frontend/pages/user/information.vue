@@ -42,7 +42,7 @@ const onSubmit = async (onResponse: Followup) => {
 };
 </script>
 <template>
-  <div class="lg:w-8/12 mx-auto translate-y-0 pb-14 translate-y-0 py-0 lg:translate-y-1/4">
+  <div class="lg:w-8/12 mx-auto pb-14 translate-y-0 py-0 lg:translate-y-1/4">
     <UICard :body="{ padding: 'sm:px-4' }" :header="{ padding: 'sm:p-0 p-0' }">
       <template #header>
         <UserDashboardHeader>

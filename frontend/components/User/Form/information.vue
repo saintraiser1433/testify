@@ -7,7 +7,11 @@
             <UInput type="date" v-model="formFollowup.birth_date" color="gray" />
         </UFormGroup>
         <UFormGroup class="col-span-2 lg:col-span-1" label="Contact Number" name="contact_number" required>
-            <UInput type="text" v-model="formFollowup.contact_number" color="gray" />
+        <UInput type="text" v-model="formFollowup.contact_number" maxlength="11" color="gray">
+            <template #trailing>
+                <span class="text-xs text-gray-500 dark:text-gray-400">{{ formFollowup.contact_number?.length }}/11</span>
+            </template>
+         </UInput>
         </UFormGroup>
         <UFormGroup class="col-span-2 lg:col-span-1" label="Email" name="email" required>
             <UInput type="email" v-model="formFollowup.email" color="gray" />
@@ -69,8 +73,13 @@ const schema = $joi.object({
     birth_date: $joi.string().required().messages({
         "any.required": `Birth Date is Required`,
     }),
-    contact_number: $joi.string().required().messages({
-        "any.required": `Contact Number is Required`,
+    contact_number: $joi
+    .string()
+    .pattern(/^09\d{9}$/)
+    .required()
+    .messages({
+        "string.pattern.base": "Contact Number must start with 09 and be 11 digits long",
+        "any.required": "Contact Number is Required",
     }),
     school: $joi.string().required().messages({
         "any.required": `School is Required`,
