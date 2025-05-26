@@ -42,12 +42,25 @@ const props = defineProps({
 
 })
 const selected = ref<User[]>([]);
-
-
-
+const fileInput = ref<HTMLInputElement | null>(null);
+const jsonData = ref<string | null>(null);
 const visiblePasswords = ref<Set<number>>(new Set());
 const { examineeData, isLoading } = toRefs(props)
-
+const { $joi,$xlsx,$password } = useNuxtApp();
+const schema = $joi.array().items(
+        $joi.object({
+        first_name: $joi.string().required().messages({
+            "any.required": `First Name is Required`,
+        }),
+        last_name: $joi.string().required().messages({
+            "any.required": `Last Name is Required`,
+        }),
+        middle_name: $joi.string().required().messages({
+            "any.required": `Middle Name is Required`,
+        }),
+        username: $joi.string().optional(),
+        password: $joi.string().optional(),
+}))
 
 const toggleModal = () => {
     emits('toggleModal');
@@ -69,10 +82,38 @@ const togglePassword = (index: number) => {
     }
 }
 
+
+
 const isPasswordVisible = (index: number): boolean => {
     return visiblePasswords.value.has(index);
 }
 
+const handleFileUpload = (event: Event) => {
+  const target = event.target as HTMLInputElement
+  const file = target.files?.[0]
+  if (!file) return
+
+  const reader = new FileReader()
+
+  reader.onload = (e) => {
+    const data = new Uint8Array(e.target?.result as ArrayBuffer)
+    const workbook = $xlsx.read(data, { type: 'array' })
+    const firstSheet = workbook.SheetNames[0]
+    const worksheet = workbook.Sheets[firstSheet]
+    const json = $xlsx.utils.sheet_to_json(worksheet)
+    jsonData.value = JSON.stringify(json, null, 2)
+
+
+
+  }
+
+  reader.readAsArrayBuffer(file)
+}
+
+
+const triggerFileInput = () => {
+  fileInput.value?.click()
+}
 
 
 
@@ -86,10 +127,17 @@ const isPasswordVisible = (index: number): boolean => {
                 @click="printCredentials(selected)" :ui="BTN_PRINT_DATA">
                 PRINT
             </UButton>
-            <UButton icon="i-heroicons-plus" color="gray" size="md" @click="toggleModal" :ui="BTN_ADD_DATA_MODAL">
+            <UButton @click="triggerFileInput" icon="pajamas-import" color="gray" size="md"
+                 :ui="BTN_IMPORT">
+                IMPORT
+            </UButton>
+            <input type="file" ref="fileInput" @change="handleFileUpload" accept=".xlsx, .xls" class="hidden" />
+            <UButton icon="heroicons-plus" color="gray" size="md" @click="toggleModal" :ui="BTN_ADD_DATA_MODAL">
                 Add Examinee's
             </UButton>
-
+            <pre v-if="jsonData" class="mt-4 bg-gray-100 p-4 text-sm overflow-auto">
+                {{ jsonData }}
+                </pre>
         </template>
         <template #id-data="{ row, index }">
             <span>{{ index + 1 }}</span>

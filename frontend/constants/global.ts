@@ -41,4 +41,12 @@ export const BTN_PRINT_DATA = {
     }
 }
 
+export const BTN_IMPORT = {
+    color: {
+        gray: {
+            solid: 'bg-carnation-500 text-white hover:bg-emerald-600 dark:bg-emerald-500 dark:hover:bg-emerald-600'
+        }
+    }
+}
+
 

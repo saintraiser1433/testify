@@ -52,7 +52,7 @@ export const printCredentials = (data: User[]) => {
 
         // Username & Password
         doc.setFont("tahoma", "normal");
-        doc.setFontSize(9);
+        doc.setFontSize(8);
         doc.text(`Name: ${user.fullname} `, x + 5, y + 35);
         doc.text(`Username: ${user.username}`, x + 5, y + 45);
         doc.text(`Password: ${user.password}`, x + 5, y + 55);
