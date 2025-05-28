@@ -195,6 +195,14 @@ export const repository = <T>(fetch: $Fetch<T, NitroFetchRequest>) => ({
         })
     },
 
+    async bulkExaminee(body: User[]): Promise<T> {
+
+        return fetch<T>('/examinee/bulk', {
+            method: 'POST',
+            body
+        })
+    },
+
     async updateExaminee(body: User): Promise<T> {
         return fetch<T>(`/examinee/${body.id}`, {
             method: 'PUT',

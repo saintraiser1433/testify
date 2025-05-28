@@ -43,24 +43,10 @@ const props = defineProps({
 })
 const selected = ref<User[]>([]);
 const fileInput = ref<HTMLInputElement | null>(null);
-const jsonData = ref<string | null>(null);
 const visiblePasswords = ref<Set<number>>(new Set());
 const { examineeData, isLoading } = toRefs(props)
-const { $joi,$xlsx,$password } = useNuxtApp();
-const schema = $joi.array().items(
-        $joi.object({
-        first_name: $joi.string().required().messages({
-            "any.required": `First Name is Required`,
-        }),
-        last_name: $joi.string().required().messages({
-            "any.required": `Last Name is Required`,
-        }),
-        middle_name: $joi.string().required().messages({
-            "any.required": `Middle Name is Required`,
-        }),
-        username: $joi.string().optional(),
-        password: $joi.string().optional(),
-}))
+const { $xlsx,$password,$toast,$api } = useNuxtApp();
+const { handleApiError } = useErrorHandler();
 
 const toggleModal = () => {
     emits('toggleModal');
@@ -88,27 +74,108 @@ const isPasswordVisible = (index: number): boolean => {
     return visiblePasswords.value.has(index);
 }
 
-const handleFileUpload = (event: Event) => {
-  const target = event.target as HTMLInputElement
-  const file = target.files?.[0]
-  if (!file) return
+const examineeRepo = repository<ApiResponse<User>>($api);
 
-  const reader = new FileReader()
+const handleFileUpload = async (event: Event) => {
+  try {
+    const target = event.target as HTMLInputElement;
+    const file = target.files?.[0];
+    if (!file) {
+      $toast.error('No file selected');
+      return;
+    }
 
-  reader.onload = (e) => {
-    const data = new Uint8Array(e.target?.result as ArrayBuffer)
-    const workbook = $xlsx.read(data, { type: 'array' })
-    const firstSheet = workbook.SheetNames[0]
-    const worksheet = workbook.Sheets[firstSheet]
-    const json = $xlsx.utils.sheet_to_json(worksheet)
-    jsonData.value = JSON.stringify(json, null, 2)
+    const data = await readExcelFile(file);
+    const validatedData = await validateExamineeData(data);
+    const response = await examineeRepo.bulkExaminee(validatedData);
 
-
-
+    $toast.success(response.message);
+  } catch (error) {
+    handleApiError(error);
   }
+};
 
-  reader.readAsArrayBuffer(file)
-}
+const readExcelFile = (file: File): Promise<any[]> => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    
+    reader.onload = (e) => {
+      try {
+        const data = new Uint8Array(e.target?.result as ArrayBuffer);
+        const workbook = $xlsx.read(data, { type: 'array' });
+        const firstSheet = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[firstSheet];
+        const json = $xlsx.utils.sheet_to_json(worksheet, { header: 1 });
+        resolve(json.slice(1));
+      } catch (error) {
+        reject(new Error('Error parsing Excel file'));
+      }
+    };
+    
+    reader.onerror = () => reject(new Error('Error reading file'));
+    reader.readAsArrayBuffer(file);
+  });
+};
+
+
+
+
+const validateExamineeData = (rows: any[]): Promise<any[]> => {
+  return new Promise((resolve, reject) => {
+    let hasErrors = false;
+    
+    const processedData = rows.map((row, index) => {
+      const firstName = (row[0] || '').toString().trim();
+      const lastName = (row[1] || '').toString().trim();
+      let middleName = (row[2] || '').toString().trim();
+      const random5DigitNumber = Math.floor(10000 + Math.random() * 90000);
+      const username = `${lastName?.toLowerCase().replace(/\s+/g, '')}_${firstName?.[0].toLowerCase().replace(/\s+/g, '')}_${random5DigitNumber}`;
+      // Validate required fields
+      
+      if (!firstName) {
+        hasErrors = true;
+        $toast.error(`Row ${index + 2}: First name is required`);
+      } else if (!/^[a-zA-Z\s-]+$/.test(firstName)) {
+        hasErrors = true;
+        $toast.error(`Row ${index + 2}: First name contains invalid characters`);
+      } else if (firstName.length > 50) {
+        hasErrors = true;
+        $toast.error(`Row ${index + 2}: First name exceeds 50 characters`);
+      }
+      
+      if (!lastName) {
+        hasErrors = true;
+        $toast.error(`Row ${index + 2}: Last name is required`);
+      } else if (!/^[a-zA-Z\s-]+$/.test(lastName)) {
+        hasErrors = true;
+        $toast.error(`Row ${index + 2}: Last name contains invalid characters`);
+      } else if (lastName.length > 50) {
+        hasErrors = true;
+        $toast.error(`Row ${index + 2}: Last name exceeds 50 characters`);
+      }
+      
+      if (middleName && !/^[a-zA-Z]$/.test(middleName)) {
+        middleName = middleName.charAt(0);
+        $toast.warning(`Row ${index + 2}: Middle name was truncated to first character`);
+      }
+      
+      return {
+        first_name: firstName,
+        last_name: lastName,
+        middle_name: middleName || '',
+        username,
+        password: $password()
+      };
+    });
+    
+    if (hasErrors) {
+      reject(new Error('Validation errors found in uploaded file'));
+    } else {
+      resolve(processedData);
+    }
+  });
+};
+
 
 
 const triggerFileInput = () => {
@@ -135,9 +202,7 @@ const triggerFileInput = () => {
             <UButton icon="heroicons-plus" color="gray" size="md" @click="toggleModal" :ui="BTN_ADD_DATA_MODAL">
                 Add Examinee's
             </UButton>
-            <pre v-if="jsonData" class="mt-4 bg-gray-100 p-4 text-sm overflow-auto">
-                {{ jsonData }}
-                </pre>
+
         </template>
         <template #id-data="{ row, index }">
             <span>{{ index + 1 }}</span>
