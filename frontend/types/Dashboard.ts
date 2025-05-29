@@ -9,6 +9,13 @@ export interface DashboardModel {
     coursesPassed: ChartModel[]; // Data for courses passed (used in charts)
     examPassed: ExamPassed[]; // Data for exams passed
     summaryQuestions: QuestionPercentage[]; // Data for question success rates
+    courseGender: CourseGender[]
+}
+
+export interface CourseGender {
+    name: string;
+    male: number;
+    female: number;
 }
 
 /**

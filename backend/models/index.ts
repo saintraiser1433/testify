@@ -196,9 +196,8 @@ export interface FollowUpModel {
     birth_date: string,
     contact_number: string,
     school: string,
-    email: string,
     address: string
-    examDate?:string
+    email: string,
 }
 export interface UserInformation extends FollowUpModel, TheTotal {
     examinee_id: true,

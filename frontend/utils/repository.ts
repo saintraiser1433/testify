@@ -226,7 +226,7 @@ export const repository = <T>(fetch: $Fetch<T, NitroFetchRequest>) => ({
     //end
 
     //followup
-    async addFollowup(body: Followup): Promise<T> {
+    async addFollowup(body: FollowupModel): Promise<T> {
 
         return fetch<T>('/followup', {
             method: 'POST',

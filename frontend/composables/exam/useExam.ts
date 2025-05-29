@@ -55,14 +55,11 @@ export const useExam = (
                     await sessionExamRepo.deleteExamSession(submitData);
                 }
 
-                // showUnanswered.value = false;
+ 
                 shouldRefetch.value++;
+               
+       
 
-                // const element = document.getElementById('init');
-                // element?.scrollIntoView({
-                //     behavior: 'smooth',
-                //     block: 'center'
-                // });
             }
         } catch (error) {
             return handleApiError(error);
@@ -87,6 +84,8 @@ export const useExam = (
 
         if (remainingTime.value > 0) {
             if (answerCount.value !== question.value?.data.length) {
+                showUnanswered.value = true;
+                await findMissing()
                 $toast.error('Please answer all questions before proceeding');
             } else {
                 setAlert('info', 'Are you sure you want to submit your answer? Once you submit, your answer will be final!', '', 'Confirm submit').then(
@@ -95,6 +94,7 @@ export const useExam = (
                             try {
                                 isRadioDisabled.value = true;
                                 await performSubmit(submitData);
+                                showUnanswered.value = false;
                             } catch (error) {
                                 return handleApiError(error);
 
@@ -105,10 +105,11 @@ export const useExam = (
             }
 
         } else {
-            
+
             $toast.warning('Times up');
             isRadioDisabled.value = true;
             await performSubmit(submitData);
+            showUnanswered.value = false;
         }
 
 

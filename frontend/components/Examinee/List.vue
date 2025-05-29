@@ -44,9 +44,12 @@ const props = defineProps({
 const selected = ref<User[]>([]);
 const fileInput = ref<HTMLInputElement | null>(null);
 const visiblePasswords = ref<Set<number>>(new Set());
+const isLoadingImport = ref(false);
 const { examineeData, isLoading } = toRefs(props)
 const { $xlsx,$password,$toast,$api } = useNuxtApp();
 const { handleApiError } = useErrorHandler();
+
+const loading = computed(() => isLoading.value || isLoadingImport.value);
 
 const toggleModal = () => {
     emits('toggleModal');
@@ -77,6 +80,7 @@ const isPasswordVisible = (index: number): boolean => {
 const examineeRepo = repository<ApiResponse<User>>($api);
 
 const handleFileUpload = async (event: Event) => {
+  isLoadingImport.value=true;
   try {
     const target = event.target as HTMLInputElement;
     const file = target.files?.[0];
@@ -88,10 +92,12 @@ const handleFileUpload = async (event: Event) => {
     const data = await readExcelFile(file);
     const validatedData = await validateExamineeData(data);
     const response = await examineeRepo.bulkExaminee(validatedData);
-
+    await refreshNuxtData();
     $toast.success(response.message);
   } catch (error) {
     handleApiError(error);
+  } finally {
+    isLoadingImport.value=false;
   }
 };
 
@@ -158,6 +164,8 @@ const validateExamineeData = (rows: any[]): Promise<any[]> => {
         middleName = middleName.charAt(0);
         $toast.warning(`Row ${index + 2}: Middle name was truncated to first character`);
       }
+
+      
       
       return {
         first_name: firstName,
@@ -187,7 +195,7 @@ const triggerFileInput = () => {
 </script>
 
 <template>
-    <UITables v-model="selected" :has-selectable="true" :has-action-header="false" :is-loading="isLoading"
+    <UITables v-model="selected" :has-selectable="true" :has-action-header="false" :is-loading="loading"
         :data="examineeData" :columns="columns">
         <template #action>
             <UButton v-if="selected.length > 0" icon="i-flat-color-icons-print" color="gray" size="md"

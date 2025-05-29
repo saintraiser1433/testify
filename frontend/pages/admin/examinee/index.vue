@@ -18,6 +18,7 @@ store.setLink(EXAMINEE_BREADCRUMBS);
 //fetch Examinee
 
 const examineeData = computed(() => data.value || []);
+const shouldRefetch = ref(0);
 const statuses = computed(() => status.value === "pending");
 const { data, status, error } = await useAPI<User[]>("/examinee", {
   lazy: true,
@@ -25,6 +26,7 @@ const { data, status, error } = await useAPI<User[]>("/examinee", {
     const data = payload.data[key] || stat.data[key];
     return data;
   },
+  watch: [shouldRefetch]
 });
 
 if (error.value) {
@@ -34,10 +36,10 @@ if (error.value) {
 const transformData = computed(() => {
   return examineeData.value.map((item) => {
     const fullname =
-      item.first_name +
+      item.first_name?.toUpperCase() +
       " " +
-      item.last_name +
-      (item.middle_name ? " " + item.middle_name[0] + "." : "");
+      item.last_name?.toUpperCase() +
+      (item.middle_name ? " " + item.middle_name[0].toUpperCase() + "." : "");
     return {
       ...item,
       fullname,
@@ -120,10 +122,13 @@ const toggleModal = () => {
 };
 
 
+
+
+
 </script>
 
 <template>
-
+            
   <!-- modal -->
   <UModal v-model="isOpen" :ui="{ width: 'sm:max-w-sm' }" prevent-close>
     <UICard>

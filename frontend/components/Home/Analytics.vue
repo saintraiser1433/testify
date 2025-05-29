@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 const { optionForNightingale, optionForBarChart, optionForDataSet } = useDashboard();
+const {optionStackedBar} = useStackedBarChart();
 const props = defineProps({
   successRateCourse: {
     type: Array as PropType<ChartModel[]>,
@@ -12,14 +13,20 @@ const props = defineProps({
   registerVsCompleted: {
     type: Array as PropType<DailyRegistrationVsCompletion[]>,
     required: true,
+  },
+  successRateCourseGender: {
+    type: Array as PropType<CourseGender[]>,
+    required:true
   }
 
 
 
 })
 
-const { successRateCourse, successRateExam, registerVsCompleted } = toRefs(props);
+const { successRateCourse, successRateExam, registerVsCompleted,successRateCourseGender } = toRefs(props);
+const stackedBarData = optionStackedBar(successRateCourseGender)
 const regVsCompleted = optionForDataSet(registerVsCompleted.value ?? [])
+
 const successRatePerCourses = optionForNightingale(successRateCourse.value ?? [])
 const percentagePassPerExam = optionForBarChart(successRateExam.value ?? [])
 
@@ -65,6 +72,32 @@ const percentagePassPerExam = optionForBarChart(successRateExam.value ?? [])
         </div>
       </UICard>
     </div>
+  </div>
+  <div class="grid grid-cols-12 my-5 gap-3">
+    <div class="col-span-12">
+      <UICard :body="{ padding: 'sm:p-0' }" 
+        :defaults="{ base: 'border-b-2 border-emerald-400 overflow-hidden' }">
+        <template #header>
+          <div class="flex justify-between items-center p-0">
+            <div class="flex flex-col">
+              <h1 class="text-lg lg:text-lg font-semibold">PERCENTAGE PASSED COURSE BY GENDER</h1>
+            </div>
+            <svg-icon name="dashboard-icons/check" title="examineeicon" width="32" height="32"></svg-icon>
+          </div>
+
+        </template>
+        <div class="w-full h-[400px] relative">
+          <VChart
+            ref="chart"
+            :option="stackedBarData"
+            class="w-full h-full"
+            :auto-resize="true"
+          />
+        </div>
+
+      </UICard>
+    </div>
+
   </div>
   <div class="grid grid-cols-12 my-5 gap-3">
     <div class="col-span-12">

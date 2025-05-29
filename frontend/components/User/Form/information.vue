@@ -1,10 +1,7 @@
 <template>
-    <UForm :schema="schema" :state="formFollowup" class="gap-2 grid grid-cols-2" @submit="onSubmit">
+    <UForm :schema="schema" :state="formFollowup" class="flex flex-col gap-2" @submit="onSubmit">
         <UFormGroup class="col-span-2 lg:col-span-1" label="Gender" name="gender" required>
             <USelect v-model.number="formFollowup.gender" color="gray" :options="gender" option-attribute="name" />
-        </UFormGroup>
-        <UFormGroup class="col-span-2 lg:col-span-1" label="Birth Date" name="birth_date" required>
-            <UInput type="date" v-model="formFollowup.birth_date" color="gray" />
         </UFormGroup>
         <UFormGroup class="col-span-2 lg:col-span-1" label="Contact Number" name="contact_number" required>
         <UInput type="text" v-model="formFollowup.contact_number" maxlength="11" color="gray">
@@ -13,15 +10,11 @@
             </template>
          </UInput>
         </UFormGroup>
-        <UFormGroup class="col-span-2 lg:col-span-1" label="Email" name="email" required>
-            <UInput type="email" v-model="formFollowup.email" color="gray" />
+        <UFormGroup class="col-span-2 lg:col-span-1" label="Strand" name="strand" required>
+            <USelect v-model.number="formFollowup.strand" color="gray" :options="strand" option-attribute="name" />
         </UFormGroup>
         <UFormGroup class="col-span-2 lg:col-span-1" label="School Graduated" name="school" required>
             <UInput v-model="formFollowup.school" color="gray" />
-        </UFormGroup>
-        <UFormGroup class="col-span-2 lg:col-span-1" label="Address" name="address" required>
-            <UTextarea v-model="formFollowup.address" :rows="4" size="lg" color="gray" />
-
         </UFormGroup>
 
         <div class="col-span-2 border-t dark:border-gray-600 pt-2">
@@ -38,7 +31,7 @@
 </template>
 <script lang="ts" setup>
 const emits = defineEmits<{
-    (e: 'dataInformation', payload: FollowupModel): void;
+    (e: 'dataInformation', payload: Partial<FollowupModel>): void;
 }>()
 
 const { $joi } = useNuxtApp();
@@ -54,24 +47,41 @@ const gender = [
     },
 ]
 
+const strand = [
+    {
+        name: '(ABM) - Accountancy, Business and Management',
+        value: '(ABM) - Accountancy, Business and Management'
+    },
+    {
+        name: '(STEM) - Science, Technology, Engineering, and Mathematics',
+        value: '(STEM) - Science, Technology, Engineering, and Mathematics'
+    },
+    {
+        name: '(HUMSS) - Humanities and Social Science',
+        value: '(HUMSS) - Humanities and Social Science'
+    },
+    {
+        name: '(GAS) - General Academic Strand',
+        value: '(GAS) - General Academic Strand'
+    },
+    {
+        name: '(TVL) - Technical-Vocational-Livelihood',
+        value: '(TVL) - Technical-Vocational-Livelihood'
+    },
+]
 
-const formFollowup = ref<FollowupModel>({
-    gender: undefined,
-    birth_date: undefined,
+
+const formFollowup = ref<Partial<FollowupModel>>({
+    gender:undefined,
     contact_number: undefined,
     school: undefined,
-    email: undefined,
-    address: undefined,
-
+    strand: undefined,
 });
 
 
 const schema = $joi.object({
     gender: $joi.string().required().messages({
         "any.required": `Gender is Required`,
-    }),
-    birth_date: $joi.string().required().messages({
-        "any.required": `Birth Date is Required`,
     }),
     contact_number: $joi
     .string()
@@ -84,13 +94,9 @@ const schema = $joi.object({
     school: $joi.string().required().messages({
         "any.required": `School is Required`,
     }),
-    email: $joi.string().required().messages({
-        "any.required": `Email is Required`,
+    strand: $joi.string().required().messages({
+        "any.required": `Strand is Required`,
     }),
-    address: $joi.string().required().messages({
-        "any.required": `Address is Required`,
-    })
-
 
 });
 

@@ -33,6 +33,16 @@ const regExaminee = computed(() => data.value?.summary.registeredExaminee || 0);
 const comExaminee = computed(() => data.value?.summary.completedExaminee || 0);
 const totalCourses = computed(() => data.value?.summary.totalCourse || 0);
 const totalExams = computed(() => data.value?.summary.totalExams || 0);
+
+
+const courseGender = computed(
+  () =>
+  data.value?.courseGender.map((item) => ({
+      name: getAcronym(item.name).toUpperCase(),
+      male: item.male,
+      female:item.female
+    })) || []
+);
 const successRatePerCourses = computed(
   () =>
     data.value?.coursesPassed.map((item) => ({
@@ -88,6 +98,7 @@ const summaryQuestions = computed(() =>
           :total-exams="totalExams"
         />
         <HomeAnalytics
+          :success-rate-course-gender="courseGender"
           :success-rate-course="successRatePerCourses"
           :success-rate-exam="successRatePerExam"
           :register-vs-completed="registerVsExaminee"

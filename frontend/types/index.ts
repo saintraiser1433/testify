@@ -119,12 +119,11 @@ export interface Token {
 }
 
 export interface FollowupModel {
-    gender?: string,
-    birth_date?: string,
-    contact_number?: string,
-    school?: string,
-    address?: string
-    email?: string
+    examinee_id?: string,
+    gender: string,
+    strand: string,
+    contact_number: string,
+    school: string,
 }
 
 
@@ -158,15 +157,7 @@ export interface User {
     role?: Role
 }
 
-export interface Followup {
-    examineeId?: string,
-    gender?: string,
-    birth_date?: string,
-    contact_number?: string,
-    school?: string,
-    email?: string,
-    address?: string
-}
+
 
 
 
@@ -280,7 +271,7 @@ export interface ExamineeInformation extends AttemptsExam {
     email: string,
     address: string,
     contact_number: string,
-    examDate:string
+    examDate: string
 }
 
 

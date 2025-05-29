@@ -47,7 +47,7 @@ const { data } = toRefs(props);
 
 const concatName = (fname: string, lname: string, mname: string) => {
   const mnames = mname ? mname[0] : "";
-  return `${lname}, ${fname} ${mnames}.`;
+  return `${lname.toUpperCase()}, ${fname.toUpperCase()} ${mnames.toUpperCase()}.`;
 };
 
 const exportToExcel = () => {
