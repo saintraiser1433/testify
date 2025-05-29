@@ -8,7 +8,16 @@ interface Timestamped {
 
 
 // Examinee Model
+export interface GenerateSlip {
+    examinee_id: string;
+    fullname: string;
+    course: string;
+    score: number;
+}
 
+export interface ScoredExaminee extends ExamineeInformation {
+    totalCorrect: number;
+}
 
 // Course Model
 export interface CourseModel extends Timestamped {
@@ -273,6 +282,8 @@ export interface ExamineeInformation extends AttemptsExam {
     contact_number: string,
     examDate: string
 }
+
+
 
 
 

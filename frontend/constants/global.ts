@@ -50,6 +50,8 @@ export const BTN_IMPORT = {
 }
 
 
+
+
 export const shadcnPalette = [
     "#1E293B", // Dark Blue - PENDING
     "#3B82F6", // Blue - ONGOING
@@ -71,9 +73,9 @@ export const shadcnPalette = [
     "#7C3AED", // Deep Purple
     "#047857", // Deep Teal
     "#FACC15", // Bright Yellow
-  ];
+];
 
-  export const shadowPalette = [
+export const shadowPalette = [
     "rgba(30, 41, 59, 0.4)",  // Dark Blue - PENDING
     "rgba(59, 130, 246, 0.3)", // Blue - ONGOING
     "rgba(34, 197, 94, 0.3)",  // Green - PASSED
@@ -94,5 +96,5 @@ export const shadcnPalette = [
     "rgba(124, 58, 237, 0.3)", // Deep Purple
     "rgba(4, 120, 87, 0.3)",   // Deep Teal
     "rgba(250, 204, 21, 0.3)", // Bright Yellow
-  ];
+];
 
