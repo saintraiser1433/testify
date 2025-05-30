@@ -1,7 +1,7 @@
 <template>
     <UForm :schema="schema" :state="formFollowup" class="flex flex-col gap-2" @submit="onSubmit">
         <UFormGroup class="col-span-2 lg:col-span-1" label="Gender" name="gender" required>
-            <USelect v-model.number="formFollowup.gender" color="gray" :options="gender" option-attribute="name" />
+            <USelect v-model="formFollowup.gender" color="gray" :options="gender" option-attribute="name" />
         </UFormGroup>
         <UFormGroup class="col-span-2 lg:col-span-1" label="Contact Number" name="contact_number" required>
         <UInput type="text" v-model="formFollowup.contact_number" maxlength="11" color="gray">
@@ -11,7 +11,7 @@
          </UInput>
         </UFormGroup>
         <UFormGroup class="col-span-2 lg:col-span-1" label="Strand" name="strand" required>
-            <USelect v-model.number="formFollowup.strand" color="gray" :options="strand" option-attribute="name" />
+            <USelect v-model="formFollowup.strand" color="gray" :options="strand" option-attribute="name" />
         </UFormGroup>
         <UFormGroup class="col-span-2 lg:col-span-1" label="School Graduated" name="school" required>
             <UInput v-model="formFollowup.school" color="gray" />

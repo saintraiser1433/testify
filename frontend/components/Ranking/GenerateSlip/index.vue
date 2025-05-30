@@ -29,24 +29,47 @@ const filterCourse = (score: number) => {
 
 const { data: courseData } = await useAPI<CourseModel[]>("/course");
 const {$toast} = useNuxtApp();
+const oicValue = ref('MARIANNE DAPHNE B. VILLAHERMOSA');
 const print = (data: GenerateSlip[]) => {
 
   const hasEmptyCourse = data.some(item => !item.course || item.course.trim() === '');
   
+  
+
   if (hasEmptyCourse) {
     $toast.error('One or more examinees have no course selected');
     return; 
   }
   
-  printBulkSlip(data)
+  printBulkSlip(data,oicValue.value)
 };
 
+const oic = [
+    {
+        name: 'SOPHIA ANNE P. ARIAS, RPM',
+        value: 'SOPHIA ANNE P. ARIAS, RPM'
+    },
+    {
+        name: 'GLYZA P. LASTICO, MSC, RPM',
+        value: 'GLYZA P. LASTICO, MSC, RPM'
+    },
+    {
+        name: 'MARIANNE DAPHNE B. VILLAHERMOSA',
+        value: 'MARIANNE DAPHNE B. VILLAHERMOSA'
+    },
+
+]
 </script>
 
 <template>
 
   <UITables :data="data" :columns="columns">
     <template #action>
+      <div class="flex items-center gap-2">
+        <label class="font-semibold">OIC:</label>
+        <USelect v-model="oicValue"  color="gray" :options="oic" option-attribute="name" />
+      </div>
+      
       <UButton icon="fluent:print-16-regular" @click="print(data)" color="gray" size="md" :ui="BTN_PRINT_DATA">
         PRINT SCORE SLIP
       </UButton>

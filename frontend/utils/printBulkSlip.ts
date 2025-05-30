@@ -9,7 +9,7 @@ import "~/assets/fonts/frankin-book-normal";
 import "~/assets/fonts/franklin-bold-bold";
 
 
-export const printBulkSlip = (data: GenerateSlip[]) => {
+export const printBulkSlip = (data: GenerateSlip[],oic:string) => {
     const doc = new jsPDF({
         unit: "px",
         format: "letter",
@@ -178,7 +178,7 @@ export const printBulkSlip = (data: GenerateSlip[]) => {
                 doc.setFont("frankin-book", "normal");
                 const formattedName = name.replace(/\./g, '. ').replace(/,/g, ', ').trim();
                 doc.text(formattedName, offsetX + 75, y);
-                doc.line(offsetX + 75, y + 3, offsetX + 75 + doc.getTextWidth(formattedName), y + 3);
+                doc.line(offsetX + 75, y + 3, offsetX + 200, y + 3);
             } else {
                 doc.line(offsetX + 75, y + 3, offsetX + 200, y + 3);
             }
@@ -190,7 +190,7 @@ export const printBulkSlip = (data: GenerateSlip[]) => {
         };
 
         // Add signature sections
-        addSignatureSection("Checked by", "MARIANNE DAPHNE B.VILLAHERMOSA", "Guidance Personnel In-Charge", offsetY + 190);
+        addSignatureSection("Checked by", `${oic}`, "Guidance Personnel In-Charge", offsetY + 190);
         addSignatureSection("Noted by", "", "ROVI D.SILOTERIO,MAED,RGC", offsetY + 220);
         addSignatureSection("Approved By", "", "PROGRAM HEAD/DEAN", offsetY + 260);
     };
