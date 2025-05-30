@@ -14,6 +14,9 @@ export const fetchExaminees = async () => {
     where: {
       role: "examinee",
     },
+    orderBy: {
+      createdAt : 'desc'
+    }
   });
 };
 

@@ -26,7 +26,7 @@ export const printBulkSlip = (data: GenerateSlip[],oic:string) => {
     const month = monthNames[today.getMonth()];
     const year = today.getFullYear();
     
-    const formattedDate = `${month}-${day}-${year}`;
+    const formattedDate = `${month} ${day} ${year}`;
     const pageWidth = doc.internal.pageSize.getWidth();
     const pageHeight = doc.internal.pageSize.getHeight();
     const slipsPerPage = 4;

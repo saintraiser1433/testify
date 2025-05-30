@@ -162,7 +162,6 @@ const validateExamineeData = (rows: any[]): Promise<any[]> => {
       
       if (middleName && !/^[a-zA-Z]$/.test(middleName)) {
         middleName = middleName.charAt(0);
-        $toast.warning(`Row ${index + 2}: Middle name was truncated to first character`);
       }
 
       
