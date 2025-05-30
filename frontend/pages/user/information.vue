@@ -21,15 +21,15 @@ const inf = JSON.parse(info.value);
 const dateNow = computed(() => $datefns.format(new Date(), "MMMM d, yyyy"));
 
 //submit information
-const followUp = repository<ApiResponse<Followup>>($api);
-const onSubmit = async (onResponse: Followup) => {
+const followUp = repository<ApiResponse<FollowupModel>>($api);
+const onSubmit = async (onResponse: Partial<FollowupModel>) => {
   try {
     if (inf) {
       const data = {
         ...onResponse,
-        ...{ examinee_id: inf.id },
+        ...{ examinee_id: String(inf.id) },
       };
-      const response = await followUp.addFollowup(data);
+      const response = await followUp.addFollowup(data as FollowupModel);
       if (response.status === 201) {
         await navigateTo({ name: "user-exam" });
       }
@@ -42,7 +42,7 @@ const onSubmit = async (onResponse: Followup) => {
 };
 </script>
 <template>
-  <div class="lg:w-8/12 mx-auto pb-14 translate-y-0 py-0 lg:translate-y-1/4">
+  <div class="lg:w-1/4 mx-auto pb-14 translate-y-0 py-0 lg:translate-y-1/4">
     <UICard :body="{ padding: 'sm:px-4' }" :header="{ padding: 'sm:p-0 p-0' }">
       <template #header>
         <UserDashboardHeader>

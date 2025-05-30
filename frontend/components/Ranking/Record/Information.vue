@@ -36,15 +36,15 @@ defineProps({
         </div>
         <div class="grid grid-cols-12 text-sm p-3 capitalize">
           <div class="col-span-4 font-semibold">First Name:</div>
-          <div class="col-span-8">{{ data.first_name }}</div>
+          <div class="col-span-8">{{ data.first_name.toUpperCase() }}</div>
           <div class="col-span-4 font-semibold">Middle Name:</div>
-          <div class="col-span-8">{{ data.middle_name }}</div>
+          <div class="col-span-8">{{ data.middle_name.toUpperCase() }}</div>
           <div class="col-span-4 font-semibold">Last Name:</div>
-          <div class="col-span-8">{{ data.last_name }}</div>
+          <div class="col-span-8">{{ data.last_name.toUpperCase() }}</div>
           <div class="col-span-4 font-semibold">Gender:</div>
-          <div class="col-span-8">{{ data.gender }}</div>
+          <div class="col-span-8">{{ data.gender.toUpperCase() }}</div>
           <div class="col-span-4 font-semibold">From School:</div>
-          <div class="col-span-8 capitalize">{{ data.school }}</div>
+          <div class="col-span-8 capitalize">{{ data.school.toUpperCase() }}</div>
           <div class="col-span-4 font-semibold">Contact:</div>
           <div class="col-span-8">{{ data.contact_number }}</div>
         </div>

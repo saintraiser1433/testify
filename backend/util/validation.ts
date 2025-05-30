@@ -14,21 +14,19 @@ import {
 export const examineeValidation = {
     insert: (data: ExamineeModel) => {
         const schema = Joi.object({
-            first_name: Joi.string().min(3).required().messages({
+            first_name: Joi.string().required().messages({
                 "string.base": `First Name should be a type of 'text'`,
                 "string.empty": `First Name cannot be empty`,
                 "string.min": `First Name should have a minimum length of {#limit}`,
                 "string.required": `First Name cannot be null or empty`,
             }),
-            last_name: Joi.string().min(3).required().messages({
+            last_name: Joi.string().required().messages({
                 "string.base": `Last Name should be a type of 'text'`,
                 "string.empty": `Last Name cannot be empty`,
                 "string.min": `Last Name should have a minimum length of {#limit}`,
                 "string.required": `Last Name cannot be null or empty`,
             }),
-            middle_name: Joi.string().min(1).required().messages({
-                "any.required": `Middle Name cannot be null or empty`,
-            }),
+            middle_name: Joi.string().allow('').optional(),
             username: Joi.string().min(3).required().messages({
                 "any.required": `Username cannot be null or empty`,
             }),
@@ -242,7 +240,7 @@ export const deansValidation = {
             last_name: Joi.string().min(1).optional().messages({
                 "string.min": `Last Name cannot be empty`,
             }),
-            middle_name: Joi.string().min(1).optional().messages({
+            middle_name: Joi.string().optional().messages({
                 "string.min": `Middle Name cannot be empty`,
             }),
             username: Joi.string().min(1).optional().messages({

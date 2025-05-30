@@ -1,3 +1,4 @@
+import { ExamineeModel } from "../models";
 import prisma from "../prisma/prisma";
 
 export const fetchExaminees = async () => {
@@ -8,7 +9,7 @@ export const fetchExaminees = async () => {
       last_name: true,
       middle_name: true,
       username: true,
-      password:true
+      password: true
     },
     where: {
       role: "examinee",
@@ -19,38 +20,42 @@ export const fetchExaminees = async () => {
 export const findExamineeByName = async (
   first_name: string,
   last_name: string,
-  middle_name: string
 ) => {
-  return await prisma.user.findFirst({
+  const examinees = await prisma.user.findMany({
     where: {
-      AND: [
-        {
-          first_name: {
-            startsWith: first_name,
-            mode: "insensitive",
-          },
-        },
-        {
-          last_name: {
-            startsWith: last_name,
-            mode: "insensitive",
-          },
-        },
-        {
-          middle_name: {
-            startsWith: middle_name,
-            mode: "insensitive",
-          },
-        },
-        { role: "examinee" },
-      ],
+      role: "examinee",
     },
   });
+
+  const inputFullName = (first_name + last_name)
+    .replace(/\s+/g, '')
+    .toLowerCase();
+
+  return examinees.find(user => {
+    const userFullName =
+      ((user.first_name ?? '') + (user.last_name ?? ''))
+        .replace(/\s+/g, '')
+        .toLowerCase();
+
+    return userFullName === inputFullName;
+  });
 };
+
+
+
 
 export const getExamineeById = async (id: string) => {
   return await prisma.user.findUnique({
     where: { id }
+  })
+}
+
+export const createBulkExaminee = async (data: ExamineeModel[]) => {
+  return await prisma.user.createMany({
+    data: data.map(examinee => ({
+      ...examinee,
+      role: 'examinee'
+    }))
   })
 }
 

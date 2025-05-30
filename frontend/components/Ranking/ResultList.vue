@@ -31,6 +31,10 @@ const columns = [
     sortable: false,
   },
 ];
+
+const emits = defineEmits<{
+  (e: "dataSlip", payload: GenerateSlip[]): void;
+}>();
 const props = defineProps({
   data: {
     type: Object as PropType<AllResults[]>,
@@ -44,10 +48,21 @@ const props = defineProps({
   },
 });
 const { data } = toRefs(props);
-
+const selected = ref<ScoredExaminee[]>([]);
 const concatName = (fname: string, lname: string, mname: string) => {
   const mnames = mname ? mname[0] : "";
-  return `${lname}, ${fname} ${mnames}.`;
+  return `${lname.toUpperCase()}, ${fname.toUpperCase()} ${mnames.toUpperCase()}.`;
+};
+
+const generateSlip = () => {
+  const slips = selected.value.map((item) => ({
+    examinee_id: item.examinee_id,
+    fullname: concatName(item.first_name, item.last_name, item.middle_name),
+    course: "",
+    score: item.totalCorrect,
+  }));
+
+  emits("dataSlip", slips);
 };
 
 const exportToExcel = () => {
@@ -84,16 +99,32 @@ const exportToExcel = () => {
     </template>
 
     <template #default>
-      <UITables :is-loading="isLoading" :data="data" :columns="columns">
+      <UITables
+        v-model="selected"
+        :has-selectable="true"
+        :is-loading="isLoading"
+        :data="data"
+        :columns="columns"
+      >
         <template #action>
           <UButton
-            icon="i-flat-color-icons-print"
-            @click="exportToExcel"
+            v-if="selected.length > 0"
+            icon="fluent:print-16-regular"
             color="gray"
+            @click="generateSlip"
             size="md"
             :ui="BTN_PRINT_DATA"
           >
-            PRINT
+            GENERATE SCORE SLIP
+          </UButton>
+          <UButton
+            icon="ant-design:file-excel-outlined"
+            @click="exportToExcel"
+            color="gray"
+            size="md"
+            :ui="BTN_IMPORT"
+          >
+            EXPORT TO EXCEL
           </UButton>
         </template>
         <template #increment-data="{ row, index }">
@@ -118,7 +149,11 @@ const exportToExcel = () => {
             <template #indicator="{ percent }">
               <div
                 class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-bold text-xs lg:text-sm"
-                :class="percent < 20 ? 'text-secondaryColor-950 dark:text-gray-300' : 'text-white'"
+                :class="
+                  percent < 20
+                    ? 'text-secondaryColor-950 dark:text-gray-300'
+                    : 'text-white'
+                "
               >
                 {{ parseFloat(percent).toFixed(2) }}%
               </div>

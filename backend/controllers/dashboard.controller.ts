@@ -1,6 +1,6 @@
 // controllers/summaryController.ts
 import { Request, Response, NextFunction } from 'express';
-import { getCoursePassedFunc, getExamCount, getExamPassed, getQuestionPercentage, getRegisteredVsCompletedExaminees }
+import { getCoursePassedByGender, getCoursePassedFunc, getExamCount, getExamPassed, getQuestionPercentage, getRegisteredVsCompletedExaminees }
   from '../services/dashboard.services';
 import { allResult } from '../services/results.services';
 import { getCourse } from '../services/course.services';
@@ -20,6 +20,7 @@ export const getTotalSummary = async (
       getCourse()
     ]);
     const getCoursePassed = await getCoursePassedFunc(allResults, allCourses);
+    const getCoursePassedGender = await getCoursePassedByGender(allResults, allCourses);
     const registeredExaminee = summary.reduce((a, b) => a + b.Registered, 0);
     const completedExaminee = summary.reduce((a, b) => a + b.Completed, 0);
     const courseCount = allCourses.length;
@@ -34,6 +35,7 @@ export const getTotalSummary = async (
       dailyRegisterVsCompleted: summary,
       summaryQuestions: summaryQuestions,
       coursesPassed: Object.values(getCoursePassed),
+      courseGender: Object.values(getCoursePassedGender),
       examPassed: examPassed
     };
 

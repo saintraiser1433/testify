@@ -118,11 +118,11 @@ export interface AuthModel {
 
 
 export interface DecodedPayload {
-    id: string;
-    email: string | null;
-    first_name: string;
+    id: string,
+    email: string | null,
+    first_name: string,
     last_name: string,
-    middle_name: string,
+    middle_name: string | null,
     role: string
 
 }
@@ -196,9 +196,8 @@ export interface FollowUpModel {
     birth_date: string,
     contact_number: string,
     school: string,
-    email: string,
     address: string
-    examDate?:string
+    email: string,
 }
 export interface UserInformation extends FollowUpModel, TheTotal {
     examinee_id: true,

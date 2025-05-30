@@ -127,3 +127,26 @@ export const getCoursePassedFunc = async (allResults: any[], allCourses: any[]) 
     return group;
   }, {});
 };
+
+export const getCoursePassedByGender = async (allResults: any[], allCourses: any[]) => {
+  return allCourses.map((course) => {
+    const courseResult = {
+      name: course.description,
+      male: 0,
+      female: 0
+    };
+
+    allResults.forEach((result) => {
+      const isPassed = result.totalCorrect >= course.score;
+      if (isPassed) {
+        if (result.gender === 'Male') {
+          courseResult.male++;
+        } else if (result.gender === 'Female') {
+          courseResult.female++;
+        }
+      }
+    });
+
+    return courseResult;
+  });
+};

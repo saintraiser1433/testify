@@ -55,7 +55,7 @@ const dateNow = computed(() =>
                     <span class="font-bold">{{ index + 1 }}</span>
                 </template>
                 <template #description-data="{ row, index }">
-                    <span class="capitalize">{{ row.description }}</span>
+                    <span class="capitalize">{{ row.description.toUpperCase() }}</span>
                 </template>
                 <template #actions-data="{ row, index }">
                     <div class="flex gap-1">

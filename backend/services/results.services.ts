@@ -76,7 +76,7 @@ export const listOfQuestionsSummary = async () => {
                         status: true,
                         answersList: {
                             select: {
-                                examinee_id:true,
+                                examinee_id: true,
                                 choices_id: true,
                             }
                         }
@@ -117,11 +117,9 @@ export const userInformation = async (id: string) => {
                 followupData: {
                     select: {
                         gender: true,
-                        birth_date: true,
                         contact_number: true,
                         school: true,
-                        email: true,
-                        address: true
+                        strand: true
                     }
                 }
             },
@@ -220,7 +218,7 @@ export const groupSummaryByExam = async (data: Question[]) => {
 
 // 
 
-export const allResult = async () : Promise<UserInformation[]> => {
+export const allResult = async (): Promise<UserInformation[]> => {
     try {
         const [result, countQuestions] = await Promise.all([
             prisma.question.findMany({
@@ -265,7 +263,7 @@ export const allResult = async () : Promise<UserInformation[]> => {
             }),
         ]);
 
- 
+
         const map = result.reduce((group: any, item: any) => {
             item.choicesList.forEach((choice: any) => {
                 choice.answersList.forEach((answer: any) => {
@@ -285,7 +283,7 @@ export const allResult = async () : Promise<UserInformation[]> => {
                             contact_number: answer.examineeList.followupData[0]?.contact_number || '',
                             gender: answer.examineeList.followupData[0]?.gender || '',
                             totalCorrect: 0,
-                            examDate:answer.createdAt,
+                            examDate: answer.createdAt,
                             totalQuestions: countQuestions._count,
                         };
                     }

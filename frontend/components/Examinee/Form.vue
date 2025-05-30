@@ -24,9 +24,7 @@ const schema = $joi.object({
     last_name: $joi.string().required().messages({
         "any.required": `Last Name is Required`,
     }),
-    middle_name: $joi.string().required().messages({
-        "any.required": `Middle Name is Required`,
-    }),
+    middle_name: $joi.string().allow('').max(1).optional(),
     username: $joi.string().optional(),
     password: $joi.string().optional(),
     id: $joi.string().optional()
@@ -35,12 +33,11 @@ const schema = $joi.object({
 const onSubmit = async (event: FormSubmitEvent<User>) => {
     let data: User;
     const random5DigitNumber = Math.floor(10000 + Math.random() * 90000);
-    const username = `${event.data.last_name?.toLowerCase()}_${event.data.first_name?.[0].toLowerCase()}_${random5DigitNumber}`;
-
+    const username = `${event.data.last_name?.toLowerCase().replace(/\s+/g, '')}_${event.data.first_name?.[0].toLowerCase().replace(/\s+/g, '')}_${random5DigitNumber}`;
     if (!isUpdate.value) {
         data = {
             ...event.data,
-            username: username,
+            username,
             password: $password()
         }
     } else {
@@ -62,7 +59,7 @@ const onSubmit = async (event: FormSubmitEvent<User>) => {
         <UFormGroup label="Last Name" name="last_name" required>
             <UInput v-model="model.last_name" color="gray" :ui="{ base: 'capitalize' }" />
         </UFormGroup>
-        <UFormGroup label="Middle Name" name="middle_name" required>
+        <UFormGroup label="Middle Name" name="middle_name">
             <UInput v-model="model.middle_name" color="gray" :ui="{ base: 'capitalize' }" />
         </UFormGroup>
         <UButton type="submit" block color="gray" size="md" :ui="{
