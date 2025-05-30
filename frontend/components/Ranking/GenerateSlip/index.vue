@@ -30,9 +30,10 @@ const { data: courseData } = await useAPI<CourseModel[]>("/course");
 </script>
 
 <template>
+ 
   <UITables :data="data" :columns="columns">
     <template #action>
-      <UButton icon="fluent:print-16-regular" color="gray" size="md" :ui="BTN_PRINT_DATA">
+      <UButton icon="fluent:print-16-regular" @click="printBulkSlip(data)" color="gray" size="md" :ui="BTN_PRINT_DATA">
         PRINT SCORE SLIP
       </UButton>
     </template>
