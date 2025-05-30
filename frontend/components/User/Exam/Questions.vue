@@ -17,7 +17,7 @@
                 <div class="grid grid-cols-2 gap-5 mt-5">
                     <URadio v-for="(method, index) in row.choices"
                         :disabled="isRadioDisabled"
-                        :ui="{ base: 'cursor-pointer dark:bg-white ', background: 'dark:bg-white' }"
+                        :ui="{ base: 'cursor-pointer dark:bg-white ', background: 'bg-gray-400 dark:bg-white' }"
                         :name="`question-${row.question_id.value}`"
                         @change="handleAnswerChange(row.question_id.value, method.value)" :key="method.value"
                         v-model="sessionData[row.question_id.value]" v-bind="method">
