@@ -17,6 +17,16 @@ export const printBulkSlip = (data: GenerateSlip[]) => {
     });
 
     // Constants for 2x2 grid layout
+    const today = new Date();
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", 
+                        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    
+    // Ensure 2-digit day format
+    const day = String(today.getDate()).padStart(2, '0');
+    const month = monthNames[today.getMonth()];
+    const year = today.getFullYear();
+    
+    const formattedDate = `${month}-${day}-${year}`;
     const pageWidth = doc.internal.pageSize.getWidth();
     const pageHeight = doc.internal.pageSize.getHeight();
     const slipsPerPage = 4;
@@ -58,7 +68,7 @@ export const printBulkSlip = (data: GenerateSlip[]) => {
         doc.setFont("frankin-book", "normal");
         doc.setFontSize(10);
         doc.setTextColor(0, 0, 0);
-        const dateText = `Date: May-01-2025`;
+        const dateText = `Date: ${formattedDate}`;
         doc.text(dateText, offsetX + 10, offsetY + 80);
         doc.line(offsetX + 10, offsetY + 82, offsetX + 10 + doc.getTextWidth(dateText), offsetY + 82);
 

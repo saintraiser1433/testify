@@ -26,14 +26,28 @@ const filterCourse = (score: number) => {
     .map((item) => item.description.toUpperCase());
 };
 
+
 const { data: courseData } = await useAPI<CourseModel[]>("/course");
+const {$toast} = useNuxtApp();
+const print = (data: GenerateSlip[]) => {
+
+  const hasEmptyCourse = data.some(item => !item.course || item.course.trim() === '');
+  
+  if (hasEmptyCourse) {
+    $toast.error('One or more examinees have no course selected');
+    return; 
+  }
+  
+  printBulkSlip(data)
+};
+
 </script>
 
 <template>
- 
+
   <UITables :data="data" :columns="columns">
     <template #action>
-      <UButton icon="fluent:print-16-regular" @click="printBulkSlip(data)" color="gray" size="md" :ui="BTN_PRINT_DATA">
+      <UButton icon="fluent:print-16-regular" @click="print(data)" color="gray" size="md" :ui="BTN_PRINT_DATA">
         PRINT SCORE SLIP
       </UButton>
     </template>
