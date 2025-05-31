@@ -5,6 +5,7 @@ interface Timestamped {
     updatedAt?: Date;
 }
 
+export type ColorLegend = 'fair' | 'good' | 'vg'  | 'excellent';
 
 
 // Examinee Model
@@ -18,6 +19,7 @@ export interface GenerateSlip {
 export interface ScoredExaminee extends ExamineeInformation {
     totalCorrect: number;
 }
+
 
 // Course Model
 export interface CourseModel extends Timestamped {

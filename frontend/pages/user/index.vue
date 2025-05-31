@@ -45,92 +45,104 @@ const { percentage, hexColor, detail } = usePercentage(summaryScores);
 </script>
 
 <template>
-  <div class="py-5 lg:py-2">
-    <div class="grid grid-cols-12 gap-2">
-      <div class="col-span-12 lg:col-span-3">
-        <UICard :has-footer="true" :header="{ padding: 'sm:p-0 p-0' }">
-          <template #header>
-            <UserDashboardHeader />
-          </template>
-          <div class="flex justify-center relative">
-            <div
-              class="rounded-full h-32 w-32 inline-block p-1 absolute -top-14 bg-white shadow-md"
-            >
-              <svg-icon name="seticons/studentgirl" width="120" height="120"></svg-icon>
-            </div>
+  <div class="grid grid-cols-12 gap-5 container mx-auto py-12">
+    <div class="col-span-12 lg:col-span-8 md:col-span-6 flex flex-col gap-3">
+      <div
+        class="relative bg-gradient-to-r from-emerald-600 to-80% to-indigo-400 flex items-center justify-between py-2 px-10 rounded-md h-48 drop-shadow-lg">
+        <div class="flex items-center gap-5">
+          <div class="bg-white/90 rounded-full p-1 flex items-center">
+            <svg-icon name="seticons/studentgirl" width="100" height="100"></svg-icon>
           </div>
-          <div
-            class="text-center mt-20 text-2xl text-gray-700 border-b border-gray-200 dark:border-gray-700 pb-5"
-          >
-            <h2 class="dark:text-gray-200 text-gray-600 font-bold">Hello!</h2>
-            <h2 class="dark:text-gray-200 text-gray-600 uppercase">{{ examineeName }}</h2>
-          </div>
-          <div
-            class="text-center text-gray-600 dark:text-gray-300 py-5 font-semibold text-2xl gap-1"
-          >
-            <span class="pr-1">Score: </span>
-            <span class="text-danger">{{ summaryScores.correctAnswers }}</span>
-            <span>/{{ summaryScores.totalQuestions }}</span>
-          </div>
-          <h2
-            v-if="!isFinished"
-            class="text-center text-1xl font-semibold pb-2 text-gray-600 dark:text-gray-300"
-          >
-            {{ examAttempts }}
-          </h2>
-          <template #footer>
-            <div
-              v-if="isFinished"
-              class="text-center py-3 text-1xl font-semibold pb-2 uppercase text-gray-800 dark:text-gray-300"
-            >
-              You already taken the exam!
+          <div class="flex flex-col gap-3">
+            <h1 class="text-white font-semibold text-2xl lg:text-3xl ">Hello, Favilla !</h1>
+            <span class="text-white/90  text-lg lg:text-2xl ">RHEKEEN MHEZZAR U.</span>
+            <!-- score section -->
+            <div class="flex items-center gap-2">
+              <i-humbleicons:crown class="text-white font-bold" width="32" height="32" />
+              <span class="text-white/90  text-2xl lg:text-2xl font-semibold">69/72</span>
+              <UButton color="emerald" class="ml-2 px-5" :ui="{ rounded: 'rounded-full' }">Excellent</UButton>
             </div>
-            <div v-else>
-              <UButton
-                type="button"
-                :to="{ name: 'user-information' }"
-                color="gray"
-                size="lg"
-                block
-                :ui="BTN_TAKE_EXAM"
-              >
-                TAKE THE EXAM
-              </UButton>
-            </div>
-          </template>
-        </UICard>
+            <!-- end score -->
+          </div>
+        </div>
+        <NuxtImg src="/bg-image/herobg.png" fit="cover" height="180" class="mb-4 hidden md:flex lg:flex" alt="Hero Bg"
+          loading="lazy"></NuxtImg>
+
       </div>
-      <div class="col-span-12 lg:col-span-9">
-        <UICard :body="{ padding: 'sm:p-0' }" :header="{ padding: 'sm:p-0 p-0' }">
-          <template #header>
-            <UserDashboardHeader>
-              <h2 class="text-gray-100 font-bold uppercase">STATISTICAL DASHBOARD</h2>
-              <svg-icon name="seticons/dashboard" width="48" height="48"></svg-icon>
-            </UserDashboardHeader>
-          </template>
-          <UserDashboardStatiscal
-            :summary-data="summaryData?.examDetails"
-            :is-loading="statuses === 'pending'"
-            :percentage="percentage"
-            :hex-color="hexColor"
-            :label="detail"
-          />
-        </UICard>
-      </div>
-      <div class="col-span-12">
-        <UICard :header="{ padding: 'sm:p-0 p-0' }" :body="{ padding: 'sm:p-0 p-0' }">
-          <template #header>
-            <UserDashboardHeader>
-              <h2 class="text-gray-100 font-bold uppercase">MY RECOMMENDED COURSES</h2>
-              <svg-icon name="seticons/course" width="48" height="48"></svg-icon>
-            </UserDashboardHeader>
-          </template>
-          <UserDashboardCourseList
-            :is-loading="statuses === 'pending'"
-            :course-data="courseData"
-          />
-        </UICard>
-      </div>
+      <UICustomCard>
+        <template #header>
+          <svg-icon name="seticons/dashboard" width="32" height="32" />
+          <h2 class="font-semibold">Performance Analytics</h2>
+        </template>
+        <template #body>
+          <UILegend type="fair">
+            <template #title>
+              Fair
+            </template>
+            <template #description>
+              50% below
+            </template>
+          </UILegend>
+          <UILegend type="good">
+            <template #title>
+              Good
+            </template>
+            <template #description>
+              51-69%
+            </template>
+          </UILegend>
+          <UILegend type="vg">
+            <template #title>
+              Very Good
+            </template>
+            <template #description>
+              70-89%
+            </template>
+          </UILegend>
+          <UILegend type="excellent">
+            <template #title>
+              Excellent
+            </template>
+            <template #description>
+              90-100%
+            </template>
+          </UILegend>
+
+        </template>
+      </UICustomCard>
+      <UICustomCard>
+        <template #header>
+          <svg-icon name="seticons/course" width="32" height="32" />
+          <h2 class="font-semibold">Recommended Courses</h2>
+        </template>
+        <template #body>
+          <div class="flex items-center p-2 bg-gray/50">
+            asdasda
+          </div>
+        </template>
+      </UICustomCard>
     </div>
+    <div class="col-span-12 lg:col-span-4 md:col-span-6 flex flex-col gap-3">
+      <UICustomCard>
+        <template #header>
+          <svg-icon name="seticons/star" width="32" height="32" />
+          <h2 class="font-semibold">Your Rating</h2>
+        </template>
+        <template #body>
+
+        </template>
+      </UICustomCard>
+      <UICustomCard>
+        <template #header>
+          <svg-icon name="seticons/stats" width="32" height="32" />
+          <h2 class="font-semibold">Quick Stats</h2>
+        </template>
+        <template #body>
+
+        </template>
+      </UICustomCard>
+
+    </div>
+
   </div>
 </template>
