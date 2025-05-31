@@ -19,6 +19,8 @@ export const useExamineeSummary = (data?: SummaryResult, dataCourse?: CourseMode
     });
 
 
+
+
     const courseData = computed(() => {
         if (!dataCourse || !summaryData.value) return [];
         return dataCourse.filter((item) => item.score <= (summaryScores.value.correctAnswers));
@@ -34,7 +36,7 @@ export const useExamineeSummary = (data?: SummaryResult, dataCourse?: CourseMode
     const examAttempts = computed(() => {
         const examAttempt = summaryData.value?.examineeAttempt ?? 0;
         const examCnt = summaryData.value?.totalExams ?? 0;
-        return `Exam Finished ${examAttempt} out of ${examCnt}`;
+        return `${examAttempt} / ${examCnt}`;
     });
 
 

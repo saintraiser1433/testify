@@ -245,6 +245,11 @@ export const repository = <T>(fetch: $Fetch<T, NitroFetchRequest>) => ({
         return fetch<SummaryResult>(`/results/${id}`)
     },
 
+    async getExamineeRankingById(id: string): Promise<{ rank: number }> {
+        return fetch<{ rank: number }>(`/results/rank/${id}`)
+    },
+
+
 
     //dashboard model
 

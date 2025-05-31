@@ -1,4 +1,25 @@
 <script lang="ts" setup>
+const props = defineProps({
+  title: {
+    type: String,
+    default: "",
+  },
+  subtitle: {
+    type: String,
+    default: "",
+  },
+  countDown: {
+    type: Number,
+    default: 10,
+  },
+  navigateTo: {
+    type: String,
+    required: true,
+  },
+});
+
+const { countDown, navigateTo } = toRefs(props);
+
 const { remainingTime, startTimerNavigation, clearExistingTimer } = useExamTimer();
 
 const colorUnfilled = computed(() => {
@@ -9,7 +30,7 @@ const colorUnfilled = computed(() => {
 });
 
 onMounted(() => {
-  startTimerNavigation(10, "user");
+  startTimerNavigation(countDown.value, navigateTo.value);
 });
 
 onUnmounted(() => {
@@ -28,8 +49,8 @@ onUnmounted(() => {
       :background="{ base: 'dark:bg-gray-800' }"
     >
       <div class="flex flex-col justify-center items-center text-center gap-5">
-        <h1 class="font-bold">Thank you for completing the exam!</h1>
-        <h3 class="font-normal">We are redirecting you to the home page in:</h3>
+        <h2 class="font-semibold">{{ title }}</h2>
+        <h3 class="font-normal">{{ subtitle }}</h3>
         <CircleProgressBar
           stroke-width="16"
           size="200"
@@ -40,7 +61,7 @@ onUnmounted(() => {
           :max="10"
           rounded
         >
-          <h1 class="font-bold">{{ remainingTime }}</h1>
+          <h1 class="font-semibold">{{ remainingTime }}</h1>
         </CircleProgressBar>
       </div>
     </UICard>

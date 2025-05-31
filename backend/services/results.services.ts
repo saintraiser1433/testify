@@ -304,3 +304,63 @@ export const allResult = async (): Promise<UserInformation[]> => {
         throw err; // Throw the error to be handled by the caller
     }
 };
+
+
+
+
+export const getExamineeRankById = async (examineeId: string): Promise<{ rank: number }> => {
+    try {
+        // Only fetch the minimal data needed to calculate scores
+        const answers = await prisma.answers.findMany({
+            select: {
+                examinee_id: true,
+                choicesList: {
+                    select: {
+                        choices_id: true,
+                        status: true,
+                    },
+                },
+            },
+        });
+
+        // Calculate scores for all examinees
+        const scores: Record<string, number> = {};
+
+        answers.forEach(answer => {
+            const currentExamineeId = answer.examinee_id;
+            const isCorrect = answer.choicesList.status && answer.choicesList.choices_id === answer.choicesList.choices_id;
+
+            if (!scores[currentExamineeId]) {
+                scores[currentExamineeId] = 0;
+            }
+
+            if (isCorrect) {
+                scores[currentExamineeId]++;
+            }
+        });
+
+        // Convert to array and sort by score (descending)
+        const examinees = Object.entries(scores).map(([id, score]) => ({ id, score }));
+        examinees.sort((a, b) => b.score - a.score);
+
+        // Calculate ranks with ties
+        let currentRank = 1;
+        const rankedExaminees = examinees.map((examinee, index) => {
+            // If not first element and score is different from previous, update currentRank
+            if (index > 0 && examinee.score !== examinees[index - 1].score) {
+                currentRank = index + 1;
+            }
+            return {
+                ...examinee,
+                rank: currentRank
+            };
+        });
+
+        // Find the examinee's rank
+        const examineeRank = rankedExaminees.find(e => e.id === examineeId)?.rank ?? 0;
+
+        return { rank: examineeRank };
+    } catch (err) {
+        throw err;
+    }
+};

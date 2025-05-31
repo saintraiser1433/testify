@@ -5,7 +5,7 @@ interface Timestamped {
     updatedAt?: Date;
 }
 
-export type ColorLegend = 'fair' | 'good' | 'vg'  | 'excellent';
+export type ColorLegend = 'fair' | 'good' | 'vg' | 'excellent';
 
 
 // Examinee Model
@@ -385,7 +385,7 @@ export interface LegendModel {
 type LegendColor = 'red' | 'orange' | 'amber' | 'yellow' | 'lime' | 'green' | 'emerald' | 'teal' | 'rose' | 'primary' | 'carnation' | 'cyan'
 
 
-export type ProgressColor = 'rose' | 'primary' | 'cyan' | 'emerald';
+export type ProgressColor = 'rose' | 'primary' | 'cyan' | 'emerald' | 'yellow' | 'indigo';
 
 
 

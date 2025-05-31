@@ -1,8 +1,16 @@
 import { NextFunction, Request, Response } from "express";
-import { listOfQuestionsById, userInformation, countAttempt, countOfExam, allResult, groupSummaryByExam } from "../services/results.services";
+import { listOfQuestionsById, userInformation, countAttempt, countOfExam, allResult, groupSummaryByExam, getExamineeRankById } from "../services/results.services";
 
 
-
+export const fetchExamineeRank = async (req: Request, res: Response, next: NextFunction): Promise<Response | void> => {
+  const id = req.params.examineeId;
+  try {
+    const result = await getExamineeRankById(id);
+    return res.status(200).json(result);
+  } catch (err) {
+    next(err);
+  }
+}
 
 export const getSummaryByExaminee = async (req: Request, res: Response, next: NextFunction): Promise<Response | void> => {
   const id = req.params.examineeId;

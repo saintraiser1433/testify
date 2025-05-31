@@ -55,10 +55,10 @@ export const useExam = (
                     await sessionExamRepo.deleteExamSession(submitData);
                 }
 
- 
+
                 shouldRefetch.value++;
-               
-       
+
+
 
             }
         } catch (error) {
