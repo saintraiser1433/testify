@@ -72,7 +72,9 @@ const averageSuccessRate = computed(() => {
 const firstMiddleName = computed(
   () =>
     `${data.value?.summaryData.first_name} ${
-      data.value?.summaryData.middle_name ? data.value?.summaryData.middle_name[0] : ""
+      data.value?.summaryData.middle_name
+        ? `${data.value?.summaryData.middle_name[0]}.`
+        : ""
     }`
 );
 
@@ -83,6 +85,21 @@ const ranking = computed(() =>
 const { percentage, colors, detail, hexColor, description } = usePercentage(
   summaryScores
 );
+const items = ["/news/1.jpg", "/news/2.jpg", "/news/3.jpg", "/news/4.jpg", "/news/5.jpg"];
+
+const carouselRef = ref();
+
+onMounted(() => {
+  setInterval(() => {
+    if (!carouselRef.value) return;
+
+    if (carouselRef.value.page === carouselRef.value.pages) {
+      return carouselRef.value.select(0);
+    }
+
+    carouselRef.value.next();
+  }, 5000);
+});
 </script>
 
 <template>
@@ -134,9 +151,13 @@ const { percentage, colors, detail, hexColor, description } = usePercentage(
             :ui="{
               base: 'text-center',
               inline: 'inline-block',
+              variant: {
+                solid: 'dark:bg-white',
+              },
             }"
             class="py-2 px-4"
             color="gray"
+            variant="solid"
             >TAKE THE EXAM</UButton
           >
         </div>
@@ -200,7 +221,7 @@ const { percentage, colors, detail, hexColor, description } = usePercentage(
               :description="item.description"
             >
               <template #trailing-right
-                ><i-simple-icons:discourse class="text-gray-500"
+                ><i-simple-icons:discourse class="text-gray-500 dark:text-gray-700"
               /></template>
             </UserDashboardCardList>
           </div>
@@ -232,9 +253,11 @@ const { percentage, colors, detail, hexColor, description } = usePercentage(
                 height="32"
               />
             </CircleProgressBar>
-            <UBadge :color="colors as ProgressColor" class="py-2 px-10 text-lg">{{
-              detail
-            }}</UBadge>
+            <UBadge
+              :color="colors as ProgressColor"
+              class="py-2 px-10 text-lg dark:text-white/90"
+              >{{ detail }}</UBadge
+            >
             <h4 v-if="description" class="pt-3 font-semibold text-center">
               {{ description }}
             </h4>
@@ -258,6 +281,24 @@ const { percentage, colors, detail, hexColor, description } = usePercentage(
               <template #trailing-right> {{ ranking }}</template>
             </UserDashboardCardList>
           </div>
+        </template>
+      </UICustomCard>
+      <UICustomCard>
+        <template #header>
+          <svg-icon name="seticons/bulletin" width="32" height="32" />
+          <h2 class="font-semibold">Bulletin Board</h2>
+        </template>
+        <template #body>
+          <UCarousel
+            ref="carouselRef"
+            v-slot="{ item }"
+            :items="items"
+            :ui="{ item: 'basis-full' }"
+            class="rounded-lg overflow-hidden"
+            indicators
+          >
+            <img :src="item" class="w-full" draggable="false" />
+          </UCarousel>
         </template>
       </UICustomCard>
     </div>

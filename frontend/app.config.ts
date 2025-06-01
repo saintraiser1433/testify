@@ -5,6 +5,11 @@ export default defineAppConfig({
             default: {
                 color: 'primary'
 
+            },
+            color: {
+                gray: {
+                    solid: 'dark:bg-gray-100 dark:text-black'
+                }
             }
         },
         select: {

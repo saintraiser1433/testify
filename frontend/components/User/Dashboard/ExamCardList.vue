@@ -32,8 +32,8 @@ defineProps({
     <div class="flex items-center gap-3 flex-1">
       <i-humbleicons:crown class="text-emerald-500 font-bold" width="32" height="32" />
       <div class="flex flex-col gap-1 justify-center">
-        <h4 class="font-semibold uppercase">{{ title }}</h4>
-        <span class="text-sm font-semibold text-gray-500"
+        <h4 class="font-semibold uppercase dark:text-white">{{ title }}</h4>
+        <span class="text-sm font-semibold text-gray-500 dark:text-white/50"
           >{{ correctAnswer }}/{{ totalAnswer }} points</span
         >
       </div>
@@ -48,7 +48,9 @@ defineProps({
           },
         }"
       />
-      <UBadge color="gray" variant="solid">{{ successRate }}%</UBadge>
+      <UBadge color="gray" variant="outline">
+        <span :class="`text-${color}-500`" class="font-semibold">{{ successRate }}%</span>
+      </UBadge>
     </div>
   </div>
 </template>

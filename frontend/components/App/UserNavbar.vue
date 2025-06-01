@@ -47,7 +47,7 @@ const colorPreferenceText = computed(() => {
     <div v-if="!checkRoute" class="mx-auto flex justify-between px-5">
       <div class="flex items-center gap-2">
         <span class="sprite sprite-small-lg ml-2"></span>
-        <h2 class="font-semibold">Testify</h2>
+        <h2 class="font-semibold">TESTIFY</h2>
       </div>
 
       <ul class="flex justify-between items-center gap-3">
