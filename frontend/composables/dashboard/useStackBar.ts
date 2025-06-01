@@ -7,7 +7,7 @@ export const useStackedBarChart = () => {
   const optionStackedBar = (data: Ref<any[]>) => {
     // Extract job names for xAxis
     const jobNames = data.value.map(item => item.name);
-  
+
     // Define series for each status with proper typing
     const statuses = ['male', 'female'];
     const series: BarSeriesOption[] = statuses.map((status, index) => ({
@@ -17,8 +17,8 @@ export const useStackedBarChart = () => {
       emphasis: { focus: 'series' },
       data: data.value.map(item => item[status]),
       itemStyle: {
-        color: shadcnPalette[index+1],
-        shadowColor: shadowPalette[index+1],
+        color: shadcnPalette[index + 1],
+        shadowColor: shadowPalette[index + 1],
         borderRadius: [4, 4, 0, 0],
       },
       barWidth: '60%',
@@ -63,7 +63,7 @@ export const useStackedBarChart = () => {
       xAxis: {
         type: 'category',
         data: jobNames,
-        axisLabel: { 
+        axisLabel: {
           color: '#666',
           rotate: 30, // Rotate labels if they're long
           interval: 0 // Show all labels

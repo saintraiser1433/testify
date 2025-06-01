@@ -8,7 +8,7 @@ defineProps({
 </script>
 
 <template>
-  <div class="bg-white p-2 rounded-md drop-shadow-lg dark:bg-darken">
+  <div class="bg-white rounded-md p-2 drop-shadow-lg dark:bg-darken">
     <!-- header  -->
     <div v-if="hasHeader">
       <div class="flex items-center gap-2 p-2">
@@ -24,7 +24,7 @@ defineProps({
     </div>
 
     <!--  end header -->
-    <div class="px-3 py-2">
+    <div class="py-2">
       <slot name="body"></slot>
     </div>
   </div>

@@ -85,7 +85,17 @@ const ranking = computed(() =>
 const { percentage, colors, detail, hexColor, description } = usePercentage(
   summaryScores
 );
-const items = ["/news/1.jpg", "/news/2.jpg", "/news/3.jpg", "/news/4.jpg", "/news/5.jpg"];
+const items = [
+  "/news/1.jpg",
+  "/news/2.jpg",
+  "/news/5.jpg",
+  "/news/3.jpg",
+  "/news/4.jpg",
+
+  "/news/6.jpg",
+  "/news/7.jpg",
+  "/news/8.jpg",
+];
 
 const carouselRef = ref();
 
@@ -221,7 +231,7 @@ onMounted(() => {
               :description="item.description"
             >
               <template #trailing-right
-                ><i-simple-icons:discourse class="text-gray-500 dark:text-gray-700"
+                ><i-simple-icons:discourse class="text-gray-500 dark:text-gray-100"
               /></template>
             </UserDashboardCardList>
           </div>
@@ -255,7 +265,7 @@ onMounted(() => {
             </CircleProgressBar>
             <UBadge
               :color="colors as ProgressColor"
-              class="py-2 px-10 text-lg dark:text-white/90"
+              class="py-1 mt-2 px-10 text-lg dark:text-white/90"
               >{{ detail }}</UBadge
             >
             <h4 v-if="description" class="pt-3 font-semibold text-center">

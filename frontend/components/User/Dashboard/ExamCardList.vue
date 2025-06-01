@@ -48,7 +48,7 @@ defineProps({
           },
         }"
       />
-      <UBadge color="gray" variant="outline">
+      <UBadge color="gray" variant="solid">
         <span :class="`text-${color}-500`" class="font-semibold">{{ successRate }}%</span>
       </UBadge>
     </div>
