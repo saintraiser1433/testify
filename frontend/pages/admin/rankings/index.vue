@@ -16,7 +16,9 @@ store.setLink(RANKINGS_BREADCRUMBS);
 const slipData = ref<GenerateSlip[]>([]);
 const isOpen = ref(false);
 const statuses = computed(() => status.value === "pending");
-const { data, status, error } = await useAPI<AllResults[]>("/results");
+const { data, status, error } = await useAPI<AllResults[]>("/results", {
+  server: false
+});
 
 if (error.value) {
   $toast.error(error.value.message || "Failed to fetch items");
@@ -63,13 +65,8 @@ const getDataSlip = (data: GenerateSlip[]) => {
       <template #header>
         <div class="flex items-center justify-between">
           <h1 class="text-2xl lg:text-lg font-semibold">Bulk Generate Slip</h1>
-          <UButton
-            color="gray"
-            variant="ghost"
-            icon="i-heroicons-x-mark-20-solid"
-            class="-my-1"
-            @click="isOpen = false"
-          />
+          <UButton color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid" class="-my-1"
+            @click="isOpen = false" />
         </div>
       </template>
       <RankingGenerateSlip :data="slipData" />
@@ -87,11 +84,7 @@ const getDataSlip = (data: GenerateSlip[]) => {
       </Suspense>
     </div>
     <div class="col-span-12 lg:col-span-8">
-      <RankingResultList
-        :is-loading="statuses"
-        :data="dataResults"
-        @data-slip="getDataSlip"
-      />
+      <RankingResultList :is-loading="statuses" :data="dataResults" @data-slip="getDataSlip" />
     </div>
   </div>
 </template>

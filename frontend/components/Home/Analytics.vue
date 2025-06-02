@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 const { optionForNightingale, optionForBarChart, optionForDataSet } = useDashboard();
-const {optionStackedBar} = useStackedBarChart();
+const { optionStackedBar } = useStackedBarChart();
 const props = defineProps({
   successRateCourse: {
     type: Array as PropType<ChartModel[]>,
@@ -16,14 +16,14 @@ const props = defineProps({
   },
   successRateCourseGender: {
     type: Array as PropType<CourseGender[]>,
-    required:true
+    required: true
   }
 
 
 
 })
 
-const { successRateCourse, successRateExam, registerVsCompleted,successRateCourseGender } = toRefs(props);
+const { successRateCourse, successRateExam, registerVsCompleted, successRateCourseGender } = toRefs(props);
 const stackedBarData = optionStackedBar(successRateCourseGender)
 const regVsCompleted = optionForDataSet(registerVsCompleted.value ?? [])
 
@@ -75,8 +75,7 @@ const percentagePassPerExam = optionForBarChart(successRateExam.value ?? [])
   </div>
   <div class="grid grid-cols-12 my-5 gap-3">
     <div class="col-span-12">
-      <UICard :body="{ padding: 'sm:p-0' }" 
-        :defaults="{ base: 'border-b-2 border-emerald-400 overflow-hidden' }">
+      <UICard :body="{ padding: 'sm:p-0' }" :defaults="{ base: 'border-b-2 border-emerald-400 overflow-hidden' }">
         <template #header>
           <div class="flex justify-between items-center p-0">
             <div class="flex flex-col">
@@ -87,12 +86,7 @@ const percentagePassPerExam = optionForBarChart(successRateExam.value ?? [])
 
         </template>
         <div class="w-full h-[400px] relative">
-          <VChart
-            ref="chart"
-            :option="stackedBarData"
-            class="w-full h-full"
-            :auto-resize="true"
-          />
+          <VChart ref="chart" :option="stackedBarData" class="w-full h-full" :auto-resize="true" />
         </div>
 
       </UICard>
@@ -101,8 +95,7 @@ const percentagePassPerExam = optionForBarChart(successRateExam.value ?? [])
   </div>
   <div class="grid grid-cols-12 my-5 gap-3">
     <div class="col-span-12">
-      <UICard :body="{ padding: 'sm:p-0' }" 
-        :defaults="{ base: 'border-b-2 border-emerald-400 overflow-hidden' }">
+      <UICard :body="{ padding: 'sm:p-0' }" :defaults="{ base: 'border-b-2 border-emerald-400 overflow-hidden' }">
         <template #header>
           <div class="flex justify-between items-center p-0">
             <div class="flex flex-col">

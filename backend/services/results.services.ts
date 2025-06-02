@@ -119,7 +119,8 @@ export const userInformation = async (id: string) => {
                         gender: true,
                         contact_number: true,
                         school: true,
-                        strand: true
+                        strand: true,
+                        others:true,
                     }
                 }
             },

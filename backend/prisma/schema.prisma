@@ -150,6 +150,7 @@ model FollowUp {
   contact_number String @unique @db.VarChar(13)
   school         String
   strand         String?
+  others         String?
 
   @@id([examinee_id])
 }

@@ -6,10 +6,22 @@ const columns = [
     sortable: true,
   },
   {
+    key: "score",
+    label: "Score",
+    sortable: true,
+  },
+  {
     key: "course",
     label: "Course",
     sortable: false,
   },
+  {
+    key: "consideration",
+    label: "Consideration",
+    sortable: false,
+    class: "w-2",
+  },
+
 ];
 const props = defineProps({
   data: {
@@ -20,15 +32,13 @@ const props = defineProps({
 });
 const { data } = toRefs(props);
 
-const filterCourse = (score: number) => {
-  return courseData.value
-    ?.filter((item) => item.score <= score)
-    .map((item) => item.description.toUpperCase());
-};
+
 
 const { data: courseData } = await useAPI<CourseModel[]>("/course");
 const { $toast } = useNuxtApp();
 const oicValue = ref("MARIANNE DAPHNE B. VILLAHERMOSA");
+const selectedRows = ref<Record<number, boolean>>({});
+
 const print = (data: GenerateSlip[]) => {
   const hasEmptyCourse = data.some((item) => !item.course || item.course.trim() === "");
 
@@ -39,6 +49,21 @@ const print = (data: GenerateSlip[]) => {
 
   printBulkSlip(data, oicValue.value);
 };
+
+
+
+const filterCourse = (score: number) => {
+  return courseData.value
+    ?.filter((item) => item.score <= score)
+    .map((item) => item.description.toUpperCase());
+};
+const getCourseOptions = (index: number, score: number) => {
+  if (selectedRows.value[index]) {
+    return courseData.value?.map((item) => item.description.toUpperCase()) ?? [];
+  }
+  return filterCourse(score);
+};
+
 
 const oic = [
   {
@@ -64,13 +89,7 @@ const oic = [
         <USelect v-model="oicValue" color="gray" :options="oic" option-attribute="name" />
       </div>
 
-      <UButton
-        icon="fluent:print-16-regular"
-        @click="print(data)"
-        color="gray"
-        size="md"
-        :ui="BTN_PRINT_DATA"
-      >
+      <UButton icon="fluent:print-16-regular" @click="print(data)" color="gray" size="md" :ui="BTN_PRINT_DATA">
         PRINT SCORE SLIP
       </UButton>
     </template>
@@ -78,8 +97,17 @@ const oic = [
     <template #fullname-data="{ row, index }">
       <span class="capitalize">{{ row.fullname }}</span>
     </template>
+    <template #score-data="{ row, index }">
+      <span class="capitalize">{{ row.score }}</span>
+    </template>
     <template #course-data="{ row, index }">
-      <USelect v-model="row.course" :options="filterCourse(row.score)" />
+      <div class="w-[550px]">
+        <USelect size="sm" v-model="row.course" :options="getCourseOptions(index, row.score)" />
+      </div>
+
+    </template>
+    <template #consideration-data="{ row, index }">
+      <UCheckbox v-model="selectedRows[index]" />
     </template>
   </UITables>
 </template>

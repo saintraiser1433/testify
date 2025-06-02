@@ -32,6 +32,7 @@ export const repository = <T>(fetch: $Fetch<T, NitroFetchRequest>) => ({
     },
 
     async getAllCourses(): Promise<CourseModel[]> {
+       
         return fetch<CourseModel[]>(`/course`)
     },
 

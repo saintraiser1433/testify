@@ -135,6 +135,7 @@ export interface FollowupModel {
     strand: string,
     contact_number: string,
     school: string,
+    others:string
 }
 
 
@@ -276,11 +277,10 @@ export interface ExamineeInformation extends AttemptsExam {
     first_name: string,
     last_name: string,
     middle_name: string,
-    birth_date: string,
+    strand: string,
+    others:string,
     gender: 'Male' | 'Female',
     school: string,
-    email: string,
-    address: string,
     contact_number: string,
     examDate: string
 }

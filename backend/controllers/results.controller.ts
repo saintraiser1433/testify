@@ -36,6 +36,7 @@ export const getSummaryByExaminee = async (req: Request, res: Response, next: Ne
       gender: userInfo?.followupData?.[0]?.gender || '',
       school: userInfo?.followupData?.[0]?.school || '',
       strand: userInfo?.followupData?.[0]?.strand || '',
+      others: userInfo?.followupData?.[0]?.others || '',
       contact_number: userInfo?.followupData?.[0]?.contact_number || '',
       examineeAttempt: attemptCount._count,
       totalExams: examCount._count,

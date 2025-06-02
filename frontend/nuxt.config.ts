@@ -11,6 +11,13 @@ export default defineNuxtConfig({
     '/admin/': { redirect: '/admin/home' },
     // '/admin/home': { ssr: true },
   },
+   experimental: {
+    defaults: {
+      nuxtLink: {
+        prefetch: false,
+      },
+    },
+  },
 
   app: {
     head: {

@@ -14,13 +14,11 @@ defineProps({
       <div class="flex items-center gap-2 p-2">
         <slot name="header"></slot>
       </div>
-      <UDivider
-        :ui="{
-          border: {
-            base: 'dark:border-gray-500',
-          },
-        }"
-      />
+      <UDivider :ui="{
+        border: {
+          base: 'dark:border-gray-500',
+        },
+      }" />
     </div>
 
     <!--  end header -->

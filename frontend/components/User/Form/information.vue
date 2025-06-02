@@ -4,14 +4,18 @@
             <USelect v-model="formFollowup.gender" color="gray" :options="gender" option-attribute="name" />
         </UFormGroup>
         <UFormGroup class="col-span-2 lg:col-span-1" label="Contact Number" name="contact_number" required>
-        <UInput type="text" v-model="formFollowup.contact_number" maxlength="11" color="gray">
-            <template #trailing>
-                <span class="text-xs text-gray-500 dark:text-gray-400">{{ formFollowup.contact_number?.length }}/11</span>
-            </template>
-         </UInput>
+            <UInput type="text" v-model="formFollowup.contact_number" maxlength="11" color="gray">
+                <template #trailing>
+                    <span class="text-xs text-gray-500 dark:text-gray-400">{{ formFollowup.contact_number?.length
+                    }}/11</span>
+                </template>
+            </UInput>
         </UFormGroup>
         <UFormGroup class="col-span-2 lg:col-span-1" label="Strand" name="strand" required>
             <USelect v-model="formFollowup.strand" color="gray" :options="strand" option-attribute="name" />
+        </UFormGroup>
+        <UFormGroup v-if="isOthers" class="col-span-2 lg:col-span-1" label="Specify" name="others" required>
+            <USelect v-model="formFollowup.others" color="gray" :options="others" option-attribute="name" />
         </UFormGroup>
         <UFormGroup class="col-span-2 lg:col-span-1" label="School Graduated" name="school" required>
             <UInput v-model="formFollowup.school" color="gray" />
@@ -47,6 +51,21 @@ const gender = [
     },
 ]
 
+const others = [
+    {
+        name: 'TRANSFEREE',
+        value: 'TRANSFEREE'
+    },
+    {
+        name: 'SECOND DEGREE',
+        value: 'SECOND DEGREE'
+    },
+    {
+        name: 'SHIFTEE',
+        value: 'SHIFTEE'
+    },
+]
+
 const strand = [
     {
         name: '(ABM) - Accountancy, Business and Management',
@@ -68,14 +87,21 @@ const strand = [
         name: '(TVL) - Technical-Vocational-Livelihood',
         value: '(TVL) - Technical-Vocational-Livelihood'
     },
-]
+    {
+        name: 'Others',
+        value: 'Others'
+    },
+];
+
+
 
 
 const formFollowup = ref<Partial<FollowupModel>>({
-    gender:undefined,
+    gender: undefined,
     contact_number: undefined,
     school: undefined,
     strand: undefined,
+    others: undefined
 });
 
 
@@ -84,21 +110,31 @@ const schema = $joi.object({
         "any.required": `Gender is Required`,
     }),
     contact_number: $joi
-    .string()
-    .pattern(/^09\d{9}$/)
-    .required()
-    .messages({
-        "string.pattern.base": "Contact Number must start with 09 and be 11 digits long",
-        "any.required": "Contact Number is Required",
-    }),
+        .string()
+        .pattern(/^09\d{9}$/)
+        .required()
+        .messages({
+            "string.pattern.base": "Contact Number must start with 09 and be 11 digits long",
+            "any.required": "Contact Number is Required",
+        }),
     school: $joi.string().required().messages({
         "any.required": `School is Required`,
     }),
     strand: $joi.string().required().messages({
         "any.required": `Strand is Required`,
     }),
+    others: $joi.string().when('strand', {
+        is: 'Others',
+        then: $joi.required().messages({
+            "any.required": `Please specify strand/or course`,
+        }),
+        otherwise: $joi.allow('').optional(),
+    }),
 
 });
+
+const isOthers = computed(() => formFollowup.value.strand === 'Others');
+
 
 const onSubmit = () => {
     emits('dataInformation', formFollowup.value);
