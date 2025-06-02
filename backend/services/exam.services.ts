@@ -130,7 +130,7 @@ export const checkExamAvailableService = async (examineeId: string) => {
   });
 
   if (!exam || exam.length === 0) {
-    return "finished";
+    return 1;
   }
 
   const data = await prisma.question.findMany({

@@ -21,7 +21,6 @@ const columns = [
     sortable: false,
     class: "w-2",
   },
-
 ];
 const props = defineProps({
   data: {
@@ -31,8 +30,6 @@ const props = defineProps({
   },
 });
 const { data } = toRefs(props);
-
-
 
 const { data: courseData } = await useAPI<CourseModel[]>("/course");
 const { $toast } = useNuxtApp();
@@ -50,8 +47,6 @@ const print = (data: GenerateSlip[]) => {
   printBulkSlip(data, oicValue.value);
 };
 
-
-
 const filterCourse = (score: number) => {
   return courseData.value
     ?.filter((item) => item.score <= score)
@@ -63,7 +58,6 @@ const getCourseOptions = (index: number, score: number) => {
   }
   return filterCourse(score);
 };
-
 
 const oic = [
   {
@@ -89,7 +83,13 @@ const oic = [
         <USelect v-model="oicValue" color="gray" :options="oic" option-attribute="name" />
       </div>
 
-      <UButton icon="fluent:print-16-regular" @click="print(data)" color="gray" size="md" :ui="BTN_PRINT_DATA">
+      <UButton
+        icon="fluent:print-16-regular"
+        @click="print(data)"
+        color="gray"
+        size="md"
+        :ui="BTN_PRINT_DATA"
+      >
         PRINT SCORE SLIP
       </UButton>
     </template>
@@ -102,12 +102,15 @@ const oic = [
     </template>
     <template #course-data="{ row, index }">
       <div class="w-[550px]">
-        <USelect size="sm" v-model="row.course" :options="getCourseOptions(index, row.score)" />
+        <USelect
+          size="sm"
+          v-model="row.course"
+          :options="getCourseOptions(index, row.score)"
+        />
       </div>
-
     </template>
     <template #consideration-data="{ row, index }">
-      <UCheckbox v-model="selectedRows[index]" />
+      <UCheckbox v-model="selectedRows[index]" @change="row.course = ''" />
     </template>
   </UITables>
 </template>

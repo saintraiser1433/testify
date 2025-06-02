@@ -50,7 +50,6 @@ const onSubmit = async (onResponse: Partial<FollowupModel>) => {
       <template #header>
         <UserDashboardHeader>
           <h2 class="text-gray-100 font-bold uppercase">FOLLOW UP INFORMATION</h2>
-          <!-- <svg-icon name="seticons/dashboard" width="48" height="48"></svg-icon> -->
         </UserDashboardHeader>
       </template>
       <h2

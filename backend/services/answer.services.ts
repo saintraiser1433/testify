@@ -1,6 +1,7 @@
 
 import { answerModel, GroupedExamMap, Question } from "../models";
 import prisma from "../prisma/prisma";
+import { checkExamAvailableService } from "./exam.services";
 
 export const insertAnswerFunc = async (body: any) => {
   return await prisma.$transaction(async (tx) => {
@@ -16,8 +17,9 @@ export const insertAnswerFunc = async (body: any) => {
         examinee_id: body.examinee_id,
         exam_id: body.exam_id,
       },
-      update: {}, 
+      update: {},
     });
+
 
     // Insert answers
     const response = await tx.answers.createMany({
@@ -30,6 +32,9 @@ export const insertAnswerFunc = async (body: any) => {
     });
 
     return response;
+
+
+
   });
 };
 

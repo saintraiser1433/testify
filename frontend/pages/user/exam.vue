@@ -86,14 +86,14 @@ watch(
   { immediate: true }
 );
 
-watch(
-  () => error.value?.statusCode,
-  async (newError) => {
-    if (newError && newError === 404) {
-      await navigateTo({ name: "user-redirecting" });
-    }
-  }
-);
+// watch(
+//   () => error.value?.statusCode,
+//   async (newError) => {
+//     if (newError && newError === 404) {
+//       await navigateTo({ name: "user-redirecting" });
+//     }
+//   }
+// );
 
 watch(
   [() => sessionDetails.value?.timelimit, () => question.value?.time_limit],

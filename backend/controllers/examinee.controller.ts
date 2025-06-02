@@ -66,7 +66,7 @@ export const insertBulkExaminee = async (
   const body = req.body;
   try {
 
-    const validationResults: ValidationResult[] = body.map((data: ExamineeModel) => 
+    const validationResults: ValidationResult[] = body.map((data: ExamineeModel) =>
       examineeValidation.insert(data)
     );
 
@@ -86,12 +86,12 @@ export const insertBulkExaminee = async (
       if (names.has(key)) {
         return res.status(400).json({
           message: "Duplicate names in the upload",
-          details: `${value.first_name} ${value.last_name}`
+          details: `Duplicate name during uploading:  ${value.first_name} ${value.last_name} please remove it to excel`
         });
       }
       names.add(key);
     }
-    
+
     // Check against existing examinees
     const existing = await Promise.all(
       validationResults.map(({ value }) =>

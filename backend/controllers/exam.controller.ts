@@ -111,8 +111,8 @@ export const checkExamAvailable = async (req: Request, res: Response, next: Next
       return res.status(404).json({ message: "Examinee not found" });
     }
 
-    if (response === "finished") {
-      return res.status(404).json({ message: "The exam is finished" });
+    if (response === 1) {
+      return res.status(200).json({ message: "The exam is finished" });
     }
 
     return res.status(200).json(response);

@@ -9,7 +9,7 @@
     </main>
 
     <!-- footer -->
-    <AppFooter mode="user" footerName="John Rey Nalla Decosta" />
+    <!-- <AppFooter mode="user" footerName="John Rey Nalla Decosta" /> -->
   </div>
 </template>
 

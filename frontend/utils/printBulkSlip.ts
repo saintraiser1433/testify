@@ -9,7 +9,7 @@ import "~/assets/fonts/frankin-book-normal";
 import "~/assets/fonts/franklin-bold-bold";
 
 
-export const printBulkSlip = (data: GenerateSlip[],oic:string) => {
+export const printBulkSlip = (data: GenerateSlip[], oic: string) => {
     const doc = new jsPDF({
         unit: "px",
         format: "letter",
@@ -18,14 +18,14 @@ export const printBulkSlip = (data: GenerateSlip[],oic:string) => {
 
     // Constants for 2x2 grid layout
     const today = new Date();
-    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", 
-                        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
     // Ensure 2-digit day format
     const day = String(today.getDate()).padStart(2, '0');
     const month = monthNames[today.getMonth()];
     const year = today.getFullYear();
-    
+
     const formattedDate = `${month} ${day} ${year}`;
     const pageWidth = doc.internal.pageSize.getWidth();
     const pageHeight = doc.internal.pageSize.getHeight();
@@ -48,21 +48,21 @@ export const printBulkSlip = (data: GenerateSlip[],oic:string) => {
         doc.rect(offsetX, offsetY, slipWidth, slipHeight);
 
         // Header with logos
-        doc.addImage(seait, "PNG", offsetX + slipWidth/2 - 30, offsetY + 5, 30, 30);
-        doc.addImage(gstc, "PNG", offsetX + slipWidth/2 + 5, offsetY + 5, 32, 32);
+        doc.addImage(seait, "PNG", offsetX + slipWidth / 2 - 30, offsetY + 5, 30, 30);
+        doc.addImage(gstc, "PNG", offsetX + slipWidth / 2 + 5, offsetY + 5, 32, 32);
 
         // Institution name
         doc.setFont("oldenglishtextmt", "bold");
         doc.setFontSize(12);
         doc.setTextColor(0, 100, 0);
-        doc.text("South East Asian Institute of Technology, Inc.", 
-                offsetX + slipWidth/2, offsetY + 48, { align: "center" });
+        doc.text("South East Asian Institute of Technology, Inc.",
+            offsetX + slipWidth / 2, offsetY + 48, { align: "center" });
 
         // Department name
         doc.setFont("tahoma", "bold");
         doc.setFontSize(11);
-        doc.text("Guidance Services and Testing Center", 
-                offsetX + slipWidth/2, offsetY + 60, { align: "center" });
+        doc.text("Guidance Services and Testing Center",
+            offsetX + slipWidth / 2, offsetY + 60, { align: "center" });
 
         // Date
         doc.setFont("frankin-book", "normal");
@@ -90,17 +90,17 @@ export const printBulkSlip = (data: GenerateSlip[],oic:string) => {
         // Function to render text with full underlines
         const renderWithFullUnderlines = (startY: number) => {
             let currentY = startY;
-            let currentLine: {text: string, bold: boolean, underline: boolean}[] = [];
+            let currentLine: { text: string, bold: boolean, underline: boolean }[] = [];
             let currentLineWidth = 0;
-            const formattedLines: {parts: typeof currentLine, width: number}[] = [];
-            
+            const formattedLines: { parts: typeof currentLine, width: number }[] = [];
+
             textParts.forEach(part => {
                 doc.setFont(part.bold ? "franklin-bold" : "frankin-book", part.bold ? "bold" : "normal");
                 const words = part.text.split(' ');
-                
+
                 words.forEach(word => {
                     const wordWidth = doc.getTextWidth(word + ' ');
-                    
+
                     if (currentLineWidth + wordWidth > maxWidth && currentLine.length > 0) {
                         formattedLines.push({
                             parts: [...currentLine],
@@ -109,7 +109,7 @@ export const printBulkSlip = (data: GenerateSlip[],oic:string) => {
                         currentLine = [];
                         currentLineWidth = 0;
                     }
-                    
+
                     currentLine.push({
                         text: word + ' ',
                         bold: part.bold,
@@ -118,27 +118,27 @@ export const printBulkSlip = (data: GenerateSlip[],oic:string) => {
                     currentLineWidth += wordWidth;
                 });
             });
-            
+
             if (currentLine.length > 0) {
                 formattedLines.push({
                     parts: [...currentLine],
                     width: currentLineWidth
                 });
             }
-            
+
             formattedLines.forEach((line, lineIndex) => {
                 const isLastLine = lineIndex === formattedLines.length - 1;
                 let xPos = leftMargin;
                 const extraSpace = !isLastLine ? (maxWidth - line.width) / (line.parts.length - 1) : 0;
-                
+
                 let underlineStart = 0;
                 let underlineWidth = 0;
                 let inUnderline = false;
-                
+
                 line.parts.forEach((part, partIndex) => {
                     doc.setFont(part.bold ? "franklin-bold" : "frankin-book", part.bold ? "bold" : "normal");
                     doc.text(part.text, xPos, currentY);
-                    
+
                     if (part.underline) {
                         if (!inUnderline) {
                             underlineStart = xPos;
@@ -151,17 +151,17 @@ export const printBulkSlip = (data: GenerateSlip[],oic:string) => {
                             inUnderline = false;
                         }
                     }
-                    
+
                     xPos += doc.getTextWidth(part.text) + (partIndex < line.parts.length - 1 ? extraSpace : 0);
                 });
-                
+
                 if (inUnderline) {
                     doc.line(underlineStart, currentY + 1, underlineStart + underlineWidth, currentY + 1);
                 }
-                
+
                 currentY += lineHeight;
             });
-            
+
             return currentY;
         };
 
@@ -172,8 +172,8 @@ export const printBulkSlip = (data: GenerateSlip[],oic:string) => {
         const addSignatureSection = (label: string, name: string, title: string, y: number) => {
             doc.setFont("franklin-bold", "bold");
             doc.setFontSize(10);
-            doc.text(`${label}:`, offsetX + 10, y);
-            
+            doc.text(`${label}`, offsetX + 10, y);
+
             if (name) {
                 doc.setFont("frankin-book", "normal");
                 const formattedName = name.replace(/\./g, '. ').replace(/,/g, ', ').trim();
@@ -182,7 +182,7 @@ export const printBulkSlip = (data: GenerateSlip[],oic:string) => {
             } else {
                 doc.line(offsetX + 75, y + 3, offsetX + 200, y + 3);
             }
-            
+
             if (title) {
                 doc.setFont("franklin-bold", "bold");
                 doc.text(title, offsetX + 75, y + 11);
@@ -190,9 +190,9 @@ export const printBulkSlip = (data: GenerateSlip[],oic:string) => {
         };
 
         // Add signature sections
-        addSignatureSection("Checked by", `${oic}`, "Guidance Personnel In-Charge", offsetY + 190);
-        addSignatureSection("Noted by", "", "ROVI D.SILOTERIO,MAED,RGC", offsetY + 220);
-        addSignatureSection("Approved By", "", "PROGRAM HEAD/DEAN", offsetY + 260);
+        addSignatureSection("Checked by", `${oic}`, "Guidance Personnel In-Charge", offsetY + 175);
+        addSignatureSection("Noted by", "", "ROVI D.SILOTERIO,MAED,RGC", offsetY + 210);
+        addSignatureSection("Approved By", "", "PROGRAM HEAD/DEAN", offsetY + 245);
     };
 
     // Process all data entries
@@ -205,7 +205,7 @@ export const printBulkSlip = (data: GenerateSlip[],oic:string) => {
         // Get position for current slip
         const positionIndex = index % slipsPerPage;
         const position = slipPositions[positionIndex];
-        
+
         // Render the slip at calculated position
         renderSlip(doc, entry, position.x, position.y);
     });

@@ -45,29 +45,31 @@ export const useExam = (
     //submition exam
     const examRepo = repository<ApiResponse<null>>($api);
     const sessionExamRepo = repository<ApiResponse<null>>($api);
-    const performSubmit = useDebounceFn(async (submitData: SubmitExamModel) => {
+    const performSubmit = async (submitData: SubmitExamModel) => {
         isLoading.value = true;
         try {
             const { status } = await examRepo.submitExam(submitData);
+
             if (status === 201) {
                 answers.value = {};
                 if (sessionAnswer.value) {
                     await sessionExamRepo.deleteExamSession(submitData);
                 }
-
-
                 shouldRefetch.value++;
-
-
-
+            } else {
+                throw new Error(`Unexpected status: ${status}`);
             }
-        } catch (error) {
-            return handleApiError(error);
 
+        } catch (error: any) {
+            if (error.response.status === 409) {
+                await navigateTo({ name: "user-redirecting" });
+                return;
+            }
+            return handleApiError(error);
         } finally {
             isLoading.value = false;
         }
-    }, 1000, { maxWait: 3000 });
+    }
 
 
     const submitExam = async () => {

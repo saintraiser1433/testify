@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { consolidateMyAnswerFunc, deleteSessionAnswerFunc, getSessionAnswerFunc, insertAnswerFunc, updateSessionTimeFunc, upsertSessionAnswerFunc } from '../services/answer.services';
+import { checkExamAvailableService } from '../services/exam.services';
 
 
 export const insertAnswer = async (
@@ -10,11 +11,19 @@ export const insertAnswer = async (
   const body = req.body;
 
   try {
-    const response = await insertAnswerFunc(body);
+    await insertAnswerFunc(body);
+    const responsed = await checkExamAvailableService(body.examinee_id);
+
+    if (responsed === null) {
+      return res.status(404).json({ message: "Examinee not found" });
+    }
+
+    if (responsed === 1) {
+      return res.status(409).json({ message: "The exam is finished" });
+    }
+
     return res.status(201).json({
-      status: res.statusCode,
       message: 'Submitted Successfully',
-      data: response,
     });
   } catch (err) {
     next(err);
