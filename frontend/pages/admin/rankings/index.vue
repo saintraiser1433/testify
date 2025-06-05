@@ -1,27 +1,38 @@
 <script setup lang="ts">
 definePageMeta({
-  requiredRole: "admin",
+  requiredRole: 'admin',
 });
 useSeoMeta({
-  title: "Testify Rankings Module",
-  description: "Rankings",
-  ogTitle: "Testify Rankings Module",
-  ogDescription: "Rankings",
+  title: 'Testify Rankings Module',
+  description: 'Rankings',
+  ogTitle: 'Testify Rankings Module',
+  ogDescription: 'Rankings',
 });
 
-const { $toast, $datefns } = useNuxtApp();
+const { $toast, payload, static: stat, $datefns } = useNuxtApp();
 const store = useStore();
-store.setModuleTitle("RANKINGS");
+store.setModuleTitle('RANKINGS');
 store.setLink(RANKINGS_BREADCRUMBS);
 const slipData = ref<GenerateSlip[]>([]);
 const isOpen = ref(false);
-const statuses = computed(() => status.value === "pending");
-const { data, status, error } = await useAPI<AllResults[]>("/results", {
-  server: false
+const statuses = computed(() => status.value === 'pending');
+const { data, status, error } = await useAPI<AllResults[]>('/results', {
+  server: false,
+  getCachedData(key) {
+    const data = payload.data[key] || stat.data[key];
+    if (!data) {
+      return;
+    }
+    return data;
+  },
 });
 
+const refreshResult = async () => {
+  await refreshNuxtData();
+};
+
 if (error.value) {
-  $toast.error(error.value.message || "Failed to fetch items");
+  $toast.error(error.value.message || 'Failed to fetch items');
 }
 
 const dataResults = computed(() => {
@@ -32,11 +43,13 @@ const dataResults = computed(() => {
 
       const successRate =
         totalQuestions > 0
-          ? parseFloat(((totalCorrectAnswers / totalQuestions) * 100).toFixed(2))
+          ? parseFloat(
+              ((totalCorrectAnswers / totalQuestions) * 100).toFixed(2)
+            )
           : 0;
       return {
         ...item,
-        examDateTrans: $datefns.format(item.examDate, "MMM d, yyyy"),
+        examDateTrans: $datefns.format(item.examDate, 'MMM d, yyyy'),
         successRate,
         color: setProgressBarColor(successRate),
       };
@@ -60,31 +73,47 @@ const getDataSlip = (data: GenerateSlip[]) => {
 </script>
 
 <template>
-  <UModal v-model="isOpen" :ui="{ width: 'sm:max-w-7xl' }" prevent-close>
-    <UICard>
-      <template #header>
-        <div class="flex items-center justify-between">
-          <h1 class="text-2xl lg:text-lg font-semibold">Bulk Generate Slip</h1>
-          <UButton color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid" class="-my-1"
-            @click="isOpen = false" />
+  <Suspense>
+    <template #default>
+      <div>
+        <UModal v-model="isOpen" :ui="{ width: 'sm:max-w-7xl' }" prevent-close>
+          <UICard>
+            <template #header>
+              <div class="flex items-center justify-between">
+                <h1 class="text-2xl lg:text-lg font-semibold">
+                  Bulk Generate Slip
+                </h1>
+                <UButton
+                  color="gray"
+                  variant="ghost"
+                  icon="i-heroicons-x-mark-20-solid"
+                  class="-my-1"
+                  @click="isOpen = false"
+                />
+              </div>
+            </template>
+            <RankingGenerateSlip :data="slipData" />
+          </UICard>
+        </UModal>
+        <div class="grid grid-cols-12 gap-3">
+          <div class="col-span-12 lg:col-span-4">
+            <RankingTopList :data="topRankings" />
+          </div>
+          <div class="col-span-12 lg:col-span-8">
+            <RankingResultList
+              :is-loading="statuses"
+              :data="dataResults"
+              @refresh="refreshResult"
+              @data-slip="getDataSlip"
+            />
+          </div>
         </div>
-      </template>
-      <RankingGenerateSlip :data="slipData" />
-    </UICard>
-  </UModal>
-  <div class="grid grid-cols-12 gap-3">
-    <div class="col-span-12 lg:col-span-4">
-      <Suspense>
-        <template #default>
-          <RankingTopList :data="topRankings" />
-        </template>
-        <template #fallback>
-          <SkeletonTopList />
-        </template>
-      </Suspense>
-    </div>
-    <div class="col-span-12 lg:col-span-8">
-      <RankingResultList :is-loading="statuses" :data="dataResults" @data-slip="getDataSlip" />
-    </div>
-  </div>
+      </div>
+    </template>
+    <template #fallback>
+      <div>
+        <SkeletonRecord />
+      </div>
+    </template>
+  </Suspense>
 </template>

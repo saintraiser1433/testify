@@ -1,45 +1,45 @@
 <script setup lang="ts">
 definePageMeta({
-  requiredRole: "admin",
+  requiredRole: 'admin',
 });
 
 useSeoMeta({
-  title: "Testify Examinee Module",
-  description: "CRUD for Examinee",
-  ogTitle: "Testify Examinee Module",
-  ogDescription: "CRUD for Examinee",
+  title: 'Testify Examinee Module',
+  description: 'CRUD for Examinee',
+  ogTitle: 'Testify Examinee Module',
+  ogDescription: 'CRUD for Examinee',
 });
 
 const { $api, payload, static: stat, $toast } = useNuxtApp();
 const { handleApiError } = useErrorHandler();
 const store = useStore();
-store.setModuleTitle("LIST OF EXAMINEES");
+store.setModuleTitle('LIST OF EXAMINEES');
 store.setLink(EXAMINEE_BREADCRUMBS);
 //fetch Examinee
 
 const examineeData = computed(() => data.value || []);
 const shouldRefetch = ref(0);
-const statuses = computed(() => status.value === "pending");
-const { data, status, error } = await useAPI<User[]>("/examinee", {
+const statuses = computed(() => status.value === 'pending');
+const { data, status, error } = await useAPI<User[]>('/examinee', {
   lazy: true,
   getCachedData(key) {
     const data = payload.data[key] || stat.data[key];
     return data;
   },
-  watch: [shouldRefetch]
+  watch: [shouldRefetch],
 });
 
 if (error.value) {
-  $toast.error(error.value.message || "Failed to fetch items");
+  $toast.error(error.value.message || 'Failed to fetch items');
 }
 
 const transformData = computed(() => {
   return examineeData.value.map((item) => {
     const fullname =
       item.first_name?.toUpperCase() +
-      " " +
+      ' ' +
       item.last_name?.toUpperCase() +
-      (item.middle_name ? " " + item.middle_name[0].toUpperCase() + "." : "");
+      (item.middle_name ? ' ' + item.middle_name[0].toUpperCase() + '.' : '');
     return {
       ...item,
       fullname,
@@ -50,9 +50,9 @@ const transformData = computed(() => {
 //submit examinee
 const initialState = {
   id: undefined,
-  first_name: "",
-  last_name: "",
-  middle_name: "",
+  first_name: '',
+  last_name: '',
+  middle_name: '',
 };
 const examineeForm = reactive<User>({ ...initialState });
 const examineeRepo = repository<ApiResponse<User>>($api);
@@ -67,9 +67,18 @@ const submitExaminee = async (response: User) => {
     } else {
       // Update existing examinee
       result = await examineeRepo.updateExaminee(response);
-      const index = examineeData.value.findIndex((item) => item.id === result.data?.id);
-      examineeData.value[index] = { ...examineeData.value[index], ...result.data };
+      const index = examineeData.value.findIndex(
+        (item) => item.id === result.data?.id
+      );
+      examineeData.value[index] = {
+        ...examineeData.value[index],
+        ...result.data,
+      };
     }
+
+    examineeForm.first_name = '';
+    examineeForm.last_name = '';
+    examineeForm.middle_name = '';
 
     // Show success message
     $toast.success(result.message);
@@ -92,20 +101,23 @@ const editExaminee = (response: User) => {
 };
 
 const removeExaminee = (id: string) => {
-  setAlert("warning", "Are you sure you want to delete?", "", "Confirm delete").then(
-    async (result) => {
-      if (result.isConfirmed) {
-        try {
-          const response = await examineeRepo.removeExaminee(id);
-          const index = examineeData.value.findIndex((item) => item.id === id);
-          examineeData.value.splice(index, 1);
-          $toast.success(response.message);
-        } catch (error) {
-          return handleApiError(error);
-        }
+  setAlert(
+    'warning',
+    'Are you sure you want to delete?',
+    '',
+    'Confirm delete'
+  ).then(async (result) => {
+    if (result.isConfirmed) {
+      try {
+        const response = await examineeRepo.removeExaminee(id);
+        const index = examineeData.value.findIndex((item) => item.id === id);
+        examineeData.value.splice(index, 1);
+        $toast.success(response.message);
+      } catch (error) {
+        return handleApiError(error);
       }
     }
-  );
+  });
 };
 
 //utils
@@ -120,35 +132,45 @@ const toggleModal = () => {
   isOpen.value = true;
   isUpdate.value = false;
 };
-
-
-
-
-
 </script>
 
 <template>
-            
   <!-- modal -->
-  <UModal v-model="isOpen" :ui="{ width: 'sm:max-w-sm' }" prevent-close>
-    <UICard>
-      <template #header>
-        <div class="flex items-center justify-between">
-          <h1 class="text-2xl lg:text-lg font-semibold">Examinee Information</h1>
-          <UButton color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid" class="-my-1"
-            @click="isOpen = false" />
-        </div>
-      </template>
-      <ExamineeForm v-model="examineeForm" :is-update="isUpdate" @data-examinee="submitExaminee" />
-    </UICard>
-  </UModal>
-
-  <!-- body -->
-  <UICard :has-header="false" :body="{ padding: 'sm:p-0 p-0' }" :defaults="{
-    base: 'border-b-2 border-emerald-500 overflow-hidden'
-  }">
-    <ExamineeList :is-loading="statuses" :examinee-data="transformData" @toggle-modal="toggleModal"
-      @update="editExaminee" @delete="removeExaminee">
-    </ExamineeList>
-  </UICard>
+  <div class="grid grid-cols-12 gap-4">
+    <div class="col-span-12 lg:col-span-3">
+      <UICard>
+        <template #header>
+          <div class="flex items-center justify-between">
+            <h1 class="text-2xl lg:text-lg font-semibold">
+              Examinee Information
+            </h1>
+          </div>
+        </template>
+        <ExamineeForm
+          v-model="examineeForm"
+          :is-update="isUpdate"
+          @data-examinee="submitExaminee"
+        />
+      </UICard>
+    </div>
+    <div class="col-span-12 lg:col-span-9">
+      <!-- body -->
+      <UICard
+        :has-header="false"
+        :body="{ padding: 'sm:p-0 p-0' }"
+        :defaults="{
+          base: 'border-b-2 border-emerald-500 overflow-hidden',
+        }"
+      >
+        <ExamineeList
+          :is-loading="statuses"
+          :examinee-data="transformData"
+          @toggle-modal="toggleModal"
+          @update="editExaminee"
+          @delete="removeExaminee"
+        >
+        </ExamineeList>
+      </UICard>
+    </div>
+  </div>
 </template>

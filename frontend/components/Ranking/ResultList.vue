@@ -1,39 +1,40 @@
 <script lang="ts" setup>
 const columns = [
   {
-    key: "increment",
-    label: "#",
+    key: 'increment',
+    label: '#',
     sortable: true,
   },
   {
-    key: "examineeName",
-    label: "Examinee Name",
+    key: 'examineeName',
+    label: 'Examinee Name',
     sortable: true,
   },
   {
-    key: "score",
-    label: "Score",
+    key: 'score',
+    label: 'Score',
     sortable: true,
   },
   {
-    key: "ratings",
-    label: "Ratings",
+    key: 'ratings',
+    label: 'Ratings',
     sortable: false,
   },
   {
-    key: "examDateTrans",
-    label: "Exam Date",
+    key: 'examDateTrans',
+    label: 'Exam Date',
     sortable: false,
   },
   {
-    key: "actions",
-    label: "Actions",
+    key: 'actions',
+    label: 'Actions',
     sortable: false,
   },
 ];
 
 const emits = defineEmits<{
-  (e: "dataSlip", payload: GenerateSlip[]): void;
+  (e: 'dataSlip', payload: GenerateSlip[]): void;
+  (e: 'refresh'): void;
 }>();
 const props = defineProps({
   data: {
@@ -50,7 +51,7 @@ const props = defineProps({
 const { data } = toRefs(props);
 const selected = ref<ScoredExaminee[]>([]);
 const concatName = (fname: string, lname: string, mname: string) => {
-  const mnames = mname ? mname[0] : "";
+  const mnames = mname ? mname[0] : '';
   return `${lname.toUpperCase()}, ${fname.toUpperCase()} ${mnames.toUpperCase()}.`;
 };
 
@@ -58,30 +59,34 @@ const generateSlip = () => {
   const slips = selected.value.map((item) => ({
     examinee_id: item.examinee_id,
     fullname: concatName(item.first_name, item.last_name, item.middle_name),
-    course: "",
+    course: '',
     score: item.totalCorrect,
   }));
 
-  emits("dataSlip", slips);
+  emits('dataSlip', slips);
+};
+
+const refresh = () => {
+  emits('refresh');
 };
 
 const exportToExcel = () => {
   const columnsExcel = [
-    { key: "first_name", header: "FIRST NAME" },
-    { key: "last_name", header: "LAST NAME" },
-    { key: "middle_name", header: "MIDDLE NAME" },
-    { key: "gender", header: "GENDER" },
-    { key: "school", header: "SCHOOL" },
-    { key: "contact_number", header: "PHONE" },
-    { key: "totalCorrect", header: "SCORES" },
-    { key: "totalQuestions", header: "# QUESTIONS" },
-    { key: "examDateTrans", header: "EXAM DATE" },
+    { key: 'first_name', header: 'FIRST NAME' },
+    { key: 'last_name', header: 'LAST NAME' },
+    { key: 'middle_name', header: 'MIDDLE NAME' },
+    { key: 'gender', header: 'GENDER' },
+    { key: 'school', header: 'SCHOOL' },
+    { key: 'contact_number', header: 'PHONE' },
+    { key: 'totalCorrect', header: 'SCORES' },
+    { key: 'totalQuestions', header: '# QUESTIONS' },
+    { key: 'examDateTrans', header: 'EXAM DATE' },
   ];
 
   // Define column widths (in characters)
   const columnWidths = [20, 20, 20, 20, 30, 20, 20, 20, 20];
 
-  useExcelExport(data.value, "exam_results.xlsx", columnsExcel, columnWidths);
+  useExcelExport(data.value, 'exam_results.xlsx', columnsExcel, columnWidths);
 };
 </script>
 
@@ -116,6 +121,15 @@ const exportToExcel = () => {
             :ui="BTN_PRINT_DATA"
           >
             GENERATE SCORE SLIP
+          </UButton>
+          <UButton
+            icon="material-symbols:refresh"
+            @click="refresh"
+            color="gray"
+            size="md"
+            :ui="BTN_REFRESH"
+          >
+            REFRESH DATA
           </UButton>
           <UButton
             icon="ant-design:file-excel-outlined"
