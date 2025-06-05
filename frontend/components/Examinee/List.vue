@@ -1,36 +1,36 @@
 <script lang="ts" setup>
 const columns = [
   {
-    key: "id",
-    label: "#",
+    key: 'id',
+    label: '#',
     sortable: true,
   },
   {
-    key: "fullname",
-    label: "Fullname",
+    key: 'fullname',
+    label: 'Fullname',
     sortable: true,
   },
   {
-    key: "username",
-    label: "Username",
+    key: 'username',
+    label: 'Username',
     sortable: true,
   },
   {
-    key: "password",
-    label: "Password",
+    key: 'password',
+    label: 'Password',
     sortable: true,
   },
   {
-    key: "actions",
-    label: "Actions",
+    key: 'actions',
+    label: 'Actions',
     sortable: false,
   },
 ];
 
 const emits = defineEmits<{
-  (e: "update", payload: User): void;
-  (e: "delete", id: string): void;
-  (e: "toggleModal"): void;
+  (e: 'update', payload: User): void;
+  (e: 'delete', id: string): void;
+  (e: 'toggleModal'): void;
 }>();
 const props = defineProps({
   examineeData: {
@@ -54,15 +54,15 @@ const { handleApiError } = useErrorHandler();
 const loading = computed(() => isLoading.value || isLoadingImport.value);
 
 const toggleModal = () => {
-  emits("toggleModal");
+  emits('toggleModal');
 };
 
 const handleDelete = (id: string) => {
-  emits("delete", id);
+  emits('delete', id);
 };
 
 const handleUpdate = (item: User) => {
-  emits("update", item);
+  emits('update', item);
 };
 
 const togglePassword = (index: number) => {
@@ -85,7 +85,7 @@ const handleFileUpload = async (event: Event) => {
     const target = event.target as HTMLInputElement;
     const file = target.files?.[0];
     if (!file) {
-      $toast.error("No file selected");
+      $toast.error('No file selected');
       return;
     }
 
@@ -108,17 +108,17 @@ const readExcelFile = (file: File): Promise<any[]> => {
     reader.onload = (e) => {
       try {
         const data = new Uint8Array(e.target?.result as ArrayBuffer);
-        const workbook = $xlsx.read(data, { type: "array" });
+        const workbook = $xlsx.read(data, { type: 'array' });
         const firstSheet = workbook.SheetNames[0];
         const worksheet = workbook.Sheets[firstSheet];
         const json = $xlsx.utils.sheet_to_json(worksheet, { header: 1 });
         resolve(json.slice(1));
       } catch (error) {
-        reject(new Error("Error parsing Excel file"));
+        reject(new Error('Error parsing Excel file'));
       }
     };
 
-    reader.onerror = () => reject(new Error("Error reading file"));
+    reader.onerror = () => reject(new Error('Error reading file'));
     reader.readAsArrayBuffer(file);
   });
 };
@@ -128,15 +128,15 @@ const validateExamineeData = (rows: any[]): Promise<any[]> => {
     let hasErrors = false;
 
     const processedData = rows.map((row, index) => {
-      const firstName = (row[0] || "").toString().trim();
-      const lastName = (row[1] || "").toString().trim();
-      let middleName = (row[2] || "").toString().trim();
+      const firstName = (row[0] || '').toString().trim();
+      const lastName = (row[1] || '').toString().trim();
+      let middleName = (row[2] || '').toString().trim();
       const random5DigitNumber = Math.floor(10000 + Math.random() * 90000);
       const username = `${lastName
         ?.toLowerCase()
-        .replace(/\s+/g, "")}_${firstName?.[0]
+        .replace(/\s+/g, '')}_${firstName?.[0]
         .toLowerCase()
-        .replace(/\s+/g, "")}_${random5DigitNumber}`;
+        .replace(/\s+/g, '')}_${random5DigitNumber}`;
       // Validate required fields
 
       if (!firstName) {
@@ -144,7 +144,9 @@ const validateExamineeData = (rows: any[]): Promise<any[]> => {
         $toast.error(`Row ${index + 2}: First name is required`);
       } else if (!/^[a-zA-Z\s-]+$/.test(firstName)) {
         hasErrors = true;
-        $toast.error(`Row ${index + 2}: First name contains invalid characters`);
+        $toast.error(
+          `Row ${index + 2}: First name contains invalid characters`
+        );
       } else if (firstName.length > 50) {
         hasErrors = true;
         $toast.error(`Row ${index + 2}: First name exceeds 50 characters`);
@@ -168,14 +170,14 @@ const validateExamineeData = (rows: any[]): Promise<any[]> => {
       return {
         first_name: firstName,
         last_name: lastName,
-        middle_name: middleName || "",
+        middle_name: middleName || '',
         username,
         password: $password(),
       };
     });
 
     if (hasErrors) {
-      reject(new Error("Validation errors found in uploaded file"));
+      reject(new Error('Validation errors found in uploaded file'));
     } else {
       resolve(processedData);
     }
@@ -223,7 +225,7 @@ const triggerFileInput = () => {
         accept=".xlsx, .xls"
         class="hidden"
       />
-      <UButton
+      <!-- <UButton
         icon="heroicons-plus"
         color="gray"
         size="md"
@@ -231,7 +233,7 @@ const triggerFileInput = () => {
         :ui="BTN_ADD_DATA_MODAL"
       >
         Add Examinee's
-      </UButton>
+      </UButton> -->
     </template>
     <template #id-data="{ row, index }">
       <span>{{ index + 1 }}</span>
