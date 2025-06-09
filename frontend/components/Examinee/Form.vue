@@ -3,6 +3,7 @@ import type { FormSubmitEvent } from '#ui/types';
 
 const emits = defineEmits<{
   (e: 'dataExaminee', payload: User): void;
+  (e: 'switchAdd'): void;
 }>();
 
 const model = defineModel<User>({ required: true });
@@ -17,17 +18,25 @@ const { isUpdate } = toRefs(props);
 const { $password, $joi } = useNuxtApp();
 
 const schema = $joi.object({
-  first_name: $joi.string().required().messages({
+  first_name: $joi.string().required().empty().messages({
     'any.required': `First Name is Required`,
+    'string.empty': `First Name is Required`,
   }),
-  last_name: $joi.string().required().messages({
+  last_name: $joi.string().required().empty().messages({
     'any.required': `Last Name is Required`,
+    'string.empty': `Last Name is Required`,
   }),
-  middle_name: $joi.string().allow('').max(1).optional(),
+  middle_name: $joi.string().allow('').max(1).optional().messages({
+    'string.max': `Middle Name must be 1 character`,
+  }),
   username: $joi.string().optional(),
   password: $joi.string().optional(),
   id: $joi.string().optional(),
 });
+
+const switchAdd = () => {
+  emits('switchAdd');
+};
 
 const onSubmit = async (event: FormSubmitEvent<User>) => {
   let data: User;
@@ -81,6 +90,23 @@ const onSubmit = async (event: FormSubmitEvent<User>) => {
       />
     </UFormGroup>
     <UButton
+      v-if="isUpdate"
+      @click="switchAdd"
+      type="button"
+      block
+      color="gray"
+      size="md"
+      :ui="{
+        color: {
+          gray: {
+            solid:
+              'bg-emerald-500 hover:bg-emerald-600 dark:bg-emerald-500 text-white hover:dark:bg-emerald-600',
+          },
+        },
+      }"
+      >Switch to Insert Students</UButton
+    >
+    <UButton
       type="submit"
       block
       color="gray"
@@ -93,7 +119,8 @@ const onSubmit = async (event: FormSubmitEvent<User>) => {
           },
         },
       }"
-      >Submit</UButton
     >
+      {{ isUpdate ? 'Update Examinee' : 'Add Examinee' }}
+    </UButton>
   </UForm>
 </template>

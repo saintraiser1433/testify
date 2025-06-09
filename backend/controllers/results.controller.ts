@@ -1,8 +1,19 @@
-import { NextFunction, Request, Response } from "express";
-import { listOfQuestionsById, userInformation, countAttempt, countOfExam, allResult, groupSummaryByExam, getExamineeRankById } from "../services/results.services";
+import { NextFunction, Request, Response } from 'express';
+import {
+  listOfQuestionsById,
+  userInformation,
+  countAttempt,
+  countOfExam,
+  allResult,
+  groupSummaryByExam,
+  getExamineeRankById,
+} from '../services/results.services';
 
-
-export const fetchExamineeRank = async (req: Request, res: Response, next: NextFunction): Promise<Response | void> => {
+export const fetchExamineeRank = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<Response | void> => {
   const id = req.params.examineeId;
   try {
     const result = await getExamineeRankById(id);
@@ -10,13 +21,17 @@ export const fetchExamineeRank = async (req: Request, res: Response, next: NextF
   } catch (err) {
     next(err);
   }
-}
+};
 
-export const getSummaryByExaminee = async (req: Request, res: Response, next: NextFunction): Promise<Response | void> => {
+export const getSummaryByExaminee = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<Response | void> => {
   const id = req.params.examineeId;
 
   if (!id) {
-    return res.status(400).json({ message: "Examinee ID is required" });
+    return res.status(400).json({ message: 'Examinee ID is required' });
   }
 
   try {
@@ -49,8 +64,11 @@ export const getSummaryByExaminee = async (req: Request, res: Response, next: Ne
   }
 };
 
-
-export const getAllResult = async (req: Request, res: Response, next: NextFunction): Promise<Response | void> => {
+export const getAllResult = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<Response | void> => {
   try {
     const result = await allResult();
     return res.status(200).json(result);
@@ -58,5 +76,3 @@ export const getAllResult = async (req: Request, res: Response, next: NextFuncti
     next(err);
   }
 };
-
-

@@ -75,7 +75,7 @@ const submitExaminee = async (response: User) => {
         ...result.data,
       };
     }
-
+    examineeForm.id = undefined;
     examineeForm.first_name = '';
     examineeForm.last_name = '';
     examineeForm.middle_name = '';
@@ -84,7 +84,7 @@ const submitExaminee = async (response: User) => {
     $toast.success(result.message);
 
     // Reset state
-    isOpen.value = false;
+    // isOpen.value = false;
     isUpdate.value = false;
   } catch (error: any) {
     return handleApiError(error);
@@ -96,7 +96,7 @@ const editExaminee = (response: User) => {
   examineeForm.first_name = response.first_name;
   examineeForm.last_name = response.last_name;
   examineeForm.middle_name = response.middle_name;
-  isOpen.value = true;
+  // isOpen.value = true;
   isUpdate.value = true;
 };
 
@@ -118,6 +118,14 @@ const removeExaminee = (id: string) => {
       }
     }
   });
+};
+
+const switchAdd = () => {
+  isUpdate.value = false;
+  examineeForm.id = undefined;
+  examineeForm.first_name = '';
+  examineeForm.last_name = '';
+  examineeForm.middle_name = '';
 };
 
 //utils
@@ -150,6 +158,7 @@ const toggleModal = () => {
           v-model="examineeForm"
           :is-update="isUpdate"
           @data-examinee="submitExaminee"
+          @switch-add="switchAdd"
         />
       </UICard>
     </div>
