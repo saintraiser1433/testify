@@ -18,18 +18,7 @@ const isOpen = ref(false);
 const statuses = computed(() => status.value === 'pending');
 const { data, status, error } = await useAPI<AllResults[]>('/results', {
   server: false,
-  getCachedData(key) {
-    const data = payload.data[key] || stat.data[key];
-    if (!data) {
-      return;
-    }
-    return data;
-  },
 });
-
-const refreshResult = async () => {
-  await refreshNuxtData();
-};
 
 if (error.value) {
   $toast.error(error.value.message || 'Failed to fetch items');
@@ -103,7 +92,6 @@ const getDataSlip = (data: GenerateSlip[]) => {
             <RankingResultList
               :is-loading="statuses"
               :data="dataResults"
-              @refresh="refreshResult"
               @data-slip="getDataSlip"
             />
           </div>

@@ -34,7 +34,6 @@ const columns = [
 
 const emits = defineEmits<{
   (e: 'dataSlip', payload: GenerateSlip[]): void;
-  (e: 'refresh'): void;
 }>();
 const props = defineProps({
   data: {
@@ -64,10 +63,6 @@ const generateSlip = () => {
   }));
 
   emits('dataSlip', slips);
-};
-
-const refresh = () => {
-  emits('refresh');
 };
 
 const exportToExcel = () => {
@@ -121,15 +116,6 @@ const exportToExcel = () => {
             :ui="BTN_PRINT_DATA"
           >
             GENERATE SCORE SLIP
-          </UButton>
-          <UButton
-            icon="material-symbols:refresh"
-            @click="refresh"
-            color="gray"
-            size="md"
-            :ui="BTN_REFRESH"
-          >
-            REFRESH DATA
           </UButton>
           <UButton
             icon="ant-design:file-excel-outlined"
