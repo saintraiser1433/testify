@@ -11,7 +11,9 @@
     >
       <div class="flex items-center flex-wrap justify-end pb-4"></div>
       <div class="py-2">
-        <div class="flex flex-col lg:flex-row gap-2 items-center justify-between mb-3">
+        <div
+          class="flex flex-col lg:flex-row gap-2 items-center justify-between mb-3"
+        >
           <h1 class="text-2xl font-bold">{{ store.moduleTitle }}</h1>
           <UBreadcrumb
             :ui="{ ol: 'flex flex-wrap items-center justify-center gap-x-1.5' }"
@@ -43,7 +45,7 @@ const parse = JSON.parse(info.value);
 watch(idle, async (newValue: boolean) => {
   if (newValue) {
     await signOut(parse.id);
-    return navigateTo({ name: "auth" });
+    return navigateTo({ name: 'auth' });
   }
 });
 
