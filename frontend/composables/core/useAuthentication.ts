@@ -14,7 +14,6 @@ export const useAuthentication = () => {
         password: data.password,
       },
     });
-    clearAuthTokens();
     const decodedToken = jwtDecode(result.token.accessToken);
     info.value = JSON.stringify(decodedToken);
     token.value = result.token.accessToken;
